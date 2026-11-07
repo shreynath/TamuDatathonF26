@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Pit Boss</title>
+  <style>
+    body { font-family: Georgia, serif; margin: 2rem auto; max-width: 880px; line-height: 1.45; color: #1c1915; background: #f6f1e7; }
+    nav a { margin-right: 1rem; }
+    .card { background: white; padding: 1rem 1.2rem; margin: 1rem 0; border: 1px solid #d9d0c1; }
+    label { display: block; margin-top: 0.6rem; }
+    code { font-family: ui-monospace, monospace; }
+  </style>
+</head>
+<body>
+  <h1>Pit Boss</h1>
+  <p>A bad-looking result is not yet a reason to act. Each page uses its own data.</p>
+  <nav>
+    <a href="#ace">Ace</a>
+    <a href="#edge">Edge</a>
+    <a href="#routes">Routes</a>
+    <a href="#tower">Tower</a>
+  </nav>
+  <div id="app"></div>
+  <script>
+    const app = document.querySelector("#app");
+    async function ace() {
+      const data = await fetch("ace_case.json").then(r => r.json());
+      const c = data.claim;
+      app.innerHTML = `<div class="card"><h2>Machine ${c.entity_id}</h2>
+        <p>Raw house-win rank ${c.estimate.raw_rank}. Residual-per-hour rank ${c.estimate.residual_per_hour_rank}.</p>
+        <p>House win $${c.estimate.house_win_usd}. Theo $${c.estimate.theo_usd}. Residual $${c.estimate.residual_usd}. Hours ${c.estimate.available_hours}.</p>
+        <p>${c.alternative_explanation}</p>
+        <p><strong>${data.recommendation.action}</strong> — ${data.recommendation.reason}</p>
+        <p>Empty-location rows counted from this file: ${data.exclusions.empty_location}.</p>
+        <p>Holdout weekday MAE $${data.forecast.weekday_mae_usd}. Constant-mean MAE $${data.forecast.constant_mae_usd}.</p></div>`;
+    }
+    function edge() {
+      app.innerHTML = `<div class="card"><h2>House Edge</h2>
+        <p>Validation technical points on the local kit: 31.010 / 60. The starter pooled-recent baseline was 30.826 / 60.</p>
+        <p>The CSV and ZIP have not been uploaded. The portal and team token are not in this repo.</p>
+        <p>This page does not read casino meters or trip observations.</p></div>`;
+    }
+    function routes() {
+      app.innerHTML = `<div class="card"><h2>Crowd routes</h2>
+        <form id="trip">
+          <label>Anonymous id <input name="respondent_id" required /></label>
+          <label>Consent <select name="consent"><option value="yes">yes</option><option value="no">no</option></select></label>
+          <label>When you were there <input name="observed_at" type="datetime-local" required /></label>
+          <label>Mode <select name="mode"><option>walk</option><option>bike</option><option>scooter</option><option>car</option><option>ev</option><option>bus</option></select></label>
+          <label>From <input name="origin" value="msc" /></label>
+          <label>To <input name="dest" value="northgate" /></label>
+          <label>Edge you were on <input name="edge_id" value="library-northgate-walk" /></label>
+          <label>Crowd 0-5 <input name="crowd_level" value="3" /></label>
+          <label>Place note <input name="place_note" /></label>
+          <button>Save observation</button>
+        </form>
+        <button id="show">Show route</button>
+        <pre id="out"></pre></div>`;
+      document.querySelector("#trip").onsubmit = async (event) => {
+        event.preventDefault();
+        const body = Object.fromEntries(new FormData(event.target).entries());
+        body.protocol_version = "1";
+        body.submitted_at = new Date().toISOString();
+        const response = await fetch("/api/observations", {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(body)});
+        document.querySelector("#out").textContent = await response.text();
+      };
+      document.querySelector("#show").onclick = async () => {
+        const response = await fetch("/api/route?origin=msc&dest=northgate&mode=walk");
+        document.querySelector("#out").textContent = JSON.stringify(await response.json(), null, 2);
+      };
+    }
+    function tower() {
+      app.innerHTML = `<div class="card"><h2>Highway</h2>
+        <p>The automotive planner is separate from the casino case. Open <code>data/highway/runs/action_log.jsonl</code> after <code>python3 -m domains.highway</code> if that module is run, or read the traces from the test run.</p>
+        <p>Ollama is optional. With no key, the rule parser is the one that calls tools.</p></div>`;
+    }
+    const pages = {ace, edge, routes, tower};
+    function render() {
+      const name = location.hash.replace("#", "") || "ace";
+      (pages[name] || ace)();
+    }
+    window.addEventListener("hashchange", render);
+    render();
+  </script>
+</body>
+</html>

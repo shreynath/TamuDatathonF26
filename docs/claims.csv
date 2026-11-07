@@ -1,0 +1,4 @@
+claim_id,domain,entity_id,metric,estimate,limitations
+ace-case-1,royale,M-1026,raw house win versus residual per available hour,"{""house_win_usd"": 48454.5, ""theo_usd"": 40392.21, ""residual_usd"": 8062.29, ""available_hours"": 4326.12, ""raw_rank"": 42, ""residual_per_hour_rank"": 265, ""zone"": ""Bar Row"", ""theme"": ""Royal Draw"", ""volatility"": ""low""}",Carded player tables are not in this machine total. Traffic counters are not treated as unique visitors.
+ace-forecast-1,royale,property,holdout MAE,"{""weekday"": 68698.55, ""constant"": 218258.1}",Frozen Jan-Apr vs May-Jun. Not retuned.
+ace-players-1,royale,carded players,tracked totals,"{""tracked_coin_in_usd"": 163804869.65, ""tracked_payout_usd"": 148219409.05, ""tracked_net_usd"": -15585460.6, ""comp_cost_usd"": 190669.3, ""coin_in_share_when_half_reached"": 0.5}",Tracked-player totals are carded play. They are not the machine-meter total.

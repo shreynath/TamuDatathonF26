@@ -1,0 +1,13 @@
+{
+  "chain": [
+    "source snapshot",
+    "validated transform",
+    "analytical table",
+    "model evaluation",
+    "recommendation",
+    "published export"
+  ],
+  "executed_offline_with": "duckdb",
+  "live_warehouse": "not called; DATABRICKS_HOST was not required for this export",
+  "case_claim_id": "ace-case-1"
+}

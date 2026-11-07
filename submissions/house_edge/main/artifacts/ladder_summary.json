@@ -1,0 +1,56 @@
+{
+  "selection_points_half": 30.88917323946597,
+  "report_points_half": 31.124576175676495,
+  "full_validation_technical_points": 31.009572320405457,
+  "full_validation_mean_loss_ratio": 0.9348864079791824,
+  "by_condition": {
+    "stable": {
+      "error": 0.18665679737926535,
+      "reference_error": 0.19625080289290195,
+      "loss_ratio": 0.9511135477041985,
+      "episodes": 24,
+      "queries": 192
+    },
+    "short_history": {
+      "error": 0.17379995119833025,
+      "reference_error": 0.1773414479878668,
+      "loss_ratio": 0.9800300672532072,
+      "episodes": 24,
+      "queries": 192
+    },
+    "drift": {
+      "error": 0.1792062479548693,
+      "reference_error": 0.18983393064179913,
+      "loss_ratio": 0.9440158950984197,
+      "episodes": 24,
+      "queries": 192
+    },
+    "shared_change": {
+      "error": 0.17768550146976836,
+      "reference_error": 0.20556264957983816,
+      "loss_ratio": 0.8643861218609042,
+      "episodes": 24,
+      "queries": 192
+    }
+  },
+  "settings": {
+    "half_life": 24,
+    "prior_strength": 20.0,
+    "short_window": 16,
+    "kl_switch": 0.15,
+    "weights": {
+      "decay": 0.55,
+      "short": 0.25,
+      "lag": 0.2,
+      "shared": 0.0
+    },
+    "shared_by_type": {
+      "steady": 0.0,
+      "balanced": 0.0,
+      "jackpot": 0.0
+    }
+  },
+  "max_points_in_kit_metadata": 60,
+  "note": "Kit metadata max_points is 60 for this main file. The planning paste said 80. The kit file is the source used here.",
+  "upload": "not submitted; portal and team token are not in this repo"
+}

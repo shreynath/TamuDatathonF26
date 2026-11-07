@@ -1,0 +1,101 @@
+{
+  "data_version": "dashboard-royale cloned main depth 1",
+  "exclusions": {
+    "rows_total": 56110,
+    "empty_location": 1018,
+    "inactive_flag": 1018,
+    "method": "Counted in DuckDB. The planning number 1018 is not used."
+  },
+  "claim": {
+    "claim_id": "ace-case-1",
+    "domain": "royale",
+    "entity_id": "M-1026",
+    "analysis_window": "2025-01-01 to 2025-06-30, active days with a location",
+    "claim_type": "ranking_changes_after_exposure_and_luck",
+    "metric": "raw house win versus residual per available hour",
+    "units": "usd and rank",
+    "estimate": {
+      "house_win_usd": 48454.5,
+      "theo_usd": 40392.21,
+      "residual_usd": 8062.29,
+      "available_hours": 4326.12,
+      "raw_rank": 42,
+      "residual_per_hour_rank": 265,
+      "zone": "Bar Row",
+      "theme": "Royal Draw",
+      "volatility": "low"
+    },
+    "uncertainty_method": "Daily residual variance and sum of squared bet sizes are not both in prepared_daily_view. This rank is descriptive, not a confidence interval.",
+    "supporting_query_or_rows": "domains/royale/analyze.py aggregation of prepared_daily_view",
+    "model_run_id": "royale-analyze-1",
+    "alternative_explanation": "Low raw win can be a quiet location, downtime, or a lucky streak for the player. Residual per available hour is the check.",
+    "limitations": "Carded player tables are not in this machine total. Traffic counters are not treated as unique visitors.",
+    "proposed_action": "Keep the budget unless a later claim shows a machine that stays bad after luck, hours, and placement."
+  },
+  "forecast": {
+    "claim_id": "ace-forecast-1",
+    "train": "2025-01-01 through 2025-04-30",
+    "holdout": "2025-05-01 through 2025-06-30",
+    "weekday_mae_usd": 68698.55,
+    "constant_mae_usd": 218258.1,
+    "consequence": "Use the lower-MAE forecast only as a staffing context. It does not by itself justify replacing a machine."
+  },
+  "players": {
+    "claim_id": "ace-players-1",
+    "tracked_coin_in_usd": 163804869.65,
+    "tracked_payout_usd": 148219409.05,
+    "tracked_net_usd": -15585460.6,
+    "comp_cost_usd": 190669.3,
+    "coin_in_share_when_half_reached": 0.5,
+    "note": "Tracked-player totals are carded play. They are not the machine-meter total."
+  },
+  "recommendation": {
+    "action": "keep_the_budget",
+    "reason": "The highlighted machine's raw rank is a poor reason to spend. The residual-per-hour rank moves it off the bottom.",
+    "cost_usd": 0,
+    "measurement": "Repeat the two rankings on the next 30 gaming days before buying a replacement.",
+    "catalog_has_keep": true
+  },
+  "bottom_raw": [
+    {
+      "machine_id": "M-5076",
+      "house_win_usd": 3573.25
+    },
+    {
+      "machine_id": "M-1158",
+      "house_win_usd": 15796.25
+    },
+    {
+      "machine_id": "M-1120",
+      "house_win_usd": 16355.0
+    },
+    {
+      "machine_id": "M-1118",
+      "house_win_usd": 20050.0
+    },
+    {
+      "machine_id": "M-1238",
+      "house_win_usd": 24932.75
+    },
+    {
+      "machine_id": "M-1181",
+      "house_win_usd": 26977.0
+    },
+    {
+      "machine_id": "M-1035",
+      "house_win_usd": 30303.5
+    },
+    {
+      "machine_id": "M-1179",
+      "house_win_usd": 30393.75
+    },
+    {
+      "machine_id": "M-1017",
+      "house_win_usd": 31939.5
+    },
+    {
+      "machine_id": "M-1265",
+      "house_win_usd": 32071.0
+    }
+  ]
+}

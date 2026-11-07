@@ -1,0 +1,345 @@
+# Status values: confirmed | reported | unconfirmed
+# confirmed = original guide or organizer reply stored in this repo
+# reported = stated in the planning brief, not re-verified against a live portal
+# unconfirmed = not established
+# Deadlines are omitted unless a source in this repo states them.
+# Do not treat reported or unconfirmed fields as verified.
+
+checked_at: "2026-11-07T12:30:00-06:00"
+owner: single-owner
+
+tracks:
+  house_edge:
+    title: House Edge
+    authority: reported
+    official_source: "Participant guide pasted into the planning session. Upload portal link was listed as to-be-announced."
+    local_rulebook_path: docs/rules/house_edge_reported.md
+    rulebook_version: reported-guide-2026-11-07
+    last_checked_at: "2026-11-07T12:30:00-06:00"
+    deadline: "2026-11-07T21:00:00-06:00"
+    deadline_authority: reported
+    adaptation_deadline: "2026-11-08T11:00:00-06:00"
+    timezone: America/Chicago
+    registration_required: true
+    registration_note: "Form URL was in the planning paste. This repo does not submit the form."
+    submission_portal: unconfirmed
+    required_artifacts:
+      - submission.csv
+      - code zip with predict.py --data --out
+    public_access_required: false
+    runtime_constraints: "Reported: Python 3.13 standard library, no network, 30 min, 2 CPU, 16 GiB, tolerance 1e-8."
+    evaluation_metric: "Reported: condition-balanced normalized squared probability error. technical_points, not classification accuracy."
+    cross_entry_status: separate
+    unresolved_questions:
+      - Confirm the deadline and the runtime image on the upload portal before sending a file.
+      - Official kit was not in the workspace at registry time. data/house_edge is filled only if a kit is placed there.
+    acceptance_tests:
+      - tests/test_house_edge.py
+    task_status: implementing
+
+  dashboard_royale:
+    title: Dashboard Royale
+    authority: reported
+    official_source: "https://github.com/tamu-datathon-org/dashboard-royale GUIDE.md cloned into data/royale-src"
+    local_rulebook_path: data/royale-src/GUIDE.md
+    rulebook_version: "cloned main, depth 1, 2026-11-07"
+    last_checked_at: "2026-11-07T12:30:00-06:00"
+    deadline: null
+    deadline_authority: unconfirmed
+    timezone: America/Chicago
+    registration_required: unconfirmed
+    submission_portal: "Devpost, exact URL unconfirmed"
+    required_artifacts:
+      - public interactive dashboard
+      - video of at most 2 minutes
+      - write-up of at most 400 words
+      - claims appendix
+      - AI disclosure
+    public_access_required: true
+    runtime_constraints: "Judges open a link or a file. No login to Databricks."
+    evaluation_metric: "Reported weights: validity 30, communication 25, modeling 20, recommendations 15, originality 10."
+    cross_entry_status: separate
+    unresolved_questions:
+      - Devpost deadline is unconfirmed.
+      - Live tamudatathon.com/challenges has rendered a different lineup in some fetches. The cloned GUIDE.md is the local rulebook for this track.
+    acceptance_tests:
+      - domains/royale/analyze.py writes apps/web/public/ace_case.json
+      - Inactive-row count is computed, never hardcoded.
+    task_status: implementing
+
+  build_a_dataset:
+    title: Build-a-Dataset
+    authority: reported
+    official_source: "Participant guide pasted into the planning session."
+    local_rulebook_path: docs/rules/build_a_dataset_reported.md
+    rulebook_version: reported-guide-2026-11-07
+    last_checked_at: "2026-11-07T12:30:00-06:00"
+    deadline: null
+    deadline_authority: unconfirmed
+    timezone: America/Chicago
+    registration_required: unconfirmed
+    submission_portal: "Devpost, exact URL unconfirmed"
+    required_artifacts:
+      - primary dataset collected during the event
+      - methodology and data dictionary
+      - interactive app
+      - collection and demo video
+    public_access_required: true
+    runtime_constraints: null
+    evaluation_metric: "Reported: five criteria, 20 points each."
+    cross_entry_status: separate
+    unresolved_questions:
+      - Remote self-reports are a reported reading of 'asking consenting people'. A judge may want sidewalk counts by the team.
+      - If observations.csv has no consented rows, do not submit this track.
+    acceptance_tests:
+      - tests/test_routes.py
+    task_status: implementing
+
+  hack_the_highway:
+    title: Hitachi Hack the Highway
+    authority: confirmed
+    official_source: "Local package Usecase.md and policy_handbook.md"
+    local_rulebook_path: data/highway/policy_handbook.md
+    rulebook_version: local-package
+    last_checked_at: "2026-11-07T12:30:00-06:00"
+    deadline: null
+    deadline_authority: unconfirmed
+    timezone: America/Chicago
+    registration_required: unconfirmed
+    submission_portal: "Reported: portal upload of action_log.jsonl, code, ontology, traces, design card. Portal URL unconfirmed."
+    required_artifacts:
+      - action_log.jsonl
+      - ontology export
+      - per-event trace
+      - design card
+    public_access_required: false
+    runtime_constraints: "Local server. Scenario date 2027-03-08 from the handbook."
+    evaluation_metric: "Reported in Usecase.md: action accuracy 50, graph 20, architecture 10, efficiency 10, UX 10."
+    cross_entry_status: separate
+    unresolved_questions:
+      - Portal URL and deadline are unconfirmed.
+    acceptance_tests:
+      - tests/test_highway.py
+    task_status: implementing
+
+  poker:
+    title: Heads Up poker bot
+    authority: confirmed
+    official_source: "https://github.com/tamu-datathon-org/heads-up-bundle cloned into poker/"
+    local_rulebook_path: poker/game.py
+    rulebook_version: "cloned main, depth 1, 2026-11-07. game.py is the rules authority."
+    last_checked_at: "2026-11-07T12:30:00-06:00"
+    deadline: null
+    deadline_authority: unconfirmed
+    timezone: America/Chicago
+    registration_required: true
+    submission_portal: "Reported: Google form asking for a public repo URL and a full commit SHA. This repo does not submit it."
+    required_artifacts:
+      - public repository
+      - 40-character commit SHA
+    public_access_required: true
+    runtime_constraints: "Reported and present in the starter comments: 8 seconds per half, 1 second per request, 5 errors forfeit."
+    evaluation_metric: "95 percent confidence interval on big blinds per deal."
+    cross_entry_status: separate-public-repo
+    unresolved_questions:
+      - Deadline is unconfirmed.
+      - Creating the public fork waits for an explicit approval. The bot code lives in poker/agent.py.
+    acceptance_tests:
+      - python test_agent.py from poker/
+      - a short judge match with zero errors
+    task_status: implementing
+
+  databricks:
+    title: Best use of Databricks
+    authority: unconfirmed
+    official_source: null
+    local_rulebook_path: null
+    rulebook_version: null
+    last_checked_at: "2026-11-07T12:30:00-06:00"
+    deadline: null
+    deadline_authority: unconfirmed
+    timezone: America/Chicago
+    registration_required: unconfirmed
+    submission_portal: unconfirmed
+    required_artifacts: []
+    public_access_required: unconfirmed
+    runtime_constraints: null
+    evaluation_metric: unconfirmed
+    cross_entry_status: adapter
+    unresolved_questions:
+      - The public challenges page did not return a stable prompt during planning.
+      - No workspace credentials are stored. The offline export is the judge-facing path.
+    acceptance_tests:
+      - infra/databricks/export_contract.json is produced by the Royale script without a live warehouse.
+    task_status: blocked
+
+  heb:
+    title: H-E-B
+    authority: unconfirmed
+    official_source: null
+    local_rulebook_path: null
+    rulebook_version: null
+    last_checked_at: "2026-11-07T12:30:00-06:00"
+    deadline: null
+    deadline_authority: unconfirmed
+    timezone: America/Chicago
+    registration_required: unconfirmed
+    submission_portal: unconfirmed
+    required_artifacts: []
+    public_access_required: unconfirmed
+    runtime_constraints: null
+    evaluation_metric: unconfirmed
+    cross_entry_status: blocked
+    unresolved_questions:
+      - Brief was not in the repo. Do not invent the task.
+    acceptance_tests: []
+    task_status: blocked
+
+  revs_casino:
+    title: Rev's Casino
+    authority: unconfirmed
+    official_source: "https://td-revs.vercel.app/casino/entrance"
+    local_rulebook_path: null
+    rulebook_version: null
+    last_checked_at: "2026-11-07T12:30:00-06:00"
+    deadline: null
+    deadline_authority: unconfirmed
+    timezone: America/Chicago
+    registration_required: unconfirmed
+    submission_portal: in-person-or-login
+    required_artifacts: []
+    public_access_required: false
+    runtime_constraints: null
+    evaluation_metric: unconfirmed
+    cross_entry_status: not-a-software-artifact
+    unresolved_questions:
+      - Skipped while the team is remote. Not a data source.
+    acceptance_tests: []
+    task_status: blocked
+
+  mlh_gemini:
+    title: Best Use of Gemini API
+    authority: reported
+    official_source: "Prize text pasted in the planning session. Live MLH page was not re-fetched into this repo."
+    local_rulebook_path: null
+    rulebook_version: null
+    last_checked_at: "2026-11-07T12:30:00-06:00"
+    deadline: null
+    deadline_authority: unconfirmed
+    timezone: America/Chicago
+    registration_required: unconfirmed
+    submission_portal: unconfirmed
+    required_artifacts:
+      - a feature that calls the Gemini API and cites evidence ids
+    public_access_required: unconfirmed
+    runtime_constraints: null
+    evaluation_metric: unconfirmed
+    cross_entry_status: adapter
+    unresolved_questions:
+      - Eligibility and opt-in steps are unconfirmed until the prize page is stored.
+      - GEMINI_API_KEY is not in the repo. The adapter fails closed.
+    acceptance_tests:
+      - tests/test_gemini_guard.py
+    task_status: implementing
+
+  mlh_spacexsi:
+    title: Cursor and Grok Bot raffle
+    authority: reported
+    official_source: "Prize text pasted in the planning session."
+    local_rulebook_path: null
+    rulebook_version: null
+    last_checked_at: "2026-11-07T12:30:00-06:00"
+    deadline: null
+    deadline_authority: unconfirmed
+    timezone: America/Chicago
+    registration_required: unconfirmed
+    submission_portal: unconfirmed
+    required_artifacts:
+      - project description of Cursor and the Grok Bot workflow
+      - raffle opt-in
+    public_access_required: unconfirmed
+    runtime_constraints: null
+    evaluation_metric: unconfirmed
+    cross_entry_status: disclosure-only
+    unresolved_questions:
+      - A Grok model call is not automatically the specified Grok Bot automation.
+      - Exact opt-in control is unconfirmed.
+    acceptance_tests: []
+    task_status: blocked
+
+  mlh_vultr:
+    title: Best Use of Vultr
+    authority: reported
+    official_source: "Prize text pasted in the planning session."
+    local_rulebook_path: null
+    deadline: null
+    deadline_authority: unconfirmed
+    timezone: America/Chicago
+    submission_portal: unconfirmed
+    required_artifacts: []
+    cross_entry_status: not-entered
+    unresolved_questions:
+      - No Vultr resources are created from this repo.
+    task_status: blocked
+
+  mlh_tigerdata:
+    title: Best Use of Tiger Data
+    authority: reported
+    official_source: "Prize text pasted in the planning session."
+    local_rulebook_path: null
+    deadline: null
+    deadline_authority: unconfirmed
+    timezone: America/Chicago
+    submission_portal: unconfirmed
+    cross_entry_status: adapter-optional
+    unresolved_questions:
+      - Not used inside the House Edge runner.
+    task_status: blocked
+
+  mlh_snowflake:
+    title: Best Use of Snowflake API
+    authority: reported
+    official_source: "Prize text pasted in the planning session."
+    local_rulebook_path: null
+    deadline: null
+    deadline_authority: unconfirmed
+    cross_entry_status: not-entered
+    unresolved_questions:
+      - No Snowflake calls are made. A stub that does not change a result is not an entry.
+    task_status: blocked
+
+  mlh_mongodb:
+    title: Best Use of MongoDB Atlas
+    authority: reported
+    official_source: "Prize text pasted in the planning session."
+    local_rulebook_path: null
+    deadline: null
+    deadline_authority: unconfirmed
+    cross_entry_status: not-entered
+    unresolved_questions:
+      - Annotations stay in a local JSON file. Atlas is not configured.
+    task_status: blocked
+
+  mlh_solana:
+    title: Best Use of Solana
+    authority: reported
+    official_source: "Prize text pasted in the planning session."
+    local_rulebook_path: null
+    deadline: null
+    deadline_authority: unconfirmed
+    cross_entry_status: not-entered
+    unresolved_questions:
+      - No chain transactions. A local digest is not a Solana entry.
+    task_status: blocked
+
+  mlh_godaddy:
+    title: Best Domain Name from GoDaddy Registry
+    authority: reported
+    official_source: "Prize text pasted in the planning session."
+    local_rulebook_path: null
+    deadline: null
+    deadline_authority: unconfirmed
+    cross_entry_status: not-entered
+    unresolved_questions:
+      - No domain is purchased.
+    task_status: blocked

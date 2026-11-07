@@ -1,0 +1,32 @@
+{
+  "note": "Supplementary base network for the College Station demo box. Coordinates are approximate public landmarks, not the primary dataset. There is no GTFS import yet, so bus uses one labeled campus shuttle edge.",
+  "nodes": [
+    {"id": "msc", "name": "Memorial Student Center", "lat": 30.612, "lon": -96.341},
+    {"id": "library", "name": "Evans Library", "lat": 30.616, "lon": -96.339},
+    {"id": "kyle", "name": "Kyle Field", "lat": 30.610, "lon": -96.340},
+    {"id": "northgate", "name": "Northgate", "lat": 30.617, "lon": -96.346},
+    {"id": "sbisa", "name": "Sbisa", "lat": 30.618, "lon": -96.343}
+  ],
+  "edges": [
+    {"id": "msc-library-walk", "from": "msc", "to": "library", "km": 0.5, "kind": "walk"},
+    {"id": "library-msc-walk", "from": "library", "to": "msc", "km": 0.5, "kind": "walk"},
+    {"id": "msc-kyle-walk", "from": "msc", "to": "kyle", "km": 0.4, "kind": "walk"},
+    {"id": "kyle-msc-walk", "from": "kyle", "to": "msc", "km": 0.4, "kind": "walk"},
+    {"id": "library-northgate-walk", "from": "library", "to": "northgate", "km": 0.8, "kind": "walk"},
+    {"id": "northgate-library-walk", "from": "northgate", "to": "library", "km": 0.8, "kind": "walk"},
+    {"id": "northgate-sbisa-walk", "from": "northgate", "to": "sbisa", "km": 0.4, "kind": "walk"},
+    {"id": "sbisa-northgate-walk", "from": "sbisa", "to": "northgate", "km": 0.4, "kind": "walk"},
+    {"id": "msc-library-bike", "from": "msc", "to": "library", "km": 0.6, "kind": "bike"},
+    {"id": "library-msc-bike", "from": "library", "to": "msc", "km": 0.6, "kind": "bike"},
+    {"id": "library-northgate-bike", "from": "library", "to": "northgate", "km": 0.9, "kind": "bike"},
+    {"id": "northgate-library-bike", "from": "northgate", "to": "library", "km": 0.9, "kind": "bike"},
+    {"id": "msc-kyle-drive", "from": "msc", "to": "kyle", "km": 0.7, "kind": "drive"},
+    {"id": "kyle-msc-drive", "from": "kyle", "to": "msc", "km": 0.7, "kind": "drive"},
+    {"id": "kyle-northgate-drive", "from": "kyle", "to": "northgate", "km": 1.4, "kind": "drive"},
+    {"id": "northgate-kyle-drive", "from": "northgate", "to": "kyle", "km": 1.4, "kind": "drive"},
+    {"id": "msc-sbisa-drive", "from": "msc", "to": "sbisa", "km": 1.1, "kind": "drive"},
+    {"id": "sbisa-msc-drive", "from": "sbisa", "to": "msc", "km": 1.1, "kind": "drive"},
+    {"id": "msc-sbisa-bus", "from": "msc", "to": "sbisa", "km": 1.3, "kind": "bus"},
+    {"id": "sbisa-msc-bus", "from": "sbisa", "to": "msc", "km": 1.3, "kind": "bus"}
+  ]
+}

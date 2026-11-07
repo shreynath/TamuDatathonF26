@@ -1,0 +1,14 @@
+.env
+.env.*
+!.env.example
+__pycache__/
+*.py[cod]
+.venv/
+node_modules/
+data/incoming/
+data/royale-src/
+data/highway/runs/
+runs/
+*.zip
+.DS_Store
+apps/web/public/generated/
