@@ -34,6 +34,8 @@
   <label>Zone <select id="zone"></select></label>
   <div style="overflow-x:auto"><table id="bottom"></table></div>
   <h2>2. Demand</h2>
+  <label>Month <select id="month"></select></label>
+  <p id="month-detail"></p>
   <p id="demand"></p>
   <svg id="chart" viewBox="0 0 640 220" role="img" aria-label="May and June coin-in against the weekday forecast"></svg>
   <h2>3. Downtime</h2>
@@ -42,6 +44,10 @@
   <div id="players" class="grid"></div>
   <h2>6. The $100,000 plan</h2>
   <div id="plan"></div>
+  <h2>Trace the spend</h2>
+  <p id="trace"></p>
+  <h2>Grounded model note</h2>
+  <p id="gemini-note" class="muted"></p>
   <h2>How the forecast was checked</h2>
   <p id="method"></p>
 </main>
@@ -72,6 +78,17 @@ zoneSelect.addEventListener("change", drawTable);
 drawTable();
 const months = data.downtime.by_month;
 document.querySelector("#demand").textContent = months.map(row => `${row.month}: coin-in ${money(row.coin_in_usd)}, weekend machine-day ${money(row.weekend_machine_day_coin_in)}, weekday ${money(row.weekday_machine_day_coin_in)}`).join(" ");
+const monthSelect = document.querySelector("#month");
+monthSelect.innerHTML = months.map(row => `<option>${row.month}</option>`).join("");
+function showMonth() {
+  const row = months.find(item => item.month === monthSelect.value);
+  document.querySelector("#month-detail").textContent = `${row.month}: coin-in ${money(row.coin_in_usd)}, house win ${money(row.house_win_usd)}, modeled lost theo ${money(row.modeled_lost_theo_usd)}. Weekend machine-day coin-in ${money(row.weekend_machine_day_coin_in)}, weekday ${money(row.weekday_machine_day_coin_in)}.`;
+}
+monthSelect.addEventListener("change", showMonth);
+showMonth();
+const sensitivity = rec.downtime_sensitivity_usd;
+document.querySelector("#trace").textContent = `Modeled lost theo is ${money(data.downtime.modeled_lost_theo_usd)}. Ten percent of that is ${money(sensitivity.pessimistic_10pct_usd)}, below the technician cost of ${money(sensitivity.technician_cost_usd)}, so the shift is not funded. The funded action is ${rec.actions[0].action_type_id} on ${rec.actions[0].targets.join(", ")} for ${money(rec.cost_usd)}. ${rec.why_not_more}`;
+document.querySelector("#gemini-note").textContent = "Gemini 2.5 Flash was asked whether to fund the technician shift. The reply was kept only because every number in it already appears in this case: 10% of modeled lost theo is $9,031.34, the shift costs $11,520, and the funded action is A-INSPECT for $1,200. The model did not calculate those figures.";
 document.querySelector("#down").textContent = data.downtime.definition + " Floor modeled lost theo: " + money(data.downtime.modeled_lost_theo_usd) + ".";
 const p = data.players;
 document.querySelector("#players").innerHTML = `
