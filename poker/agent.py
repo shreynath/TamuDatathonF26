@@ -145,9 +145,21 @@ def _partial_scores(hole: np.ndarray, board: np.ndarray) -> np.ndarray:
 
 
 def _pct(values: np.ndarray) -> np.ndarray:
-    order = np.empty(values.shape[0], dtype=np.float64)
-    order[np.argsort(values, kind="stable")] = np.arange(values.shape[0])
-    return order / max(values.shape[0] - 1, 1)
+    """Percentile rank from 0 to 1. Tied values share one average rank."""
+    count = int(values.shape[0])
+    if count <= 1:
+        return np.zeros(count, dtype=np.float64)
+    order = np.argsort(values, kind="mergesort")
+    ordered = values[order]
+    ranks = np.empty(count, dtype=np.float64)
+    start = 0
+    while start < count:
+        end = start + 1
+        while end < count and ordered[end] == ordered[start]:
+            end += 1
+        ranks[order[start:end]] = (start + end - 1) / 2.0
+        start = end
+    return ranks / (count - 1)
 
 
 def _preflop_strength(hands: np.ndarray) -> np.ndarray:

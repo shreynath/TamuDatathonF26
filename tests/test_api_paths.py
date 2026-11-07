@@ -48,6 +48,12 @@ class StaticPathTests(unittest.TestCase):
         self.assertTrue(_blocked_public_path("/api/databricks/sql"))
         self.assertFalse(_blocked_public_path("/api/investigate"))
 
+    def test_observation_writes_are_closed(self):
+        from apps.api.server import public_write_route
+
+        self.assertFalse(public_write_route("/api/observations"))
+        self.assertFalse(public_write_route("/api/observations?consent=yes"))
+
 
 class InvestigateRouteTests(unittest.TestCase):
     def test_question_uses_the_case_file_numbers(self):

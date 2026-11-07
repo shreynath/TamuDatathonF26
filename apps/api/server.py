@@ -11,7 +11,7 @@ from urllib.parse import parse_qs, unquote, urlparse
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from domains.routes.router import append_observation, route
+from domains.routes.router import route
 
 WEB = ROOT / "apps" / "web"
 PUBLIC = WEB / "public"
@@ -22,6 +22,11 @@ _ALLOWED_SUFFIXES = {".html", ".json"}
 def _blocked_public_path(path: str) -> bool:
     bare = path.split("?", 1)[0].rstrip("/") or "/"
     return bare == "/api/databricks" or bare.startswith("/api/databricks/")
+
+
+def public_write_route(path: str) -> bool:
+    """Routes observation writes are not an active entry."""
+    return False
 
 
 def safe_static(url_path: str, public: Path = PUBLIC, web: Path = WEB) -> Path | None:
@@ -143,6 +148,16 @@ class Handler(BaseHTTPRequestHandler):
             "limitations": result["limitations"],
             "computed_by": "code",
         }
+        if result["ok"] and isinstance(question, str):
+            try:
+                from integrations.gemini.grounded import explain_case
+
+                spoken = explain_case(question, case)
+                if spoken.get("ok"):
+                    safe["narrative"] = spoken["answer"]
+                    safe["narrative_by"] = "gemini-2.5-flash"
+            except Exception:
+                pass
         self._send(200, json.dumps(safe).encode(), "application/json")
 
     def do_POST(self) -> None:
@@ -152,22 +167,9 @@ class Handler(BaseHTTPRequestHandler):
         if urlparse(self.path).path == "/api/investigate":
             self._investigate()
             return
-        if self.path != "/api/observations":
-            self._send(404, b"missing", "text/plain")
+        if not public_write_route(self.path):
+            self._send(404, b'{"ok": false, "error": "no public write route"}', "application/json")
             return
-        raw = self._read_body()
-        if raw is None:
-            return
-        try:
-            payload = json.loads(raw or b"{}")
-        except json.JSONDecodeError:
-            self._send(400, b'{"ok": false, "error": "invalid json"}', "application/json")
-            return
-        if payload.get("consent") != "yes":
-            self._send(400, b'{"ok": false, "error": "consent is required"}', "application/json")
-            return
-        append_observation(payload)
-        self._send(200, b'{"ok": true}', "application/json")
 
     def log_message(self, format: str, *args) -> None:
         return

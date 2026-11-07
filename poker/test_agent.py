@@ -192,6 +192,28 @@ def test_reads_port_from_environment():
     assert '0.0.0.0' in source, "agent.py must listen on 0.0.0.0 so the judge can reach it"
 
 
+def test_tied_percentiles_share_one_rank(bot):
+    module, _client = bot
+    values = module.np.array([2.0, 2.0, 5.0, 5.0])
+    ranks = module._pct(values)
+    assert ranks[0] == ranks[1]
+    assert ranks[2] == ranks[3]
+    assert ranks[2] > ranks[0]
+
+
+def test_vector_evaluator_matches_the_reference(bot):
+    module, _client = bot
+    from evaluator import omaha_score
+
+    rng = module.np.random.default_rng(0)
+    for _ in range(40):
+        cards = rng.choice(36, size=10, replace=False)
+        hole = [int(card) for card in cards[:5]]
+        board = [int(card) for card in cards[5:]]
+        got = int(module._omaha_scores(module.np.array([hole]), module.np.array([board]))[0])
+        assert got == omaha_score(hole, board)
+
+
 # ---------------------------------------------------------------------------
 # Add your own tests below, e.g. "with two aces preflop my bot raises".
 # ---------------------------------------------------------------------------
