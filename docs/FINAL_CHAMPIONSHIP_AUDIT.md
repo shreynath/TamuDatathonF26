@@ -33,7 +33,7 @@ Browser on http://127.0.0.1:8765/ : June selects M-1296 at bank B-14 and leaves 
 | Poker submission | 4 | Public SHA matches. Form has no receipt. |
 | House Edge model | 8 | Protected file still matches the scored CSV. No new model beat it. |
 | House Edge submission | 3 | Files are ready. Form has no receipt. |
-| Dashboard Royale | 7 | Local filters, forecast, priced plan, and scenario desk work. No video, no Devpost, public Pages not yet this build. |
+| Dashboard Royale | 7 | Filters, forecast, priced plan, and scenario desk work on https://shreynath.github.io/gilded-ace/ at `9cf601b`. No video and no Devpost receipt. |
 | Highway | 7 | Fail-closed ids and the feed invariants pass. No portal receipt. |
 | API security | 7 | The tested local routes refuse the cases above. This is not a proof about every route or a deployed host. |
 | Gemini | 6 | One guarded live call succeeded. The public page does not call the model, because the key would otherwise ship in the browser. |
