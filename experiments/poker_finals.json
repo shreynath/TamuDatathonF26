@@ -1,0 +1,70 @@
+[
+  {
+    "bb": 1.488,
+    "lo": 0.572,
+    "hi": 2.405,
+    "result": "AGENT1_WIN",
+    "think": [
+      "1.63s",
+      "1.53s"
+    ],
+    "errors": [
+      0,
+      0
+    ],
+    "candidate": "samples",
+    "seed": 21,
+    "stage": "vs_champion"
+  },
+  {
+    "bb": 1.685,
+    "lo": 0.754,
+    "hi": 2.617,
+    "result": "AGENT1_WIN",
+    "think": [
+      "1.57s",
+      "1.58s"
+    ],
+    "errors": [
+      0,
+      0
+    ],
+    "candidate": "samples",
+    "seed": 22,
+    "stage": "vs_champion"
+  },
+  {
+    "bb": 1.474,
+    "lo": 0.574,
+    "hi": 2.373,
+    "result": "AGENT1_WIN",
+    "think": [
+      "0.58s",
+      "0.55s"
+    ],
+    "errors": [
+      0,
+      0
+    ],
+    "candidate": "structure",
+    "seed": 21,
+    "stage": "vs_champion"
+  },
+  {
+    "bb": 1.196,
+    "lo": 0.299,
+    "hi": 2.094,
+    "result": "AGENT1_WIN",
+    "think": [
+      "0.60s",
+      "0.58s"
+    ],
+    "errors": [
+      0,
+      0
+    ],
+    "candidate": "structure",
+    "seed": 22,
+    "stage": "vs_champion"
+  }
+]

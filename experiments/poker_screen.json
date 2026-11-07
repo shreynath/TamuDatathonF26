@@ -1,0 +1,122 @@
+[
+  {
+    "bb": 1.421,
+    "result": "CHOP",
+    "errors": 0,
+    "think": "0.08s",
+    "code": 0,
+    "candidate": "structure",
+    "opponent": "random",
+    "stage": "screen"
+  },
+  {
+    "bb": 4.713,
+    "result": "AGENT1_WIN",
+    "errors": 0,
+    "think": "0.06s",
+    "code": 0,
+    "candidate": "structure",
+    "opponent": "pot",
+    "stage": "screen"
+  },
+  {
+    "bb": 1.512,
+    "result": "CHOP",
+    "errors": 0,
+    "think": "0.06s",
+    "code": 0,
+    "candidate": "tighter",
+    "opponent": "random",
+    "stage": "screen"
+  },
+  {
+    "bb": 3.425,
+    "result": "CHOP",
+    "errors": 0,
+    "think": "0.06s",
+    "code": 0,
+    "candidate": "tighter",
+    "opponent": "pot",
+    "stage": "screen"
+  },
+  {
+    "bb": 0.921,
+    "result": "CHOP",
+    "errors": 0,
+    "think": "0.06s",
+    "code": 0,
+    "candidate": "looser",
+    "opponent": "random",
+    "stage": "screen"
+  },
+  {
+    "bb": 4.221,
+    "result": "AGENT1_WIN",
+    "errors": 0,
+    "think": "0.04s",
+    "code": 0,
+    "candidate": "looser",
+    "opponent": "pot",
+    "stage": "screen"
+  },
+  {
+    "bb": 4.042,
+    "result": "AGENT1_WIN",
+    "errors": 0,
+    "think": "0.14s",
+    "code": 0,
+    "candidate": "samples",
+    "opponent": "random",
+    "stage": "screen"
+  },
+  {
+    "bb": 3.712,
+    "result": "CHOP",
+    "errors": 0,
+    "think": "0.16s",
+    "code": 0,
+    "candidate": "samples",
+    "opponent": "pot",
+    "stage": "screen"
+  },
+  {
+    "bb": 2.812,
+    "result": "CHOP",
+    "errors": 0,
+    "think": "0.07s",
+    "code": 0,
+    "candidate": "station",
+    "opponent": "random",
+    "stage": "screen"
+  },
+  {
+    "bb": 3.975,
+    "result": "CHOP",
+    "errors": 0,
+    "think": "0.08s",
+    "code": 0,
+    "candidate": "station",
+    "opponent": "pot",
+    "stage": "screen"
+  },
+  {
+    "bb": 4.333,
+    "result": "AGENT1_WIN",
+    "errors": 0,
+    "think": "0.00s",
+    "code": 0,
+    "candidate": "champion",
+    "opponent": "random",
+    "stage": "screen"
+  },
+  {
+    "bb": 0.963,
+    "result": "CHOP",
+    "errors": 0,
+    "think": "0.00s",
+    "code": 0,
+    "candidate": "champion",
+    "opponent": "pot",
+    "stage": "screen"
+  }
+]

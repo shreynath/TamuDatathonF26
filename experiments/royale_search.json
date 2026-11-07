@@ -1,0 +1,23 @@
+{
+  "april_selection": [
+    {
+      "split": "select",
+      "weekday_mae": 40715.0337179487,
+      "constant_mae": 203431.01288888886,
+      "seasonal_mae": 48969.86499999998,
+      "trail_mae": 207086.15119047623
+    }
+  ],
+  "may_june_once": [
+    {
+      "split": "holdout",
+      "weekday_mae": 69503.16013030695,
+      "constant_mae": 218989.47902550086,
+      "seasonal_mae": 82069.91885245901,
+      "trail_mae": 212411.12576112413
+    }
+  ],
+  "technician_breakeven_capture": 0.12755585052845989,
+  "funded_if_capture_below_breakeven": "A-INSPECT only",
+  "note": "Models were fit on January-March. April chose the forecast. May-June was not used to pick it."
+}

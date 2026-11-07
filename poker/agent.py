@@ -48,14 +48,13 @@ AGENT_NAME = "PitBossEquity"
 
 # ===== YOUR CODE HERE =====
 
-_RNG = random.Random(7)
 _BUDGET_SECONDS = 6.5
+_FLOP_SAMPLES = 28
+_RIVER_SAMPLES = 64
 
 
 def new_half(config: AgentConfig, memory: dict) -> None:
     memory["used"] = 0.0
-    memory["showdowns"] = 0
-    memory["showdown_wins"] = 0
 
 
 def _fallback(obs: Observation) -> Action:
@@ -66,23 +65,25 @@ def _fallback(obs: Observation) -> Action:
     return obs.legal_actions[0]
 
 
-def _preflop_score(cards) -> int:
+def _shape(cards):
     ranks = [card_rank(card) for card in cards]
     suits = [card_suit(card) for card in cards]
     pairs = sum(1 for rank in set(ranks) if ranks.count(rank) >= 2)
+    trips = any(ranks.count(rank) >= 3 for rank in set(ranks))
     suited = max(suits.count(suit) for suit in set(suits))
     high = sum(1 for rank in ranks if rank >= 6)
-    span = max(ranks) - min(ranks)
-    return pairs * 3 + suited + high - (1 if span > 6 else 0)
+    return pairs, trips, suited, high
 
 
 def _equity(obs: Observation, samples: int) -> float:
     known = set(obs.hole_cards) | set(obs.board)
     deck = [card for card in range(36) if card not in known]
     need_board = 5 - len(obs.board)
+    seed = (sum(obs.hole_cards) * 131 + sum((obs.board or [0])) * 17 + obs.pot + samples) & 0xFFFFFFFF
+    rng = random.Random(seed)
     wins = ties = 0
     for _ in range(samples):
-        draw = _RNG.sample(deck, need_board + 5)
+        draw = rng.sample(deck, need_board + 5)
         board = list(obs.board) + draw[:need_board]
         opponent = draw[need_board:]
         mine = omaha_score(obs.hole_cards, board)
@@ -94,7 +95,7 @@ def _equity(obs: Observation, samples: int) -> float:
     return (wins + 0.5 * ties) / samples
 
 
-def _pot_odds(obs: Observation) -> float:
+def _price(obs: Observation) -> float:
     if obs.to_call <= 0:
         return 0.0
     return obs.to_call / (obs.pot + obs.to_call)
@@ -105,27 +106,33 @@ def choose_action(obs: Observation, memory: dict) -> Action:
     try:
         if memory.get("used", 0.0) >= _BUDGET_SECONDS:
             return _fallback(obs)
-        opponent_raises = sum(1 for item in obs.action_history if not item.is_me and item.action in (Action.RAISE_HALF, Action.RAISE_POT))
         if obs.street == Street.PREFLOP:
-            score = _preflop_score(obs.hole_cards)
-            if score >= 8 and Action.RAISE_POT in obs.legal_actions and obs.to_call <= obs.big_blind * 4:
-                return Action.RAISE_POT
+            pairs, trips, suited, high = _shape(obs.hole_cards)
+            strong = trips or pairs >= 2 or suited >= 4 or (pairs and suited >= 3) or (high >= 3 and suited >= 2 and pairs)
+            playable = pairs or suited >= 3 or high >= 3 or trips
             if obs.to_call == 0:
+                if strong and Action.RAISE_POT in obs.legal_actions:
+                    return Action.RAISE_POT
                 return Action.CHECK_CALL
-            if score >= 4 and obs.to_call <= obs.big_blind * 6:
+            if strong and obs.to_call <= obs.big_blind * 8 and Action.RAISE_POT in obs.legal_actions:
+                return Action.RAISE_POT
+            if playable and Action.CHECK_CALL in obs.legal_actions:
                 return Action.CHECK_CALL
             return _fallback(obs)
-        samples = 8 if len(obs.board) < 5 else 24
-        if memory.get("used", 0.0) > 4.5:
-            samples = 4
+        samples = _RIVER_SAMPLES if len(obs.board) == 5 else _FLOP_SAMPLES
+        if memory.get("used", 0.0) > 5.5:
+            samples = 6
         equity = _equity(obs, samples)
-        if opponent_raises:
-            equity -= min(0.08, 0.02 * opponent_raises)
-        price = _pot_odds(obs)
-        if equity >= 0.72 and Action.RAISE_POT in obs.legal_actions and obs.raises_this_street < 3:
-            return Action.RAISE_POT
-        if equity + 0.03 >= price:
-            return Action.CHECK_CALL if Action.CHECK_CALL in obs.legal_actions else _fallback(obs)
+        price = _price(obs)
+        if abs(equity - price) < 0.08 and memory.get("used", 0.0) < 4.0:
+            equity = _equity(obs, samples + 32)
+        if equity >= 0.66 and Action.RAISE_POT in obs.legal_actions and obs.raises_this_street < 3:
+            if obs.to_call == 0 or equity >= price + 0.10:
+                return Action.RAISE_POT
+        if obs.to_call == 0 and equity >= 0.54 and Action.RAISE_HALF in obs.legal_actions and obs.raises_this_street < 2:
+            return Action.RAISE_HALF
+        if equity >= price and Action.CHECK_CALL in obs.legal_actions:
+            return Action.CHECK_CALL
         return _fallback(obs)
     except Exception:
         return _fallback(obs)
@@ -134,10 +141,7 @@ def choose_action(obs: Observation, memory: dict) -> Action:
 
 
 def on_hand_end(result: HandResult, memory: dict) -> None:
-    if result.went_to_showdown:
-        memory["showdowns"] = memory.get("showdowns", 0) + 1
-        if result.winner == "me":
-            memory["showdown_wins"] = memory.get("showdown_wins", 0) + 1
+    return None
 
 # ===== END OF YOUR CODE =====
 
