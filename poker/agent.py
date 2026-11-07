@@ -31,8 +31,11 @@ from fastapi.responses import JSONResponse
 
 import random
 import time
+from itertools import combinations, combinations_with_replacement
 
-from evaluator import card_rank, card_suit, cards_to_str, omaha_score, warmup  # handy helpers, see evaluator.py
+import numpy as np
+
+from evaluator import card_rank, card_suit, cards_to_str, omaha_score, warmup, _score_ranks  # handy helpers, see evaluator.py
 from game import Action, AgentConfig, HandResult, Observation, Street
 
 # Build omaha_score's lookup table now, while the server starts, instead of
@@ -76,6 +79,101 @@ def _shape(cards):
     return pairs, trips, suited, high
 
 
+# Rank-multiset key: sum(5**rank). A 5-card non-flush score depends only on
+# that multiset, so many hands are scored with one table lookup.
+_KEY_SIZE = 5 ** 9
+_NONFLUSH = np.zeros(_KEY_SIZE, dtype=np.int32)
+_FLUSH = np.zeros(_KEY_SIZE, dtype=np.int32)
+for _ranks in combinations_with_replacement(range(9), 5):
+    if max(_ranks.count(rank) for rank in set(_ranks)) > 4:
+        continue
+    _key = sum(5 ** rank for rank in _ranks)
+    _desc = tuple(sorted(_ranks, reverse=True))
+    _NONFLUSH[_key] = _score_ranks(_desc, False)
+    if len(set(_ranks)) == 5:
+        _FLUSH[_key] = _score_ranks(_desc, True)
+
+_CARD_KEY = np.array([5 ** (card >> 2) for card in range(36)], dtype=np.int32)
+_CARD_SUIT = np.array([card & 3 for card in range(36)], dtype=np.int8)
+_PAIRS_IX = np.array(list(combinations(range(5), 2)), dtype=np.intp)
+_TRIPS_IX = np.array(list(combinations(range(5), 3)), dtype=np.intp)
+_TRIPS4_IX = np.array(list(combinations(range(4), 3)), dtype=np.intp)
+_RAISE_EQ = (0.56, 0.64, 0.68, 0.72)
+_BET_HALF = (0.50, 0.51, 0.52, 0.54)
+_BET_POT = (0.55, 0.60, 0.63, 0.66)
+_CALL_MARGIN = (0.00, 0.03, 0.03, 0.02)
+
+
+def _pair_parts(hole: np.ndarray):
+    keys = _CARD_KEY[hole]
+    suits = _CARD_SUIT[hole].astype(np.int16)
+    left, right = _PAIRS_IX[:, 0], _PAIRS_IX[:, 1]
+    pair_key = keys[:, left] + keys[:, right]
+    pair_suit = np.where(suits[:, left] == suits[:, right], suits[:, left], -1)
+    return pair_key, pair_suit
+
+
+def _triple_parts(board: np.ndarray, triples: np.ndarray):
+    keys = _CARD_KEY[board]
+    suits = _CARD_SUIT[board].astype(np.int16)
+    a, b, c = triples[:, 0], triples[:, 1], triples[:, 2]
+    triple_key = keys[:, a] + keys[:, b] + keys[:, c]
+    same = (suits[:, a] == suits[:, b]) & (suits[:, b] == suits[:, c])
+    triple_suit = np.where(same, suits[:, a], -2)
+    return triple_key, triple_suit
+
+
+def _combine(pair_key, pair_suit, triple_key, triple_suit) -> np.ndarray:
+    key = pair_key[:, :, None] + triple_key[:, None, :]
+    flush = pair_suit[:, :, None] == triple_suit[:, None, :]
+    scores = np.where(flush, _FLUSH[key], _NONFLUSH[key])
+    return scores.reshape(scores.shape[0], -1).max(axis=1)
+
+
+def _omaha_scores(hole: np.ndarray, board: np.ndarray) -> np.ndarray:
+    pair_key, pair_suit = _pair_parts(hole)
+    triple_key, triple_suit = _triple_parts(board, _TRIPS_IX)
+    return _combine(pair_key, pair_suit, triple_key, triple_suit)
+
+
+def _partial_scores(hole: np.ndarray, board: np.ndarray) -> np.ndarray:
+    pair_key, pair_suit = _pair_parts(hole)
+    width = board.shape[1]
+    triples = _TRIPS_IX if width >= 5 else (_TRIPS4_IX if width == 4 else np.array([[0, 1, 2]], dtype=np.intp))
+    triple_key, triple_suit = _triple_parts(board, triples)
+    return _combine(pair_key, pair_suit, triple_key, triple_suit)
+
+
+def _pct(values: np.ndarray) -> np.ndarray:
+    order = np.empty(values.shape[0], dtype=np.float64)
+    order[np.argsort(values, kind="stable")] = np.arange(values.shape[0])
+    return order / max(values.shape[0] - 1, 1)
+
+
+def _preflop_strength(hands: np.ndarray) -> np.ndarray:
+    """Rank hole cards by a short equity rollout against a random hand.
+
+    Four runouts is enough to separate the hands a raiser keeps from the
+    hands a raiser folds. The rank is only used as a weight, not as the
+    decision equity.
+    """
+    count = hands.shape[0]
+    wins = np.zeros(count, dtype=np.float64)
+    rng = np.random.default_rng(1)
+    rows = np.arange(count)
+    for _ in range(4):
+        noise = rng.random((count, 36))
+        for column in range(5):
+            noise[rows, hands[:, column]] = -1.0
+        picked = np.argpartition(noise, -10, axis=1)[:, -10:]
+        board = picked[:, :5]
+        other = picked[:, 5:]
+        mine = _omaha_scores(hands, board)
+        theirs = _omaha_scores(other, board)
+        wins += (mine > theirs) + 0.5 * (mine == theirs)
+    return wins
+
+
 def _equity(obs: Observation, samples: int) -> float:
     known = set(obs.hole_cards) | set(obs.board)
     deck = [card for card in range(36) if card not in known]
@@ -94,6 +192,87 @@ def _equity(obs: Observation, samples: int) -> float:
         elif mine == theirs:
             ties += 1
     return (wins + 0.5 * ties) / samples
+
+
+def _range_equity(obs: Observation, samples: int, q_pre: float, q_post: float, cap: float) -> float:
+    """Equity against the part of the sample the opponent still holds.
+
+    q_pre and q_post are the fraction of hands they continue with. cap is the
+    top of that range when they have checked this street. Hands outside the
+    window keep a small weight, so a bluff or a slowplay is not equity zero.
+    """
+    hole = list(obs.hole_cards)
+    board = list(obs.board)
+    known = set(hole) | set(board)
+    rest = np.array([card for card in range(36) if card not in known], dtype=np.intp)
+    need = 5 + (5 - len(board))
+    seed = (obs.hand_index * 7919 + len(obs.action_history) * 104729 + sum(hole) * 31 + int(obs.street)) & 0xFFFFFFFF
+    draw = np.random.default_rng(seed).permuted(np.tile(rest, (samples, 1)), axis=1)[:, :need]
+    opponent = draw[:, :5]
+    width = len(board)
+    if width:
+        full = np.concatenate(
+            [np.broadcast_to(np.array(board, dtype=np.intp), (samples, width)), draw[:, 5:]],
+            axis=1,
+        )
+    else:
+        full = draw[:, 5:]
+    mine = np.broadcast_to(np.array(hole, dtype=np.intp), (samples, 5))
+    if width == 5:
+        my_score = _omaha_scores(mine[:1], full[:1])[0]
+    else:
+        my_score = _omaha_scores(mine, full)
+    opp_score = _omaha_scores(opponent, full)
+    win = (my_score > opp_score) + 0.5 * (my_score == opp_score)
+    # Hands outside the continuing range still show up as draws and bluffs.
+    # A tighter leftover weight made every raise look like the nuts.
+    leftover = (0.12, 0.18, 0.12, 0.06)[min(3, int(obs.street))]
+    weight = np.ones(samples, dtype=np.float64)
+    if q_pre < 0.999:
+        rank = _pct(_preflop_strength(opponent))
+        weight *= np.where(rank >= 1.0 - q_pre, 1.0, leftover)
+    if width >= 3 and (q_post < 0.999 or cap < 0.999):
+        current = _partial_scores(opponent, np.broadcast_to(np.array(board, dtype=np.intp), (samples, width)))
+        strength = _pct(opp_score) if width == 5 else 0.6 * _pct(current) + 0.4 * _pct(opp_score)
+        ranked = _pct(strength)
+        if q_post < 0.999:
+            weight *= np.where(ranked >= 1.0 - q_post, 1.0, leftover)
+        if cap < 0.999:
+            weight *= np.where(ranked <= cap, 1.0, 0.15)
+    return float((weight * win).sum() / weight.sum())
+
+
+def _continue_fraction(obs: Observation, memory: dict) -> tuple[float, float, float]:
+    """How much of a random hand the opponent still has after the raises we saw."""
+    raised = [0, 0, 0, 0]
+    for action in obs.action_history:
+        if action.is_me or int(action.action) < int(Action.RAISE_HALF):
+            continue
+        raised[min(3, int(action.street))] += 1
+    stats = memory.get("opp", {"f": 0, "c": 0, "h": 0, "p": 0})
+    seen = stats["f"] + stats["c"] + stats["h"] + stats["p"]
+    freq = (stats["h"] + stats["p"] + 0.30 * 12.0) / (seen + 12.0)
+    street = min(3, int(obs.street))
+    q_pre = 1.0
+    if raised[0]:
+        q_pre = max(0.12, freq ** (1.0 + 0.5 * (raised[0] - 1)))
+    q_post = 1.0
+    for street_index in range(1, street + 1):
+        if raised[street_index]:
+            q_post *= max(0.12, freq ** (1.0 + 0.5 * (raised[street_index] - 1)))
+    if q_post < 1.0:
+        q_post = max(0.12, q_post)
+    # A check stands for the hands they chose not to bet. Leave a little
+    # weight on the top, because a strong hand does sometimes check.
+    cap = 1.0
+    if street >= 1 and raised[street] == 0:
+        for action in obs.action_history:
+            if action.is_me or int(action.street) != street:
+                continue
+            if int(action.action) == int(Action.CHECK_CALL) and action.amount == 0:
+                cap = 0.62
+                break
+    return q_pre, q_post, cap
 
 
 def _note_opponent(obs: Observation, memory: dict) -> None:
@@ -118,22 +297,50 @@ def _note_opponent(obs: Observation, memory: dict) -> None:
 
 
 def _model(memory: dict) -> str:
-    """Which challenge policy the actions look like. 'mix' until that is clear."""
+    """Name the opponent only after the counts separate a pure baseline.
+
+    A player who has folded twice is not a random actor. The public field
+    folds weak hands and continues with equity, so that is the prior.
+    """
     stats = memory.get("opp", {"f": 0, "c": 0, "h": 0, "p": 0})
     total = stats["f"] + stats["c"] + stats["h"] + stats["p"]
-    if total < 16:
-        return "mix"
-    raises = stats["h"] + stats["p"]
+    if total < 24:
+        return "reg"
     fold_rate = stats["f"] / total
-    raise_rate = raises / total
-    # A tight player folds a lot and rarely raises. Random folds less often.
-    if fold_rate >= 0.40 and raise_rate < 0.20:
+    raise_rate = (stats["h"] + stats["p"]) / total
+    if fold_rate >= 0.42 and raise_rate < 0.18:
         return "nit"
-    if stats["f"] >= 2:
-        return "random"
-    if raises >= 8 and raise_rate >= 0.4:
+    if raise_rate >= 0.50 and fold_rate < 0.12:
         return "pot" if stats["p"] >= stats["h"] else "half"
-    return "station"
+    if fold_rate <= 0.10 and raise_rate < 0.22:
+        return "station"
+    return "reg"
+
+
+def _reg_action(obs: Observation, equity: float, memory: dict) -> Action:
+    """Bet when ahead of a continuing range. Call when equity clears the price."""
+    street = min(3, int(obs.street))
+    stats = memory.get("opp", {"f": 0, "c": 0, "h": 0, "p": 0})
+    seen = stats["f"] + stats["c"] + stats["h"] + stats["p"]
+    raise_rate = (stats["h"] + stats["p"] + 0.30 * 12.0) / (seen + 12.0)
+    raise_at = _RAISE_EQ[street] + (0.10 if raise_rate > 0.55 else 0.0)
+    legal = obs.legal_actions
+    if obs.to_call > 0:
+        price = obs.to_call / (obs.pot + obs.to_call)
+        if equity >= raise_at and Action.RAISE_POT in legal:
+            return Action.RAISE_POT
+        if equity >= price + _CALL_MARGIN[street] and Action.CHECK_CALL in legal:
+            return Action.CHECK_CALL
+        if Action.FOLD in legal:
+            return Action.FOLD
+        return _fallback(obs)
+    if equity >= _BET_POT[street] and Action.RAISE_POT in legal:
+        return Action.RAISE_POT
+    if equity >= _BET_HALF[street] and Action.RAISE_HALF in legal:
+        return Action.RAISE_HALF
+    if Action.CHECK_CALL in legal:
+        return Action.CHECK_CALL
+    return _fallback(obs)
 
 
 def _showdown(stack: int, pot: int, equity: float) -> float:
@@ -324,12 +531,15 @@ def choose_action(obs: Observation, memory: dict) -> Action:
         if memory.get("used", 0.0) >= _BUDGET_SECONDS:
             return _fallback(obs)
         _note_opponent(obs, memory)
+        model = _model(memory)
         all_in = obs.my_stack > 0 and obs.to_call >= obs.my_stack
-        # Ordinary preflop bets are priced by hand shape. An all-in is priced
-        # by equity, with enough samples that a favorite is not folded by noise.
-        if obs.street == Street.PREFLOP and not all_in and obs.to_call <= obs.big_blind * 10:
+        # Pure baselines still get the chip-value tree. Everyone else is
+        # priced by equity against a continuing range.
+        if model != "reg" and obs.street == Street.PREFLOP and not all_in and obs.to_call <= obs.big_blind * 10:
             return _preflop_shape(obs)
-        if obs.street == Street.PREFLOP:
+        if model == "reg":
+            samples = 160 if memory.get("used", 0.0) > 4.5 else 480
+        elif obs.street == Street.PREFLOP:
             samples = 12
         elif len(obs.board) == 5:
             samples = _RIVER_SAMPLES
@@ -339,11 +549,12 @@ def choose_action(obs: Observation, memory: dict) -> Action:
             samples = max(samples, 48)
         if memory.get("used", 0.0) > 5.5:
             samples = 4
+        if model == "reg":
+            q_pre, q_post, cap = _continue_fraction(obs, memory)
+            equity = _range_equity(obs, samples, q_pre, q_post, cap)
+            return _reg_action(obs, equity, memory)
         equity = _equity(obs, samples)
-        price = 0.0 if obs.to_call <= 0 else obs.to_call / (obs.pot + obs.to_call)
-        if abs(equity - price) < 0.06 and memory.get("used", 0.0) < 4.0 and samples >= 12:
-            equity = _equity(obs, samples + 24)
-        return _best_action(obs, equity, _model(memory))
+        return _best_action(obs, equity, model)
     except Exception:
         global _SWALLOWED
         _SWALLOWED += 1
