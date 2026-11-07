@@ -46,6 +46,7 @@
     {
       "machine_id": "M-5076",
       "zone": "Back Forty",
+      "bank": "B-38",
       "theme": "Royal Draw",
       "volatility": "low",
       "manufacturer": "Halcyon",
@@ -66,6 +67,7 @@
     {
       "machine_id": "M-1158",
       "zone": "Back Forty",
+      "bank": "B-31",
       "theme": "Desert Gold",
       "volatility": "medium",
       "manufacturer": "Ridgeline",
@@ -86,6 +88,7 @@
     {
       "machine_id": "M-1120",
       "zone": "Back Forty",
+      "bank": "B-38",
       "theme": "Royal Draw",
       "volatility": "low",
       "manufacturer": "Ridgeline",
@@ -106,6 +109,7 @@
     {
       "machine_id": "M-1118",
       "zone": "High-Limit Room",
+      "bank": "B-27",
       "theme": "Platinum Reels",
       "volatility": "high",
       "manufacturer": "Ridgeline",
@@ -126,6 +130,7 @@
     {
       "machine_id": "M-1238",
       "zone": "Back Forty",
+      "bank": "B-35",
       "theme": "Royal Draw",
       "volatility": "low",
       "manufacturer": "Halcyon",
@@ -146,6 +151,7 @@
     {
       "machine_id": "M-1181",
       "zone": "Back Forty",
+      "bank": "B-38",
       "theme": "Comet Cash",
       "volatility": "high",
       "manufacturer": "Halcyon",
@@ -166,6 +172,7 @@
     {
       "machine_id": "M-1035",
       "zone": "Back Forty",
+      "bank": "B-31",
       "theme": "Royal Draw",
       "volatility": "low",
       "manufacturer": "Northwind",
@@ -186,6 +193,7 @@
     {
       "machine_id": "M-1179",
       "zone": "Back Forty",
+      "bank": "B-36",
       "theme": "Comet Cash",
       "volatility": "high",
       "manufacturer": "Ridgeline",
@@ -206,6 +214,7 @@
     {
       "machine_id": "M-1017",
       "zone": "Back Forty",
+      "bank": "B-37",
       "theme": "Royal Draw",
       "volatility": "low",
       "manufacturer": "Ridgeline",
@@ -226,6 +235,7 @@
     {
       "machine_id": "M-1265",
       "zone": "Back Forty",
+      "bank": "B-33",
       "theme": "Comet Cash",
       "volatility": "high",
       "manufacturer": "Halcyon",
@@ -242,6 +252,488 @@
       "p_raw": 0.9477045674649094,
       "p_holm": 1.0,
       "holm_negative_residual": false
+    }
+  ],
+  "period_bottom": [
+    {
+      "month": "2025-01",
+      "machine_id": "M-1290",
+      "zone": "High-Limit Room",
+      "bank": "B-28",
+      "house_win_usd": -4325.0,
+      "raw_rank": 1
+    },
+    {
+      "month": "2025-01",
+      "machine_id": "M-1157",
+      "zone": "Back Forty",
+      "bank": "B-32",
+      "house_win_usd": -1497.0,
+      "raw_rank": 2
+    },
+    {
+      "month": "2025-01",
+      "machine_id": "M-1238",
+      "zone": "Back Forty",
+      "bank": "B-35",
+      "house_win_usd": 205.75,
+      "raw_rank": 3
+    },
+    {
+      "month": "2025-01",
+      "machine_id": "M-1047",
+      "zone": "High-Limit Room",
+      "bank": "B-30",
+      "house_win_usd": 1290.0,
+      "raw_rank": 4
+    },
+    {
+      "month": "2025-01",
+      "machine_id": "M-1120",
+      "zone": "Back Forty",
+      "bank": "B-38",
+      "house_win_usd": 1444.25,
+      "raw_rank": 5
+    },
+    {
+      "month": "2025-01",
+      "machine_id": "M-1052",
+      "zone": "High-Limit Room",
+      "bank": "B-29",
+      "house_win_usd": 2565.0,
+      "raw_rank": 6
+    },
+    {
+      "month": "2025-01",
+      "machine_id": "M-1115",
+      "zone": "Center Pit",
+      "bank": "B-07",
+      "house_win_usd": 2979.75,
+      "raw_rank": 7
+    },
+    {
+      "month": "2025-01",
+      "machine_id": "M-1070",
+      "zone": "High-Limit Room",
+      "bank": "B-29",
+      "house_win_usd": 3000.0,
+      "raw_rank": 8
+    },
+    {
+      "month": "2025-01",
+      "machine_id": "M-1286",
+      "zone": "Garage Entrance",
+      "bank": "B-47",
+      "house_win_usd": 3181.5,
+      "raw_rank": 9
+    },
+    {
+      "month": "2025-01",
+      "machine_id": "M-1008",
+      "zone": "Back Forty",
+      "bank": "B-38",
+      "house_win_usd": 3524.75,
+      "raw_rank": 10
+    },
+    {
+      "month": "2025-02",
+      "machine_id": "M-1220",
+      "zone": "Hotel Corridor",
+      "bank": "B-41",
+      "house_win_usd": -3880.0,
+      "raw_rank": 1
+    },
+    {
+      "month": "2025-02",
+      "machine_id": "M-1532",
+      "zone": "High-Limit Room",
+      "bank": "B-27",
+      "house_win_usd": 728.0,
+      "raw_rank": 2
+    },
+    {
+      "month": "2025-02",
+      "machine_id": "M-1157",
+      "zone": "Back Forty",
+      "bank": "B-32",
+      "house_win_usd": 891.0,
+      "raw_rank": 3
+    },
+    {
+      "month": "2025-02",
+      "machine_id": "M-1041",
+      "zone": "Center Pit",
+      "bank": "B-09",
+      "house_win_usd": 1046.25,
+      "raw_rank": 4
+    },
+    {
+      "month": "2025-02",
+      "machine_id": "M-1249",
+      "zone": "High-Limit Room",
+      "bank": "B-29",
+      "house_win_usd": 1140.0,
+      "raw_rank": 5
+    },
+    {
+      "month": "2025-02",
+      "machine_id": "M-1095",
+      "zone": "Hotel Corridor",
+      "bank": "B-39",
+      "house_win_usd": 2964.5,
+      "raw_rank": 6
+    },
+    {
+      "month": "2025-02",
+      "machine_id": "M-1189",
+      "zone": "Center Pit",
+      "bank": "B-12",
+      "house_win_usd": 3429.0,
+      "raw_rank": 7
+    },
+    {
+      "month": "2025-02",
+      "machine_id": "M-1270",
+      "zone": "Hotel Corridor",
+      "bank": "B-43",
+      "house_win_usd": 3857.0,
+      "raw_rank": 8
+    },
+    {
+      "month": "2025-02",
+      "machine_id": "M-1033",
+      "zone": "Back Forty",
+      "bank": "B-34",
+      "house_win_usd": 3872.0,
+      "raw_rank": 9
+    },
+    {
+      "month": "2025-02",
+      "machine_id": "M-1158",
+      "zone": "Back Forty",
+      "bank": "B-31",
+      "house_win_usd": 4005.75,
+      "raw_rank": 10
+    },
+    {
+      "month": "2025-03",
+      "machine_id": "M-1210",
+      "zone": "Main Entrance",
+      "bank": "B-06",
+      "house_win_usd": -1026.0,
+      "raw_rank": 1
+    },
+    {
+      "month": "2025-03",
+      "machine_id": "M-1088",
+      "zone": "High-Limit Room",
+      "bank": "B-27",
+      "house_win_usd": -160.0,
+      "raw_rank": 2
+    },
+    {
+      "month": "2025-03",
+      "machine_id": "M-1158",
+      "zone": "Back Forty",
+      "bank": "B-31",
+      "house_win_usd": 756.75,
+      "raw_rank": 3
+    },
+    {
+      "month": "2025-03",
+      "machine_id": "M-1120",
+      "zone": "Back Forty",
+      "bank": "B-38",
+      "house_win_usd": 796.0,
+      "raw_rank": 4
+    },
+    {
+      "month": "2025-03",
+      "machine_id": "M-1168",
+      "zone": "Back Forty",
+      "bank": "B-31",
+      "house_win_usd": 1527.75,
+      "raw_rank": 5
+    },
+    {
+      "month": "2025-03",
+      "machine_id": "M-1037",
+      "zone": "Main Entrance",
+      "bank": "B-06",
+      "house_win_usd": 2062.5,
+      "raw_rank": 6
+    },
+    {
+      "month": "2025-03",
+      "machine_id": "M-3101",
+      "zone": "Center Pit",
+      "bank": "B-51",
+      "house_win_usd": 2075.75,
+      "raw_rank": 7
+    },
+    {
+      "month": "2025-03",
+      "machine_id": "M-1181",
+      "zone": "Back Forty",
+      "bank": "B-38",
+      "house_win_usd": 3357.5,
+      "raw_rank": 8
+    },
+    {
+      "month": "2025-03",
+      "machine_id": "M-7943",
+      "zone": "Center Pit",
+      "bank": "B-51",
+      "house_win_usd": 3369.25,
+      "raw_rank": 9
+    },
+    {
+      "month": "2025-03",
+      "machine_id": "M-1083",
+      "zone": "Garage Entrance",
+      "bank": "B-46",
+      "house_win_usd": 3761.75,
+      "raw_rank": 10
+    },
+    {
+      "month": "2025-04",
+      "machine_id": "M-1018",
+      "zone": "Bar Row",
+      "bank": "B-24",
+      "house_win_usd": -4453.0,
+      "raw_rank": 1
+    },
+    {
+      "month": "2025-04",
+      "machine_id": "M-1024",
+      "zone": "High-Limit Room",
+      "bank": "B-30",
+      "house_win_usd": -1565.0,
+      "raw_rank": 2
+    },
+    {
+      "month": "2025-04",
+      "machine_id": "M-1184",
+      "zone": "Back Forty",
+      "bank": "B-33",
+      "house_win_usd": -575.0,
+      "raw_rank": 3
+    },
+    {
+      "month": "2025-04",
+      "machine_id": "M-1154",
+      "zone": "Back Forty",
+      "bank": "B-36",
+      "house_win_usd": 542.0,
+      "raw_rank": 4
+    },
+    {
+      "month": "2025-04",
+      "machine_id": "M-1158",
+      "zone": "Back Forty",
+      "bank": "B-31",
+      "house_win_usd": 973.75,
+      "raw_rank": 5
+    },
+    {
+      "month": "2025-04",
+      "machine_id": "M-1035",
+      "zone": "Back Forty",
+      "bank": "B-31",
+      "house_win_usd": 3323.25,
+      "raw_rank": 6
+    },
+    {
+      "month": "2025-04",
+      "machine_id": "M-1082",
+      "zone": "Back Forty",
+      "bank": "B-32",
+      "house_win_usd": 3323.5,
+      "raw_rank": 7
+    },
+    {
+      "month": "2025-04",
+      "machine_id": "M-1181",
+      "zone": "Back Forty",
+      "bank": "B-38",
+      "house_win_usd": 3333.25,
+      "raw_rank": 8
+    },
+    {
+      "month": "2025-04",
+      "machine_id": "M-1245",
+      "zone": "High-Limit Room",
+      "bank": "B-30",
+      "house_win_usd": 3480.0,
+      "raw_rank": 9
+    },
+    {
+      "month": "2025-04",
+      "machine_id": "M-1265",
+      "zone": "Back Forty",
+      "bank": "B-33",
+      "house_win_usd": 3770.25,
+      "raw_rank": 10
+    },
+    {
+      "month": "2025-05",
+      "machine_id": "M-1288",
+      "zone": "Hotel Corridor",
+      "bank": "B-44",
+      "house_win_usd": -15513.0,
+      "raw_rank": 1
+    },
+    {
+      "month": "2025-05",
+      "machine_id": "M-1087",
+      "zone": "Center Pit",
+      "bank": "B-15",
+      "house_win_usd": -1696.0,
+      "raw_rank": 2
+    },
+    {
+      "month": "2025-05",
+      "machine_id": "M-5076",
+      "zone": "Back Forty",
+      "bank": "B-38",
+      "house_win_usd": -1523.75,
+      "raw_rank": 3
+    },
+    {
+      "month": "2025-05",
+      "machine_id": "M-1158",
+      "zone": "Back Forty",
+      "bank": "B-31",
+      "house_win_usd": -127.0,
+      "raw_rank": 4
+    },
+    {
+      "month": "2025-05",
+      "machine_id": "M-1210",
+      "zone": "Main Entrance",
+      "bank": "B-06",
+      "house_win_usd": 1019.75,
+      "raw_rank": 5
+    },
+    {
+      "month": "2025-05",
+      "machine_id": "M-1018",
+      "zone": "Bar Row",
+      "bank": "B-24",
+      "house_win_usd": 1034.0,
+      "raw_rank": 6
+    },
+    {
+      "month": "2025-05",
+      "machine_id": "M-1120",
+      "zone": "Back Forty",
+      "bank": "B-38",
+      "house_win_usd": 2641.5,
+      "raw_rank": 7
+    },
+    {
+      "month": "2025-05",
+      "machine_id": "M-1195",
+      "zone": "Center Pit",
+      "bank": "B-17",
+      "house_win_usd": 2753.25,
+      "raw_rank": 8
+    },
+    {
+      "month": "2025-05",
+      "machine_id": "M-1154",
+      "zone": "Back Forty",
+      "bank": "B-36",
+      "house_win_usd": 3601.0,
+      "raw_rank": 9
+    },
+    {
+      "month": "2025-05",
+      "machine_id": "M-1114",
+      "zone": "Main Entrance",
+      "bank": "B-02",
+      "house_win_usd": 3862.0,
+      "raw_rank": 10
+    },
+    {
+      "month": "2025-06",
+      "machine_id": "M-1296",
+      "zone": "Center Pit",
+      "bank": "B-14",
+      "house_win_usd": -2612.0,
+      "raw_rank": 1
+    },
+    {
+      "month": "2025-06",
+      "machine_id": "M-1192",
+      "zone": "Bar Row",
+      "bank": "B-23",
+      "house_win_usd": 217.5,
+      "raw_rank": 2
+    },
+    {
+      "month": "2025-06",
+      "machine_id": "M-1212",
+      "zone": "Center Pit",
+      "bank": "B-16",
+      "house_win_usd": 689.0,
+      "raw_rank": 3
+    },
+    {
+      "month": "2025-06",
+      "machine_id": "M-1256",
+      "zone": "Back Forty",
+      "bank": "B-37",
+      "house_win_usd": 1402.5,
+      "raw_rank": 4
+    },
+    {
+      "month": "2025-06",
+      "machine_id": "M-1152",
+      "zone": "Main Entrance",
+      "bank": "B-03",
+      "house_win_usd": 1760.0,
+      "raw_rank": 5
+    },
+    {
+      "month": "2025-06",
+      "machine_id": "M-1035",
+      "zone": "Back Forty",
+      "bank": "B-31",
+      "house_win_usd": 2165.5,
+      "raw_rank": 6
+    },
+    {
+      "month": "2025-06",
+      "machine_id": "M-1095",
+      "zone": "Hotel Corridor",
+      "bank": "B-39",
+      "house_win_usd": 2851.25,
+      "raw_rank": 7
+    },
+    {
+      "month": "2025-06",
+      "machine_id": "M-1238",
+      "zone": "Back Forty",
+      "bank": "B-35",
+      "house_win_usd": 3122.25,
+      "raw_rank": 8
+    },
+    {
+      "month": "2025-06",
+      "machine_id": "M-1017",
+      "zone": "Back Forty",
+      "bank": "B-37",
+      "house_win_usd": 3323.0,
+      "raw_rank": 9
+    },
+    {
+      "month": "2025-06",
+      "machine_id": "M-1022",
+      "zone": "High-Limit Room",
+      "bank": "B-30",
+      "house_win_usd": 3505.0,
+      "raw_rank": 10
     }
   ],
   "multiple_testing": {
@@ -729,6 +1221,155 @@
     "top_decile_coin_in_share": 0.6652,
     "note": "Carded play only. Machine meters include everyone else."
   },
+  "guest_tiers": [
+    {
+      "month": "all",
+      "tier": "Platinum",
+      "coin_in_usd": 1760334.95,
+      "net_usd": -165042.05,
+      "players": 153
+    },
+    {
+      "month": "all",
+      "tier": "Base",
+      "coin_in_usd": 138426598.2,
+      "net_usd": -13195842.4,
+      "players": 111837
+    },
+    {
+      "month": "all",
+      "tier": "Gold",
+      "coin_in_usd": 23617936.5,
+      "net_usd": -2224576.15,
+      "players": 1900
+    },
+    {
+      "month": "2025-02",
+      "tier": "Base",
+      "coin_in_usd": 22081899.55,
+      "net_usd": -2185830.75,
+      "players": 22226
+    },
+    {
+      "month": "2025-05",
+      "tier": "Gold",
+      "coin_in_usd": 3925574.7,
+      "net_usd": -367391.1,
+      "players": 1679
+    },
+    {
+      "month": "2025-03",
+      "tier": "Base",
+      "coin_in_usd": 24539042.7,
+      "net_usd": -2317742.5,
+      "players": 24506
+    },
+    {
+      "month": "2025-06",
+      "tier": "Base",
+      "coin_in_usd": 22360359.25,
+      "net_usd": -2136888.4,
+      "players": 21494
+    },
+    {
+      "month": "2025-02",
+      "tier": "Platinum",
+      "coin_in_usd": 288431.0,
+      "net_usd": -30000.05,
+      "players": 129
+    },
+    {
+      "month": "2025-01",
+      "tier": "Base",
+      "coin_in_usd": 22940475.7,
+      "net_usd": -2202796.85,
+      "players": 22892
+    },
+    {
+      "month": "2025-04",
+      "tier": "Platinum",
+      "coin_in_usd": 273180.1,
+      "net_usd": -27225.7,
+      "players": 135
+    },
+    {
+      "month": "2025-04",
+      "tier": "Base",
+      "coin_in_usd": 22558254.6,
+      "net_usd": -2100096.85,
+      "players": 22737
+    },
+    {
+      "month": "2025-01",
+      "tier": "Platinum",
+      "coin_in_usd": 284716.65,
+      "net_usd": -26789.05,
+      "players": 136
+    },
+    {
+      "month": "2025-05",
+      "tier": "Base",
+      "coin_in_usd": 23946566.4,
+      "net_usd": -2252487.05,
+      "players": 24156
+    },
+    {
+      "month": "2025-02",
+      "tier": "Gold",
+      "coin_in_usd": 3773374.85,
+      "net_usd": -369966.15,
+      "players": 1676
+    },
+    {
+      "month": "2025-05",
+      "tier": "Platinum",
+      "coin_in_usd": 307122.45,
+      "net_usd": -23409.15,
+      "players": 135
+    },
+    {
+      "month": "2025-03",
+      "tier": "Platinum",
+      "coin_in_usd": 307192.6,
+      "net_usd": -23600.5,
+      "players": 138
+    },
+    {
+      "month": "2025-06",
+      "tier": "Platinum",
+      "coin_in_usd": 299692.15,
+      "net_usd": -34017.6,
+      "players": 140
+    },
+    {
+      "month": "2025-03",
+      "tier": "Gold",
+      "coin_in_usd": 4046464.2,
+      "net_usd": -391914.35,
+      "players": 1702
+    },
+    {
+      "month": "2025-06",
+      "tier": "Gold",
+      "coin_in_usd": 3893139.45,
+      "net_usd": -372393.2,
+      "players": 1670
+    },
+    {
+      "month": "2025-01",
+      "tier": "Gold",
+      "coin_in_usd": 4035644.85,
+      "net_usd": -367694.9,
+      "players": 1659
+    },
+    {
+      "month": "2025-04",
+      "tier": "Gold",
+      "coin_in_usd": 3943738.45,
+      "net_usd": -355216.45,
+      "players": 1683
+    }
+  ],
   "comps": {
     "claim_id": "ace-comps-1",
     "player_months": [
@@ -781,6 +1422,9 @@
           "M-1158"
         ],
         "cost_usd": 1200.0,
+        "lead_days": 1,
+        "quantity_limit": 15,
+        "unit_cost_cents": 120000,
         "expected_effect": "Information only. The paytable check is cheaper than the residual gap on the targeted machine.",
         "uncertainty": "A significant residual can still be volatility. Inspection does not promise a recovered dollar.",
         "measurement": "Compare the next 30 gaming days of residual per hour with the Jan-Jun rate."
@@ -792,12 +1436,350 @@
     "kept_without_using_a_slot": true,
     "why_not_more": "The other nine raw-bottom machines are not Holm-significant. M-1026 is rank 42 on raw win and rank 265 of 310 on residual per hour, with rank 1 meaning the lowest value. A technician shift fails the 10% capture test.",
     "catalog_rows": 13,
-    "capture_assumption": "A technician shift is funded only if 10% of modeled lost theo exceeds $11,520. Base and optimistic captures are reported and not spent.",
+    "capture_assumption": "A technician shift is funded only if 10% of modeled lost theo exceeds $11,520, the catalog unit cost of A-TECH-SHIFT. Base and optimistic captures are reported and not spent.",
     "downtime_sensitivity_usd": {
       "pessimistic_10pct_usd": 9031.34,
       "base_30pct_usd": 27094.01,
       "optimistic_50pct_usd": 45156.69,
       "technician_cost_usd": 11520.0
+    },
+    "break_even_technician_rate": 0.1276,
+    "stress": {
+      "draws": 4000,
+      "seed": 1158,
+      "rate_high": 0.3,
+      "scale_low": 0.8,
+      "scale_high": 1.2,
+      "mean_net_usd": 2049.25,
+      "p05_net_usd": -10185.58,
+      "p50_net_usd": 1873.25,
+      "p95_net_usd": 15377.21,
+      "probability_positive_net": 0.5675,
+      "worst_budget_exposure_usd": 11520.0,
+      "causal": false,
+      "label": "Hypothetical. Recovery is uniform from 0 to rate_high. Lost theo is scaled inside the stated band. This is not a measured effect of the technician shift."
     }
-  }
+  },
+  "weakest_residual_per_hour": [
+    {
+      "machine_id": "M-1288",
+      "zone": "Hotel Corridor",
+      "bank": "B-44",
+      "residual_per_hour": -13.6571,
+      "residual_usd": -59133.08,
+      "available_hours": 4329.83,
+      "residual_per_hour_rank": 1,
+      "p_holm": 1.0
+    },
+    {
+      "machine_id": "M-1158",
+      "zone": "Back Forty",
+      "bank": "B-31",
+      "residual_per_hour": -8.3329,
+      "residual_usd": -36164.75,
+      "available_hours": 4339.99,
+      "residual_per_hour_rank": 2,
+      "p_holm": 0.0025605405440876083
+    },
+    {
+      "machine_id": "M-1070",
+      "zone": "High-Limit Room",
+      "bank": "B-29",
+      "residual_per_hour": -7.0924,
+      "residual_usd": -30765.5,
+      "available_hours": 4337.84,
+      "residual_per_hour_rank": 3,
+      "p_holm": 1.0
+    },
+    {
+      "machine_id": "M-1290",
+      "zone": "High-Limit Room",
+      "bank": "B-28",
+      "residual_per_hour": -7.0774,
+      "residual_usd": -30737.0,
+      "available_hours": 4343.0,
+      "residual_per_hour_rank": 4,
+      "p_holm": 1.0
+    },
+    {
+      "machine_id": "M-1152",
+      "zone": "Back Forty",
+      "bank": "B-33",
+      "residual_per_hour": -6.7247,
+      "residual_usd": -29185.0,
+      "available_hours": 4340.0,
+      "residual_per_hour_rank": 5,
+      "p_holm": 1.0
+    }
+  ],
+  "assistant": [
+    {
+      "ok": true,
+      "refused": false,
+      "answer": "M-1158 is in the raw bottom 10 and is the Holm-significant negative residual in that list (M-1158). Six-month house win is $15,796.25 against theo $51,961.00, residual $-36,164.75, Holm p 0.0026. The funded action is one inspection at $1,200.00. That buys a paytable check. It does not show the machine is broken.",
+      "metrics": {
+        "house_win_usd": 15796.25,
+        "theo_usd": 51961.0,
+        "residual_usd": -36164.75,
+        "p_holm": 0.0025605405440876083,
+        "inspect_cost_usd": 1200.0
+      },
+      "sources": [
+        "bottom10",
+        "multiple_testing.bottom10_holm_leaks",
+        "recommendation"
+      ],
+      "period": "2025-01-01 to 2025-06-30",
+      "filters": {},
+      "assumptions": [],
+      "limitations": "Carded play is not the machine meter. A residual is not a fault finding.",
+      "next": "Read the residual-per-hour rank beside the raw rank before spending more.",
+      "match_terms": [
+        "m-1158",
+        "flagged",
+        "inspection"
+      ],
+      "computed_by": "code",
+      "question": "Why was M-1158 flagged?"
+    },
+    {
+      "ok": true,
+      "refused": false,
+      "answer": "The lowest residual per available hour is M-1288 at $-13.6571 per hour (rank 1), Holm p 1.000. The five weakest are M-1288, M-1158, M-1070, M-1290, M-1152. M-1158 is rank 2 on this list and is the Holm leak that the inspection funds. A worse rate with Holm p above 0.05 is not treated as a malfunction.",
+      "metrics": {
+        "machine_id": "M-1288",
+        "residual_per_hour": -13.6571
+      },
+      "sources": [
+        "weakest_residual_per_hour"
+      ],
+      "period": "2025-01-01 to 2025-06-30",
+      "filters": {},
+      "assumptions": [],
+      "limitations": "Carded play is not the machine meter. A residual is not a fault finding.",
+      "next": "Change the period or the recovery slider and read the same source tables.",
+      "match_terms": [
+        "residual",
+        "worst",
+        "weakest"
+      ],
+      "computed_by": "code",
+      "question": "Which machines have the worst residual per available hour?"
+    },
+    {
+      "ok": true,
+      "refused": false,
+      "answer": "In June 2025 the lowest house-win machine in the monthly bottom 10 is M-1296 at $-2,612.00, bank B-14. Monthly ranks are recomputed inside the month. They do not inherit the six-month Holm result.",
+      "metrics": {
+        "machine_id": "M-1296",
+        "house_win_usd": -2612.0,
+        "bank": "B-14"
+      },
+      "sources": [
+        "period_bottom"
+      ],
+      "period": "2025-06",
+      "filters": {
+        "month": "2025-06"
+      },
+      "assumptions": [],
+      "limitations": "Carded play is not the machine meter. A residual is not a fault finding.",
+      "next": "Change the period or the recovery slider and read the same source tables.",
+      "match_terms": [
+        "june",
+        "m-1296",
+        "lowest"
+      ],
+      "computed_by": "code",
+      "question": "Which machine is lowest in June?"
+    },
+    {
+      "ok": true,
+      "refused": false,
+      "answer": "Ten percent of modeled lost theo is $9,031.34. The technician shift costs $11,520.00, so the 10% case does not fund it. The shift breaks even at 12.76% of the $90,313.38 modeled lost theo. That rate is a threshold, not a forecast of what the shift recovers.",
+      "metrics": {
+        "modeled_lost_theo_usd": 90313.38,
+        "pessimistic_10pct_usd": 9031.34,
+        "technician_cost_usd": 11520.0,
+        "break_even_percent": 12.76
+      },
+      "sources": [
+        "downtime.modeled_lost_theo_usd",
+        "recommendation.downtime_sensitivity_usd"
+      ],
+      "period": "2025-01-01 to 2025-06-30",
+      "filters": {},
+      "assumptions": [
+        "The 10% and break-even figures divide catalog cost by modeled lost theo."
+      ],
+      "limitations": "Carded play is not the machine meter. A residual is not a fault finding.",
+      "next": "Change the period or the recovery slider and read the same source tables.",
+      "match_terms": [
+        "technician",
+        "break-even",
+        "worthwhile",
+        "recovery"
+      ],
+      "computed_by": "code",
+      "question": "Why is the technician shift not funded?"
+    },
+    {
+      "ok": true,
+      "refused": false,
+      "answer": "Ten percent of modeled lost theo is $9,031.34. The technician shift costs $11,520.00, so the 10% case does not fund it. The shift breaks even at 12.76% of the $90,313.38 modeled lost theo. That rate is a threshold, not a forecast of what the shift recovers.",
+      "metrics": {
+        "modeled_lost_theo_usd": 90313.38,
+        "pessimistic_10pct_usd": 9031.34,
+        "technician_cost_usd": 11520.0,
+        "break_even_percent": 12.76
+      },
+      "sources": [
+        "downtime.modeled_lost_theo_usd",
+        "recommendation.downtime_sensitivity_usd"
+      ],
+      "period": "2025-01-01 to 2025-06-30",
+      "filters": {},
+      "assumptions": [
+        "The 10% and break-even figures divide catalog cost by modeled lost theo."
+      ],
+      "limitations": "Carded play is not the machine meter. A residual is not a fault finding.",
+      "next": "Change the period or the recovery slider and read the same source tables.",
+      "match_terms": [
+        "technician",
+        "break-even",
+        "worthwhile",
+        "recovery"
+      ],
+      "computed_by": "code",
+      "question": "What recovery rate makes the technician shift worthwhile?"
+    },
+    {
+      "ok": true,
+      "refused": false,
+      "answer": "Inside the raw bottom 10, the Holm-significant negative residual is M-1158. The floor count of Holm-significant negative residuals is 1. An unadjusted p-value is not used for the spend decision.",
+      "metrics": {
+        "bottom10_holm_leaks": [
+          "M-1158"
+        ],
+        "floor_holm_negative": 1
+      },
+      "sources": [
+        "multiple_testing"
+      ],
+      "period": "2025-01-01 to 2025-06-30",
+      "filters": {},
+      "assumptions": [],
+      "limitations": "Carded play is not the machine meter. A residual is not a fault finding.",
+      "next": "Change the period or the recovery slider and read the same source tables.",
+      "match_terms": [
+        "significant",
+        "holm"
+      ],
+      "computed_by": "code",
+      "question": "Which findings are statistically significant?"
+    },
+    {
+      "ok": true,
+      "refused": false,
+      "answer": "On the May\u2013June holdout, the weekday-mean forecast MAE is $68,698.55 and the constant-mean MAE is $218,258.10. The weekday mean is the one that was kept. Training stopped at the end of April.",
+      "metrics": {
+        "weekday_mae_usd": 68698.55,
+        "constant_mae_usd": 218258.1,
+        "winner": "weekday_mean"
+      },
+      "sources": [
+        "forecast"
+      ],
+      "period": "2025-05-01 through 2025-06-30",
+      "filters": {},
+      "assumptions": [],
+      "limitations": "Carded play is not the machine meter. A residual is not a fault finding.",
+      "next": "Change the period or the recovery slider and read the same source tables.",
+      "match_terms": [
+        "forecast",
+        "weekday",
+        "outperform"
+      ],
+      "computed_by": "code",
+      "question": "What does the forecast outperform?"
+    },
+    {
+      "ok": true,
+      "refused": false,
+      "answer": "M-1158 is in the raw bottom 10 and is the Holm-significant negative residual in that list (M-1158). Six-month house win is $15,796.25 against theo $51,961.00, residual $-36,164.75, Holm p 0.0026. The funded action is one inspection at $1,200.00. That buys a paytable check. It does not show the machine is broken.",
+      "metrics": {
+        "house_win_usd": 15796.25,
+        "theo_usd": 51961.0,
+        "residual_usd": -36164.75,
+        "p_holm": 0.0025605405440876083,
+        "inspect_cost_usd": 1200.0
+      },
+      "sources": [
+        "bottom10",
+        "multiple_testing.bottom10_holm_leaks",
+        "recommendation"
+      ],
+      "period": "2025-01-01 to 2025-06-30",
+      "filters": {},
+      "assumptions": [],
+      "limitations": "Carded play is not the machine meter. A residual is not a fault finding.",
+      "next": "Read the residual-per-hour rank beside the raw rank before spending more.",
+      "match_terms": [
+        "m-1158",
+        "flagged",
+        "inspection"
+      ],
+      "computed_by": "code",
+      "question": "What evidence supports the recommended inspection?"
+    },
+    {
+      "ok": true,
+      "refused": false,
+      "answer": "Floor coin-in was $41,676,918.15 in 2025-01 and $39,730,549.85 in 2025-06. Weekend machine-days stay above weekday machine-days in every published month. The forecast uses the weekday pattern, not a machine ranking.",
+      "metrics": {
+        "first_month_coin_in_usd": 41676918.15,
+        "last_month_coin_in_usd": 39730549.85
+      },
+      "sources": [
+        "downtime.by_month",
+        "forecast"
+      ],
+      "period": "2025-01-01 to 2025-06-30",
+      "filters": {},
+      "assumptions": [],
+      "limitations": "Carded play is not the machine meter. A residual is not a fault finding.",
+      "next": "Change the period or the recovery slider and read the same source tables.",
+      "match_terms": [
+        "demand"
+      ],
+      "computed_by": "code",
+      "question": "What explains demand changes?"
+    },
+    {
+      "ok": true,
+      "refused": false,
+      "answer": "Gold carded play for 2025-06 is 1670 players, coin-in $3,893,139.45, net $-372,393.20. These are carded guests, not every dollar in the machine meters.",
+      "metrics": {
+        "players": 1670,
+        "coin_in_usd": 3893139.45,
+        "net_usd": -372393.2
+      },
+      "sources": [
+        "guest_tiers"
+      ],
+      "period": "2025-06",
+      "filters": {
+        "tier": "Gold",
+        "month": "2025-06"
+      },
+      "assumptions": [],
+      "limitations": "Carded play is not the machine meter. A residual is not a fault finding.",
+      "next": "Change the period or the recovery slider and read the same source tables.",
+      "match_terms": [
+        "gold"
+      ],
+      "computed_by": "code",
+      "question": "How does Gold look in June?"
+    }
+  ]
 }

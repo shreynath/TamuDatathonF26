@@ -1,0 +1,15 @@
+{
+  "ok": true,
+  "rejected": null,
+  "error": null,
+  "stray": [],
+  "answer": {
+    "evidence_ids": [
+      "ace-case-1"
+    ],
+    "observed_facts": "M-1158 is in the raw bottom 10 with a six-month house win of $15,796.25 against a theoretical of $51,961.00, resulting in a residual of $-36,164.75 and a Holm p-value of 0.0026. One inspection is funded at $1,200.00 to check the paytable, but this does not indicate the machine is broken.",
+    "forecasts": null,
+    "assumptions": null,
+    "unanswered": null
+  }
+}

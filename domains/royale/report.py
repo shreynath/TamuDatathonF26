@@ -9,6 +9,9 @@ from statistics import NormalDist
 
 import duckdb
 
+from domains.royale.investigate import briefings
+from domains.royale.scenario import break_even_rate, stress_recovery
+
 ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / "data" / "royale-src" / "data"
 OUT = ROOT / "apps" / "web" / "public"
@@ -68,7 +71,7 @@ def build() -> dict:
     """).fetchone()
     days = con.sql(f"""
         SELECT d.machine_id, d.gaming_date, d.month, d.local_weekday, d.is_weekend,
-               d.events_active, d.zone_name, d.theme, d.volatility_class, d.manufacturer,
+               d.events_active, d.zone_name, d.bank_id, d.theme, d.volatility_class, d.manufacturer,
                d.coin_in_usd::DOUBLE AS coin_in,
                d.payout_usd::DOUBLE AS payout,
                d.house_win_usd::DOUBLE AS house_win,
@@ -108,6 +111,7 @@ def build() -> dict:
         grouped.append({
             "machine_id": str(machine_id),
             "zone": str(frame["zone_name"].iloc[0]),
+            "bank": str(frame["bank_id"].dropna().iloc[0]) if frame["bank_id"].notna().any() else "",
             "theme": str(frame["theme"].iloc[0]),
             "volatility": str(frame["volatility_class"].iloc[0]),
             "manufacturer": str(frame["manufacturer"].iloc[0]),
@@ -139,6 +143,21 @@ def build() -> dict:
         row["p_raw"] = tests[row["machine_id"]]["p_raw"]
         row["n_days"] = tests[row["machine_id"]]["n_days"]
     bottom = sorted(grouped, key=lambda row: row["house_win"])[:10]
+    period_bottom = []
+    for month, frame in days.groupby("month"):
+        month_rows = []
+        for machine_id, part in frame.groupby("machine_id"):
+            month_rows.append({
+                "month": str(month),
+                "machine_id": str(machine_id),
+                "zone": str(part["zone_name"].iloc[0]),
+                "bank": str(part["bank_id"].dropna().iloc[0]) if part["bank_id"].notna().any() else "",
+                "house_win": float(part["house_win"].sum()),
+            })
+        month_rows.sort(key=lambda row: row["house_win"])
+        for rank, row in enumerate(month_rows, start=1):
+            row["raw_rank"] = rank
+        period_bottom.extend(month_rows[:10])
     leaks = [
         row for row in bottom
         if row["p_holm"] is not None and row["p_holm"] < 0.05 and row["residual"] < 0
@@ -235,12 +254,22 @@ def build() -> dict:
         WHERE gaming_date >= DATE '2025-01-01' AND gaming_date < DATE '2025-07-01'
     """).df()
     catalog = con.sql(f"SELECT * FROM '{ACTIONS}'").df()
-    inspect_cost = 1200.0
-    tech_cost = 11520.0
+
+    def catalog_row(action_id: str):
+        match = catalog.loc[catalog["action_type_id"] == action_id]
+        if match.empty:
+            raise RuntimeError(f"action catalog has no {action_id}")
+        return match.iloc[0]
+
+    inspect = catalog_row("A-INSPECT")
+    technician = catalog_row("A-TECH-SHIFT")
+    inspect_cost = float(inspect["unit_cost_cents"]) / 100.0
+    tech_cost = float(technician["unit_cost_cents"]) / 100.0
+    inspect_limit = int(inspect["quantity_limit"])
     inspect_ids = [
         row["machine_id"] for row in leaks
         if abs(row["residual"]) > inspect_cost
-    ][:15]
+    ][:inspect_limit]
     capture = {
         "pessimistic_10pct_usd": _money(0.10 * downtime_floor),
         "base_30pct_usd": _money(0.30 * downtime_floor),
@@ -254,6 +283,9 @@ def build() -> dict:
             "quantity": len(inspect_ids),
             "targets": inspect_ids,
             "cost_usd": _money(inspect_cost * len(inspect_ids)),
+            "lead_days": int(inspect["lead_days"]),
+            "quantity_limit": inspect_limit,
+            "unit_cost_cents": int(inspect["unit_cost_cents"]),
             "expected_effect": "Information only. The paytable check is cheaper than the residual gap on the targeted machine.",
             "uncertainty": "A significant residual can still be volatility. Inspection does not promise a recovered dollar.",
             "measurement": "Compare the next 30 gaming days of residual per hour with the Jan-Jun rate.",
@@ -265,11 +297,16 @@ def build() -> dict:
             "quantity": 1,
             "targets": ["floor"],
             "cost_usd": tech_cost,
+            "lead_days": int(technician["lead_days"]),
+            "quantity_limit": int(technician["quantity_limit"]),
+            "unit_cost_cents": int(technician["unit_cost_cents"]),
             "expected_effect": "Pessimistic 10% of modeled lost theo still exceeds one shift.",
             "uncertainty": "Lost theo assumes downtime hours would have earned the observed theo rate.",
             "measurement": "Availability ratio and faults opened over the 30 days after the lead time.",
         })
     spent = sum(item["cost_usd"] for item in actions)
+    published_lost = _money(downtime_floor)
+    technician_break_even = break_even_rate(tech_cost, published_lost)
     if not actions:
         actions.append({
             "action_type_id": "A-HOLD",
@@ -281,6 +318,21 @@ def build() -> dict:
             "measurement": "Repeat both rankings on the next 30 gaming days.",
         })
     case_row = next(row for row in grouped if row["machine_id"] == "M-1026")
+    guest_rows = con.sql(f"""
+        SELECT 'all' AS month, opening_tier AS tier,
+               SUM(tracked_coin_in_usd)::DOUBLE AS coin_in,
+               SUM(tracked_net_usd)::DOUBLE AS net,
+               COUNT(DISTINCT player_id) AS players
+        FROM '{PLAYERS}'
+        GROUP BY opening_tier
+        UNION ALL
+        SELECT period_month::VARCHAR, opening_tier,
+               SUM(tracked_coin_in_usd)::DOUBLE,
+               SUM(tracked_net_usd)::DOUBLE,
+               COUNT(DISTINCT player_id)
+        FROM '{PLAYERS}'
+        GROUP BY 1, 2
+    """).df()
     payload = {
         "data_version": "dashboard-royale cloned main, depth 1",
         "rank_rule": {
@@ -329,6 +381,7 @@ def build() -> dict:
             {
                 "machine_id": row["machine_id"],
                 "zone": row["zone"],
+                "bank": row["bank"],
                 "theme": row["theme"],
                 "volatility": row["volatility"],
                 "manufacturer": row["manufacturer"],
@@ -347,6 +400,17 @@ def build() -> dict:
                 "holm_negative_residual": bool(row["p_holm"] is not None and row["p_holm"] < 0.05 and row["residual"] < 0),
             }
             for row in bottom
+        ],
+        "period_bottom": [
+            {
+                "month": row["month"],
+                "machine_id": row["machine_id"],
+                "zone": row["zone"],
+                "bank": row["bank"],
+                "house_win_usd": _money(row["house_win"]),
+                "raw_rank": row["raw_rank"],
+            }
+            for row in period_bottom
         ],
         "multiple_testing": {
             "family": "Every on-floor machine with at least 20 days of positive coin-in.",
@@ -406,10 +470,20 @@ def build() -> dict:
             "tracked_net_usd": _money(players[2]),
             "comp_cost_usd": _money(players[3]),
             "n_players": int(players[4]),
-            "players_to_half_of_coin_in": int(players[5]),
+            "players_to_half_of_coin_in": int(players[5]) if players[5] == players[5] else None,
             "top_decile_coin_in_share": round(float(players[6]), 4),
             "note": "Carded play only. Machine meters include everyone else.",
         },
+        "guest_tiers": [
+            {
+                "month": str(row.month),
+                "tier": str(row.tier),
+                "coin_in_usd": _money(row.coin_in),
+                "net_usd": _money(row.net),
+                "players": int(row.players),
+            }
+            for row in guest_rows.itertuples()
+        ],
         "comps": {
             "claim_id": "ace-comps-1",
             "player_months": [
@@ -432,10 +506,30 @@ def build() -> dict:
             "kept_without_using_a_slot": True,
             "why_not_more": "The other nine raw-bottom machines are not Holm-significant. M-1026 is rank 42 on raw win and rank 265 of 310 on residual per hour, with rank 1 meaning the lowest value. A technician shift fails the 10% capture test.",
             "catalog_rows": int(len(catalog)),
-            "capture_assumption": "A technician shift is funded only if 10% of modeled lost theo exceeds $11,520. Base and optimistic captures are reported and not spent.",
+            "capture_assumption": f"A technician shift is funded only if 10% of modeled lost theo exceeds ${tech_cost:,.0f}, the catalog unit cost of A-TECH-SHIFT. Base and optimistic captures are reported and not spent.",
             "downtime_sensitivity_usd": capture,
+            "break_even_technician_rate": None if technician_break_even is None else round(technician_break_even, 4),
+            "stress": stress_recovery(lost_theo=published_lost, cost=tech_cost, seed=1158),
         },
     }
+    weakest = sorted(
+        (row for row in grouped if row["residual_per_hour"] is not None),
+        key=lambda row: (row["residual_per_hour"], row["machine_id"]),
+    )[:5]
+    payload["weakest_residual_per_hour"] = [
+        {
+            "machine_id": row["machine_id"],
+            "zone": row["zone"],
+            "bank": row["bank"],
+            "residual_per_hour": round(row["residual_per_hour"], 4),
+            "residual_usd": _money(row["residual"]),
+            "available_hours": round(row["hours"], 2),
+            "residual_per_hour_rank": row["residual_per_hour_rank"],
+            "p_holm": row["p_holm"],
+        }
+        for row in weakest
+    ]
+    payload["assistant"] = briefings(payload)
     return payload
 
 
@@ -476,17 +570,34 @@ def write_site(payload: dict) -> None:
   <div id="overview" class="grid"></div>
   <h2>1. Does the raw ranking survive luck and hours?</h2>
   <p id="rank-note"></p>
+  <label>Period <select id="period"></select></label>
   <label>Zone <select id="zone"></select></label>
+  <label>Bank <select id="bank"></select></label>
   <div style="overflow-x:auto"><table id="bottom"></table></div>
   <h2>2. Demand</h2>
+  <p id="month-detail"></p>
   <p id="demand"></p>
   <svg id="chart" viewBox="0 0 640 220" role="img" aria-label="May and June coin-in against the weekday forecast"></svg>
   <h2>3. Downtime</h2>
   <p id="down"></p>
   <h2>4 and 5. Carded players and comps</h2>
   <div id="players" class="grid"></div>
+  <label>Guest tier <select id="tier"></select></label>
+  <div style="overflow-x:auto"><table id="guests"></table></div>
   <h2>6. The $100,000 plan</h2>
   <div id="plan"></div>
+  <h2>Scenario desk</h2>
+  <p class="muted">The slider reprices the catalog against modeled lost theo. It does not estimate how much a repair would actually recover.</p>
+  <label>Assumed recovery <input id="rate" type="range" min="0" max="50" value="10" aria-label="Assumed recovery percent"> <span id="rate-label">10%</span></label>
+  <div id="scenario" class="grid"></div>
+  <p id="stress"></p>
+  <h2>Ask the case file</h2>
+  <p class="muted">These answers are calculated from the case file in the page. The browser does not call a model and does not hold an API key.</p>
+  <label>Question <input id="ask" type="text" size="48" placeholder="Why was M-1158 flagged?"></label>
+  <button id="ask-btn" type="button">Answer</button>
+  <p id="assistant-out"></p>
+  <h2>Trace the spend</h2>
+  <p id="trace"></p>
   <h2>How the forecast was checked</h2>
   <p id="method"></p>
 </main>
@@ -503,17 +614,37 @@ ov.innerHTML = [
   ["Constant MAE", money(data.forecast.constant_mae_usd)]
 ].map(([k,v]) => `<div class="card"><div class="muted">${{k}}</div><div class="num">${{v}}</div></div>`).join("");
 const m = data.claim.estimate;
-document.querySelector("#rank-note").innerHTML = `M-1026 raw rank <strong>${{m.raw_rank}}</strong> of ${{data.rank_rule.machine_count}} (1 = lowest house win) and residual-per-hour rank <strong>${{m.residual_per_hour_rank}}</strong> (1 = lowest residual per hour). ${{m.machines_with_lower_residual_per_hour}} machines have a lower residual per hour, so 265 is toward the strong end, not the weak end.`;
+const weak = (data.weakest_residual_per_hour || [])[0];
+document.querySelector("#rank-note").innerHTML = `M-1026 raw rank <strong>${{m.raw_rank}}</strong> of ${{data.rank_rule.machine_count}} (1 = lowest house win) and residual-per-hour rank <strong>${{m.residual_per_hour_rank}}</strong> (1 = lowest residual per hour). ${{m.machines_with_lower_residual_per_hour}} machines have a lower residual per hour, so 265 is toward the strong end, not the weak end.` + (weak ? ` The weakest residual per hour on the floor is ${{weak.machine_id}} at ${{weak.residual_per_hour}} per hour, Holm p ${{weak.p_holm == null ? "—" : weak.p_holm.toFixed(3)}}. That rate is not the spend decision. The funded inspection stays on the Holm leak in the raw bottom 10.` : "");
 const zones = ["All", ...new Set(data.bottom10.map(r => r.zone))];
+const banks = ["All", ...new Set([...data.bottom10, ...(data.period_bottom || [])].map(r => r.bank).filter(Boolean))];
+const periodSelect = document.querySelector("#period");
 const zoneSelect = document.querySelector("#zone");
+const bankSelect = document.querySelector("#bank");
+periodSelect.innerHTML = ["All", ...data.downtime.by_month.map(row => row.month)].map(z => `<option>${{z}}</option>`).join("");
 zoneSelect.innerHTML = zones.map(z => `<option>${{z}}</option>`).join("");
+bankSelect.innerHTML = banks.map(z => `<option>${{z}}</option>`).join("");
+function currentRows() {{
+  if (periodSelect.value === "All") return data.bottom10;
+  return (data.period_bottom || []).filter(row => row.month === periodSelect.value);
+}}
 function drawTable() {{
   const zone = zoneSelect.value;
-  const rows = data.bottom10.filter(r => zone === "All" || r.zone === zone);
-  const head = "<tr><th>Machine</th><th>Zone</th><th>House win</th><th>Raw rank</th><th>Residual/hour rank</th><th>Hold</th><th>Theo hold</th><th>Holm p</th><th>Leak</th></tr>";
-  document.querySelector("#bottom").innerHTML = head + rows.map(r => `<tr><td>${{r.machine_id}}</td><td>${{r.zone}}</td><td>${{money(r.house_win_usd)}}</td><td>${{r.raw_rank}}</td><td>${{r.residual_per_hour_rank}}</td><td>${{r.observed_hold}}</td><td>${{r.theo_hold}}</td><td>${{r.p_holm.toFixed(3)}}</td><td>${{r.holm_negative_residual ? "yes" : "no"}}</td></tr>`).join("");
+  const bank = bankSelect.value;
+  const rows = currentRows().filter(r => (zone === "All" || r.zone === zone) && (bank === "All" || r.bank === bank));
+  const head = "<tr><th>Machine</th><th>Zone</th><th>Bank</th><th>House win</th><th>Raw rank</th><th>Residual/hour rank</th><th>Holm p</th><th>Leak</th></tr>";
+  const body = rows.length
+    ? rows.map(r => `<tr><td>${{r.machine_id}}</td><td>${{r.zone}}</td><td>${{r.bank || ""}}</td><td>${{money(r.house_win_usd)}}</td><td>${{r.raw_rank}}</td><td>${{r.residual_per_hour_rank ?? "—"}}</td><td>${{r.p_holm == null ? "—" : r.p_holm.toFixed(3)}}</td><td>${{r.holm_negative_residual == null ? "—" : (r.holm_negative_residual ? "yes" : "no")}}</td></tr>`).join("")
+    : "<tr><td colspan='8'>No machines match this period, zone, and bank.</td></tr>";
+  document.querySelector("#bottom").innerHTML = head + body;
+  const month = data.downtime.by_month.find(row => row.month === periodSelect.value);
+  document.querySelector("#month-detail").textContent = month
+    ? `${{month.month}}: coin-in ${{money(month.coin_in_usd)}}, house win ${{money(month.house_win_usd)}}, modeled lost theo ${{money(month.modeled_lost_theo_usd)}}.`
+    : "January–June combined. The table is the six-month raw bottom 10.";
 }}
+periodSelect.addEventListener("change", () => {{ drawTable(); drawGuests(); }});
 zoneSelect.addEventListener("change", drawTable);
+bankSelect.addEventListener("change", drawTable);
 drawTable();
 const months = data.downtime.by_month;
 document.querySelector("#demand").textContent = months.map(row => `${{row.month}}: coin-in ${{money(row.coin_in_usd)}}, weekend machine-day ${{money(row.weekend_machine_day_coin_in)}}, weekday ${{money(row.weekday_machine_day_coin_in)}}`).join(" ");
@@ -526,6 +657,23 @@ document.querySelector("#players").innerHTML = `
   <div class="card"><div class="muted">Players to half of coin-in</div><div class="num">${{p.players_to_half_of_coin_in}} / ${{p.n_players}}</div></div>
   <div class="card"><div class="muted">Top 10% coin-in share</div><div class="num">${{(p.top_decile_coin_in_share*100).toFixed(1)}}%</div></div>
   <div class="card"><div class="muted">Carded comp cost</div><div class="num">${{money(p.comp_cost_usd)}}</div></div>`;
+const tierSelect = document.querySelector("#tier");
+const tiers = ["All", ...new Set((data.guest_tiers || []).filter(row => row.month === "all").map(row => row.tier))];
+tierSelect.innerHTML = tiers.map(tier => `<option>${{tier}}</option>`).join("");
+function drawGuests() {{
+  const period = periodSelect.value;
+  const tier = tierSelect.value;
+  const rows = (data.guest_tiers || []).filter(row => row.month === (period === "All" ? "all" : period) && (tier === "All" || row.tier === tier));
+  const guestHead = "<tr><th>Tier</th><th>Players</th><th>Carded coin-in</th><th>Carded net</th></tr>";
+  const guestBody = rows.length
+    ? rows.map(row => `<tr><td>${{row.tier}}</td><td>${{row.players}}</td><td>${{money(row.coin_in_usd)}}</td><td>${{money(row.net_usd)}}</td></tr>`).join("")
+    : "<tr><td colspan='4'>No carded guests match this period and tier.</td></tr>";
+  document.querySelector("#guests").innerHTML = guestHead + guestBody;
+}}
+tierSelect.addEventListener("change", drawGuests);
+drawGuests();
+const sensitivity = rec.downtime_sensitivity_usd;
+document.querySelector("#trace").textContent = `A-INSPECT is ${{money((rec.actions[0].unit_cost_cents || 0) / 100)}} per machine in the action catalog (${{rec.actions[0].unit_cost_cents}} cents). Modeled lost theo is ${{money(data.downtime.modeled_lost_theo_usd)}}. Ten percent is ${{money(sensitivity.pessimistic_10pct_usd)}}, below the technician catalog cost of ${{money(sensitivity.technician_cost_usd)}}, so that shift is not funded. ${{rec.why_not_more}}`;
 document.querySelector("#plan").innerHTML = rec.actions.map(a => `<div class="card warn"><strong>${{a.action_type_id}}</strong> · ${{money(a.cost_usd)}}<p>${{a.expected_effect}}</p><p>${{a.uncertainty}}</p><p>Measure: ${{a.measurement}}</p></div>`).join("");
 document.querySelector("#method").textContent = `Train ${{data.forecast.train}}. Holdout ${{data.forecast.holdout}}. Weekday-mean MAE ${{money(data.forecast.weekday_mae_usd)}} versus constant-mean MAE ${{money(data.forecast.constant_mae_usd)}}. Winner: ${{data.forecast.winner}}. ${{data.forecast.consequence}}`;
 const series = data.forecast.holdout_series;
@@ -536,6 +684,41 @@ const x = i => 20 + i * (600 / (series.length - 1));
 const y = v => 200 - (v - min) / (max - min) * 180;
 const line = (key) => series.map((d,i) => `${{i?"L":"M"}}${{x(i).toFixed(1)}},${{y(d[key]).toFixed(1)}}`).join(" ");
 svg.innerHTML = `<path d="${{line("actual")}}" fill="none" stroke="#1c1917" stroke-width="1.5"/><path d="${{line("weekday_mean")}}" fill="none" stroke="#9a3412" stroke-width="1.5"/>`;
+const rateInput = document.querySelector("#rate");
+function drawScenario() {{
+  const pct = Number(rateInput.value);
+  const rate = pct / 100;
+  const lost = data.downtime.modeled_lost_theo_usd;
+  const tech = rec.downtime_sensitivity_usd.technician_cost_usd;
+  const captured = rate * lost;
+  const techNet = captured - tech;
+  const be = lost > 0 ? tech / lost : null;
+  document.querySelector("#rate-label").textContent = pct + "%";
+  document.querySelector("#scenario").innerHTML = [
+    ["Captured theo", money(captured)],
+    ["Technician net", money(techNet)],
+    ["Break-even", be == null ? "—" : (be * 100).toFixed(2) + "%"],
+    ["Inspection", money(rec.cost_usd)]
+  ].map(([k,v]) => `<div class="card"><div class="muted">${{k}}</div><div class="num">${{v}}</div></div>`).join("");
+  const stress = rec.stress;
+  document.querySelector("#stress").textContent = stress
+    ? `Hypothetical stress, seed ${{stress.seed}}, ${{stress.draws}} draws. Recovery is uniform from 0 to ${{Math.round(stress.rate_high * 100)}} percent, and lost theo is scaled from ${{stress.scale_low}} to ${{stress.scale_high}}. Mean technician net ${{money(stress.mean_net_usd)}}. Share of draws with positive net ${{(stress.probability_positive_net * 100).toFixed(1)}} percent. This does not show that the shift causes that recovery. The cash outlay if recovery is zero is ${{money(stress.worst_budget_exposure_usd)}}.`
+    : "";
+}}
+rateInput.addEventListener("input", drawScenario);
+drawScenario();
+const ask = document.querySelector("#ask");
+function showAnswer() {{
+  const q = ask.value.trim().toLowerCase();
+  const items = data.assistant || [];
+  const hit = items.find(item => item.question.toLowerCase() === q)
+    || items.find(item => q && (item.match_terms || []).some(term => q.includes(term)));
+  document.querySelector("#assistant-out").textContent = hit
+    ? hit.answer
+    : "This page only answers a question when the case file contains the figures. It will not invent a machine, a recovery, or a credential.";
+}}
+document.querySelector("#ask-btn").addEventListener("click", showAnswer);
+ask.addEventListener("keydown", (event) => {{ if (event.key === "Enter") showAnswer(); }});
 </script>
 </body>
 </html>

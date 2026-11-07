@@ -38,23 +38,24 @@ MONTHS = {
 }
 
 
-def _read(name: str) -> list[dict[str, str]]:
-    with (DATA / name).open(newline="", encoding="utf-8") as handle:
+def _read(name: str, data: Path = DATA) -> list[dict[str, str]]:
+    with (data / name).open(newline="", encoding="utf-8") as handle:
         return list(csv.DictReader(handle))
 
 
 class World:
     def __init__(self, data: Path = DATA):
-        self.aliases = sorted(_read("aliases.csv"), key=lambda row: len(row["alias"]), reverse=True)
-        self.shipments = _read("inbound_shipments.csv")
-        self.lots = _read("part_lots.csv")
-        self.orders = _read("production_orders.csv")
+        self.data = Path(data)
+        self.aliases = sorted(_read("aliases.csv", self.data), key=lambda row: len(row["alias"]), reverse=True)
+        self.shipments = _read("inbound_shipments.csv", self.data)
+        self.lots = _read("part_lots.csv", self.data)
+        self.orders = _read("production_orders.csv", self.data)
         self.bom = defaultdict(set)
-        for row in _read("bom.csv"):
+        for row in _read("bom.csv", self.data):
             self.bom[row["model"]].add(row["part_id"])
-        self.vehicles = _read("finished_vehicles.csv")
-        self.customers = {row["customer_id"]: row for row in _read("customers.csv")}
-        self.customer_orders = _read("customer_orders.csv")
+        self.vehicles = _read("finished_vehicles.csv", self.data)
+        self.customers = {row["customer_id"]: row for row in _read("customers.csv", self.data)}
+        self.customer_orders = _read("customer_orders.csv", self.data)
         self.plants = {row["alias"].lower(): row["entity_id"] for row in self.aliases if row["entity_type"] == "plant"}
 
 
@@ -163,6 +164,7 @@ def _resolve_shipment(world: World, incident: dict) -> dict | None:
         for row in world.shipments:
             if row["shipment_id"] == incident["shipment_id"]:
                 return row
+        return None
     dates = [date.fromisoformat(value) for value in incident["dates"]]
     old = dates[0] if dates else None
     candidates = []
@@ -187,6 +189,7 @@ def _resolve_lot(world: World, incident: dict) -> dict | None:
         for row in world.lots:
             if row["lot_id"] == incident["lot_id"]:
                 return row
+        return None
     dates = [date.fromisoformat(value) for value in incident["dates"]]
     best = None
     for row in world.lots:

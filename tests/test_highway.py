@@ -70,6 +70,30 @@ class HighwayTests(unittest.TestCase):
         write_log(results, path)
         self.assertTrue(path.exists())
 
+    def test_unknown_explicit_id_does_not_guess(self):
+        from domains.highway.engine import _resolve_lot, _resolve_shipment
+
+        world = World()
+        missing = {
+            "shipment_id": "SH-9999",
+            "lot_id": None,
+            "dates": ["2027-03-15"],
+            "suppliers": [world.shipments[0]["supplier_id"]],
+            "parts": [world.shipments[0]["part_id"]],
+            "plants": [world.shipments[0]["plant_id"]],
+        }
+        self.assertIsNone(_resolve_shipment(world, missing))
+        missing["shipment_id"] = None
+        missing["lot_id"] = "LOT-9999"
+        self.assertIsNone(_resolve_lot(world, missing))
+
+    def test_world_uses_the_directory_it_is_given(self):
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as tmp:
+            with self.assertRaises(FileNotFoundError):
+                World(Path(tmp))
+
 
 if __name__ == "__main__":
     unittest.main()
