@@ -1,0 +1,148 @@
+{
+  "champion": "6b2921de93674e8600659540e307df5894b9e259",
+  "deals_per_half": 1000,
+  "seeds": [
+    "201",
+    "307"
+  ],
+  "rows": [
+    {
+      "name": "ShortStackSage",
+      "repo": "https://github.com/Dhanush006/ssd-heads-up-poker",
+      "path": "/tmp/poker-field/ssd-heads-up-poker",
+      "sha": "c94d9f42515bbab1af017adf19abe423126c80ca",
+      "license": "no-license-file",
+      "note": "A fresh GitHub lookup could not resolve this repo. The SHA is from the clone already on disk.",
+      "seed": "201",
+      "deals": 1000,
+      "pitboss_sha": "6b2921de93674e8600659540e307df5894b9e259",
+      "seconds": 15.0,
+      "returncode": 0,
+      "bb_per_deal": 0.035,
+      "stderr": 0.231,
+      "interval": "-0.417, +0.487",
+      "result": "CHOP",
+      "thinking": [
+        "agent1 half1: thinking 2.14s of 8s (wall 4.73s), calls 3081, errors 0",
+        "agent1 half2: thinking 1.86s of 8s (wall 4.33s), calls 3082, errors 0"
+      ],
+      "errors": true,
+      "status": "played"
+    },
+    {
+      "name": "ShortStackSage",
+      "repo": "https://github.com/Dhanush006/ssd-heads-up-poker",
+      "path": "/tmp/poker-field/ssd-heads-up-poker",
+      "sha": "c94d9f42515bbab1af017adf19abe423126c80ca",
+      "license": "no-license-file",
+      "note": "A fresh GitHub lookup could not resolve this repo. The SHA is from the clone already on disk.",
+      "seed": "307",
+      "deals": 1000,
+      "pitboss_sha": "6b2921de93674e8600659540e307df5894b9e259",
+      "seconds": 14.9,
+      "returncode": 0,
+      "bb_per_deal": -0.342,
+      "stderr": 0.229,
+      "interval": "-0.791, +0.107",
+      "result": "CHOP",
+      "thinking": [
+        "agent1 half1: thinking 1.91s of 8s (wall 4.41s), calls 3113, errors 0",
+        "agent1 half2: thinking 2.05s of 8s (wall 4.64s), calls 3187, errors 0"
+      ],
+      "errors": true,
+      "status": "played"
+    },
+    {
+      "name": "ShortStack",
+      "repo": "https://github.com/Utsavdotcom/aura-farmer",
+      "path": "/tmp/poker-field/aura-farmer",
+      "sha": "b74f7d37cf04877a7c18886d14655473ef5d7650",
+      "license": "no-license-file",
+      "note": null,
+      "seed": "201",
+      "deals": 1000,
+      "pitboss_sha": "6b2921de93674e8600659540e307df5894b9e259",
+      "seconds": 14.3,
+      "returncode": 0,
+      "bb_per_deal": 0.032,
+      "stderr": 0.259,
+      "interval": "-0.475, +0.538",
+      "result": "CHOP",
+      "thinking": [
+        "agent1 half1: thinking 2.35s of 8s (wall 4.95s), calls 2987, errors 0",
+        "agent1 half2: thinking 2.01s of 8s (wall 4.51s), calls 2980, errors 0"
+      ],
+      "errors": true,
+      "status": "played"
+    },
+    {
+      "name": "ShortStack",
+      "repo": "https://github.com/Utsavdotcom/aura-farmer",
+      "path": "/tmp/poker-field/aura-farmer",
+      "sha": "b74f7d37cf04877a7c18886d14655473ef5d7650",
+      "license": "no-license-file",
+      "note": null,
+      "seed": "307",
+      "deals": 1000,
+      "pitboss_sha": "6b2921de93674e8600659540e307df5894b9e259",
+      "seconds": 14.0,
+      "returncode": 0,
+      "bb_per_deal": 0.139,
+      "stderr": 0.265,
+      "interval": "-0.380, +0.658",
+      "result": "CHOP",
+      "thinking": [
+        "agent1 half1: thinking 2.07s of 8s (wall 4.63s), calls 3038, errors 0",
+        "agent1 half2: thinking 2.13s of 8s (wall 4.70s), calls 3053, errors 0"
+      ],
+      "errors": true,
+      "status": "played"
+    },
+    {
+      "name": "MAKK",
+      "repo": "https://github.com/karammasad/pokerMAKK",
+      "path": "/tmp/poker-league/pokerMAKK",
+      "sha": "c5b6309dec900ddafb33afebe29708f04d1617bd",
+      "license": "no-license-file",
+      "note": null,
+      "seed": "201",
+      "deals": 1000,
+      "pitboss_sha": "6b2921de93674e8600659540e307df5894b9e259",
+      "seconds": 12.6,
+      "returncode": 0,
+      "bb_per_deal": -0.255,
+      "stderr": 0.399,
+      "interval": "-1.036, +0.527",
+      "result": "CHOP",
+      "thinking": [
+        "agent1 half1: thinking 0.77s of 8s (wall 3.13s), calls 3091, errors 0",
+        "agent1 half2: thinking 0.69s of 8s (wall 3.16s), calls 3154, errors 0"
+      ],
+      "errors": true,
+      "status": "played"
+    },
+    {
+      "name": "MAKK",
+      "repo": "https://github.com/karammasad/pokerMAKK",
+      "path": "/tmp/poker-league/pokerMAKK",
+      "sha": "c5b6309dec900ddafb33afebe29708f04d1617bd",
+      "license": "no-license-file",
+      "note": null,
+      "seed": "307",
+      "deals": 1000,
+      "pitboss_sha": "6b2921de93674e8600659540e307df5894b9e259",
+      "seconds": 13.0,
+      "returncode": 0,
+      "bb_per_deal": 0.311,
+      "stderr": 0.377,
+      "interval": "-0.427, +1.050",
+      "result": "CHOP",
+      "thinking": [
+        "agent1 half1: thinking 0.73s of 8s (wall 3.24s), calls 3197, errors 0",
+        "agent1 half2: thinking 0.71s of 8s (wall 3.21s), calls 3210, errors 0"
+      ],
+      "errors": true,
+      "status": "played"
+    }
+  ]
+}
