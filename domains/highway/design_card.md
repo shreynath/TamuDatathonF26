@@ -1,10 +1,12 @@
 # Highway design card
 
-Coordinator: `plan_event` takes one event, parses incidents, then runs one shared Enterprise state.
+Coordinator: `Coordinator.handle` owns one Enterprise state for the whole feed.
 
-Specialists are responsibilities inside that function, not separate processes: supply and production move orders, dealer and customer notify and assign loaners, quality holds lots and splits sold from unsold.
+Specialist 1, EventAnalyst, classifies the text and does not call tools.
+Specialist 2, PolicyPlanner, is the handbook rules in `plan_event`. It chooses the calls.
+Specialist 3, ExecutionVerifier, rejects any call with `ok: false`.
 
-The rule parser is the default. An Ollama key can be added later. The model does not call write tools.
+The classifier is a deterministic parser, not a hosted model. Gemini and Ollama are not on this path, because a match-style offline run must not need the network and a model is not allowed to authorize a write.
 
 Guardrail: a tool error is logged and not retried. Noise writes nothing. An unconfirmed report escalates.
 

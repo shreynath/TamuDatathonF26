@@ -17,6 +17,9 @@ ACTIONS = DATA / "2_machine_decision" / "action_catalog.parquet"
 
 
 def main() -> None:
+    from domains.royale.report import main as report_main
+    report_main()
+    return
     if not DAILY.exists():
         raise SystemExit(f"Royale parquet is missing: {DAILY}")
     con = duckdb.connect()

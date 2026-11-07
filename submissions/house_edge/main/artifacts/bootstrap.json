@@ -1,0 +1,15 @@
+{
+  "episodes": 96,
+  "our_probability_error": 0.1793371245005583,
+  "pooled_recent_probability_error": 0.18153680451703846,
+  "mean_episode_diff_ours_minus_base": -0.0021996800164801457,
+  "bootstrap_95": [
+    -0.0036748372006272004,
+    -0.0006970152140446877
+  ],
+  "fraction_episodes_ours_lower_error": 0.6666666666666666,
+  "our_points": 31.009572320405457,
+  "pooled_recent_points": 30.82585360575185,
+  "point_gap": 0.18371871465360812,
+  "interval_includes_zero": false
+}

@@ -38,6 +38,29 @@ class HighwayTests(unittest.TestCase):
         later = parse_incidents("SH-0182 delayed, will now arrive 2027-03-20.", world)[0]["dates"]
         self.assertNotEqual(early, later)
 
+    def test_invariants_on_the_full_feed(self):
+        from enterprise import Enterprise, LOANER_TIERS
+
+        results = run_events(EVENTS)
+        enterprise = Enterprise(str(ROOT / "data" / "highway"))
+        self.assertTrue(all(result["verifier_failures"] == [] for result in results))
+        for result in results:
+            notifies = {}
+            for call in result["calls"]:
+                self.assertTrue(call["ok"])
+                if call["tool"] == "dealer.notify":
+                    dealer = call["args"]["dealer_id"]
+                    self.assertNotIn(dealer, notifies)
+                    notifies[dealer] = call["args"]["customer_order_ids"]
+                if call["tool"] == "crm.assign_loaner":
+                    order = enterprise.cos[call["args"]["customer_order_id"]]
+                    tier = enterprise.customers[order["customer_id"]]["tier"]
+                    self.assertIn(tier, LOANER_TIERS)
+            if result["event_id"] == "E-05":
+                self.assertEqual(result["calls"], [])
+            if result["event_id"] == "E-02":
+                self.assertEqual([call["tool"] for call in result["calls"]], ["escalate"])
+
     def test_log_has_no_hardcoded_event_table(self):
         results = run_events(EVENTS)
         tools = {call["tool"] for result in results for call in result["calls"]}

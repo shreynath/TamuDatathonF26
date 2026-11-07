@@ -62,51 +62,84 @@
 {"event_id": "E-01", "tool": "dealer.notify", "args": {"dealer_id": "D47", "customer_order_ids": ["CO-00206", "CO-00293"], "message": "Plant P_TX is down 2027-03-12 through 2027-03-22."}, "ok": true}
 {"event_id": "E-01", "tool": "dealer.notify", "args": {"dealer_id": "D48", "customer_order_ids": ["CO-00189"], "message": "Plant P_TX is down 2027-03-12 through 2027-03-22."}, "ok": true}
 {"event_id": "E-01", "tool": "dealer.notify", "args": {"dealer_id": "D50", "customer_order_ids": ["CO-00185", "CO-00290"], "message": "Plant P_TX is down 2027-03-12 through 2027-03-22."}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D29"}, "ok": true}
 {"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00134"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D46"}, "ok": true}
 {"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00117"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D34"}, "ok": true}
 {"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00129"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D43"}, "ok": true}
 {"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00154"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D27"}, "ok": true}
 {"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00163"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D47"}, "ok": true}
 {"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00206"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D25"}, "ok": true}
 {"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00212"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D06"}, "ok": true}
 {"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00198"}, "ok": true}
-{"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00239"}, "ok": false}
-{"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00215"}, "ok": false}
-{"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00113"}, "ok": false}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D25"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D27"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D29"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D38"}, "ok": true}
 {"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00127"}, "ok": true}
-{"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00128"}, "ok": false}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D29"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D35"}, "ok": true}
 {"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00115"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D02"}, "ok": true}
 {"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00126"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D02"}, "ok": true}
 {"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00132"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D20"}, "ok": true}
 {"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00131"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D13"}, "ok": true}
 {"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00133"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D08"}, "ok": true}
 {"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00138"}, "ok": true}
-{"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00153"}, "ok": false}
-{"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00156"}, "ok": false}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D38"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D25"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D39"}, "ok": true}
 {"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00152"}, "ok": true}
-{"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00161"}, "ok": false}
-{"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00162"}, "ok": false}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D02"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D02"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D32"}, "ok": true}
 {"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00155"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D46"}, "ok": true}
 {"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00187"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D48"}, "ok": true}
 {"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00189"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D06"}, "ok": true}
 {"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00191"}, "ok": true}
-{"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00199"}, "ok": false}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D25"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D19"}, "ok": true}
 {"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00171"}, "ok": true}
-{"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00204"}, "ok": false}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D35"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D39"}, "ok": true}
 {"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00207"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D26"}, "ok": true}
 {"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00243"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D11"}, "ok": true}
 {"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00202"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D45"}, "ok": true}
 {"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00218"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D23"}, "ok": true}
 {"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00225"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D23"}, "ok": true}
 {"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00242"}, "ok": true}
-{"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00249"}, "ok": false}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D29"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D26"}, "ok": true}
 {"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00263"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D28"}, "ok": true}
 {"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00236"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D18"}, "ok": true}
 {"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00247"}, "ok": true}
-{"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00261"}, "ok": false}
-{"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00283"}, "ok": false}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D20"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D26"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D31"}, "ok": true}
 {"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00278"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D45"}, "ok": true}
 {"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00284"}, "ok": true}
+{"event_id": "E-01", "tool": "crm.loaner_availability", "args": {"dealer_id": "D36"}, "ok": true}
 {"event_id": "E-01", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00296"}, "ok": true}
 {"event_id": "E-02", "tool": "escalate", "args": {"reason": "The report is not specific or confirmed."}, "ok": true}
 {"event_id": "E-03", "tool": "quality.hold_lot", "args": {"lot_id": "LOT-0130"}, "ok": true}
@@ -342,27 +375,45 @@
 {"event_id": "E-04", "tool": "dealer.notify", "args": {"dealer_id": "D45", "customer_order_ids": ["CO-00611", "CO-00619", "CO-00622", "CO-00631"], "message": "Plant P_KY is down 2027-03-09 through 2027-03-11."}, "ok": true}
 {"event_id": "E-04", "tool": "dealer.notify", "args": {"dealer_id": "D46", "customer_order_ids": ["CO-00633"], "message": "Plant P_KY is down 2027-03-09 through 2027-03-11."}, "ok": true}
 {"event_id": "E-04", "tool": "dealer.notify", "args": {"dealer_id": "D49", "customer_order_ids": ["CO-00602", "CO-00657"], "message": "Plant P_KY is down 2027-03-09 through 2027-03-11."}, "ok": true}
+{"event_id": "E-04", "tool": "crm.loaner_availability", "args": {"dealer_id": "D23"}, "ok": true}
 {"event_id": "E-04", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00627"}, "ok": true}
+{"event_id": "E-04", "tool": "crm.loaner_availability", "args": {"dealer_id": "D08"}, "ok": true}
 {"event_id": "E-04", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00643"}, "ok": true}
+{"event_id": "E-04", "tool": "crm.loaner_availability", "args": {"dealer_id": "D15"}, "ok": true}
 {"event_id": "E-04", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00590"}, "ok": true}
+{"event_id": "E-04", "tool": "crm.loaner_availability", "args": {"dealer_id": "D43"}, "ok": true}
 {"event_id": "E-04", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00606"}, "ok": true}
+{"event_id": "E-04", "tool": "crm.loaner_availability", "args": {"dealer_id": "D06"}, "ok": true}
 {"event_id": "E-04", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00588"}, "ok": true}
+{"event_id": "E-04", "tool": "crm.loaner_availability", "args": {"dealer_id": "D31"}, "ok": true}
 {"event_id": "E-04", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00596"}, "ok": true}
+{"event_id": "E-04", "tool": "crm.loaner_availability", "args": {"dealer_id": "D25"}, "ok": true}
 {"event_id": "E-04", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00604"}, "ok": true}
+{"event_id": "E-04", "tool": "crm.loaner_availability", "args": {"dealer_id": "D38"}, "ok": true}
 {"event_id": "E-04", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00608"}, "ok": true}
-{"event_id": "E-04", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00609"}, "ok": false}
+{"event_id": "E-04", "tool": "crm.loaner_availability", "args": {"dealer_id": "D25"}, "ok": true}
+{"event_id": "E-04", "tool": "crm.loaner_availability", "args": {"dealer_id": "D14"}, "ok": true}
 {"event_id": "E-04", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00578"}, "ok": true}
+{"event_id": "E-04", "tool": "crm.loaner_availability", "args": {"dealer_id": "D22"}, "ok": true}
 {"event_id": "E-04", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00584"}, "ok": true}
+{"event_id": "E-04", "tool": "crm.loaner_availability", "args": {"dealer_id": "D27"}, "ok": true}
 {"event_id": "E-04", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00597"}, "ok": true}
-{"event_id": "E-04", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00647"}, "ok": false}
-{"event_id": "E-04", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00655"}, "ok": false}
+{"event_id": "E-04", "tool": "crm.loaner_availability", "args": {"dealer_id": "D38"}, "ok": true}
+{"event_id": "E-04", "tool": "crm.loaner_availability", "args": {"dealer_id": "D38"}, "ok": true}
+{"event_id": "E-04", "tool": "crm.loaner_availability", "args": {"dealer_id": "D44"}, "ok": true}
 {"event_id": "E-04", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00614"}, "ok": true}
+{"event_id": "E-04", "tool": "crm.loaner_availability", "args": {"dealer_id": "D45"}, "ok": true}
 {"event_id": "E-04", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00619"}, "ok": true}
+{"event_id": "E-04", "tool": "crm.loaner_availability", "args": {"dealer_id": "D35"}, "ok": true}
 {"event_id": "E-04", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00637"}, "ok": true}
-{"event_id": "E-04", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00638"}, "ok": false}
+{"event_id": "E-04", "tool": "crm.loaner_availability", "args": {"dealer_id": "D35"}, "ok": true}
+{"event_id": "E-04", "tool": "crm.loaner_availability", "args": {"dealer_id": "D02"}, "ok": true}
 {"event_id": "E-04", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00656"}, "ok": true}
+{"event_id": "E-04", "tool": "crm.loaner_availability", "args": {"dealer_id": "D13"}, "ok": true}
 {"event_id": "E-04", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00641"}, "ok": true}
+{"event_id": "E-04", "tool": "crm.loaner_availability", "args": {"dealer_id": "D10"}, "ok": true}
 {"event_id": "E-04", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00652"}, "ok": true}
+{"event_id": "E-04", "tool": "crm.loaner_availability", "args": {"dealer_id": "D11"}, "ok": true}
 {"event_id": "E-04", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00653"}, "ok": true}
 {"event_id": "E-08", "tool": "mes.reschedule", "args": {"production_order_id": "PO-0157", "new_date": "2027-03-26"}, "ok": true}
 {"event_id": "E-08", "tool": "mes.reschedule", "args": {"production_order_id": "PO-0158", "new_date": "2027-03-26"}, "ok": true}
@@ -395,20 +446,35 @@
 {"event_id": "E-08", "tool": "dealer.notify", "args": {"dealer_id": "D45", "customer_order_ids": ["CO-00878", "CO-00905"], "message": "Plant P_KY is down 2027-03-24 through 2027-03-25."}, "ok": true}
 {"event_id": "E-08", "tool": "dealer.notify", "args": {"dealer_id": "D46", "customer_order_ids": ["CO-00884"], "message": "Plant P_KY is down 2027-03-24 through 2027-03-25."}, "ok": true}
 {"event_id": "E-08", "tool": "dealer.notify", "args": {"dealer_id": "D49", "customer_order_ids": ["CO-00883", "CO-00896"], "message": "Plant P_KY is down 2027-03-24 through 2027-03-25."}, "ok": true}
+{"event_id": "E-08", "tool": "crm.loaner_availability", "args": {"dealer_id": "D21"}, "ok": true}
 {"event_id": "E-08", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00899"}, "ok": true}
+{"event_id": "E-08", "tool": "crm.loaner_availability", "args": {"dealer_id": "D08"}, "ok": true}
 {"event_id": "E-08", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00930"}, "ok": true}
+{"event_id": "E-08", "tool": "crm.loaner_availability", "args": {"dealer_id": "D39"}, "ok": true}
 {"event_id": "E-08", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00906"}, "ok": true}
+{"event_id": "E-08", "tool": "crm.loaner_availability", "args": {"dealer_id": "D35"}, "ok": true}
 {"event_id": "E-08", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00926"}, "ok": true}
+{"event_id": "E-08", "tool": "crm.loaner_availability", "args": {"dealer_id": "D16"}, "ok": true}
 {"event_id": "E-08", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00927"}, "ok": true}
+{"event_id": "E-08", "tool": "crm.loaner_availability", "args": {"dealer_id": "D17"}, "ok": true}
 {"event_id": "E-08", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00886"}, "ok": true}
+{"event_id": "E-08", "tool": "crm.loaner_availability", "args": {"dealer_id": "D26"}, "ok": true}
 {"event_id": "E-08", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00887"}, "ok": true}
+{"event_id": "E-08", "tool": "crm.loaner_availability", "args": {"dealer_id": "D07"}, "ok": true}
 {"event_id": "E-08", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00876"}, "ok": true}
+{"event_id": "E-08", "tool": "crm.loaner_availability", "args": {"dealer_id": "D31"}, "ok": true}
 {"event_id": "E-08", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00880"}, "ok": true}
+{"event_id": "E-08", "tool": "crm.loaner_availability", "args": {"dealer_id": "D46"}, "ok": true}
 {"event_id": "E-08", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00884"}, "ok": true}
+{"event_id": "E-08", "tool": "crm.loaner_availability", "args": {"dealer_id": "D26"}, "ok": true}
 {"event_id": "E-08", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00904"}, "ok": true}
+{"event_id": "E-08", "tool": "crm.loaner_availability", "args": {"dealer_id": "D08"}, "ok": true}
 {"event_id": "E-08", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00911"}, "ok": true}
+{"event_id": "E-08", "tool": "crm.loaner_availability", "args": {"dealer_id": "D08"}, "ok": true}
 {"event_id": "E-08", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00915"}, "ok": true}
+{"event_id": "E-08", "tool": "crm.loaner_availability", "args": {"dealer_id": "D16"}, "ok": true}
 {"event_id": "E-08", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00918"}, "ok": true}
+{"event_id": "E-08", "tool": "crm.loaner_availability", "args": {"dealer_id": "D20"}, "ok": true}
 {"event_id": "E-08", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-00908"}, "ok": true}
 {"event_id": "E-09", "tool": "mes.reschedule", "args": {"production_order_id": "PO-0436", "new_date": "2027-04-01"}, "ok": true}
 {"event_id": "E-09", "tool": "mes.reschedule", "args": {"production_order_id": "PO-0438", "new_date": "2027-04-01"}, "ok": true}
@@ -442,17 +508,27 @@
 {"event_id": "E-09", "tool": "dealer.notify", "args": {"dealer_id": "D46", "customer_order_ids": ["CO-02573", "CO-02613", "CO-02626"], "message": "Shipment SH-0256 part CAM-360 arrives 2027-04-01."}, "ok": true}
 {"event_id": "E-09", "tool": "dealer.notify", "args": {"dealer_id": "D47", "customer_order_ids": ["CO-02574", "CO-02599", "CO-02627"], "message": "Shipment SH-0256 part CAM-360 arrives 2027-04-01."}, "ok": true}
 {"event_id": "E-09", "tool": "dealer.notify", "args": {"dealer_id": "D50", "customer_order_ids": ["CO-02621", "CO-02648"], "message": "Shipment SH-0256 part CAM-360 arrives 2027-04-01."}, "ok": true}
+{"event_id": "E-09", "tool": "crm.loaner_availability", "args": {"dealer_id": "D25"}, "ok": true}
 {"event_id": "E-09", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-02570"}, "ok": true}
+{"event_id": "E-09", "tool": "crm.loaner_availability", "args": {"dealer_id": "D26"}, "ok": true}
 {"event_id": "E-09", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-02593"}, "ok": true}
+{"event_id": "E-09", "tool": "crm.loaner_availability", "args": {"dealer_id": "D16"}, "ok": true}
 {"event_id": "E-09", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-02640"}, "ok": true}
+{"event_id": "E-09", "tool": "crm.loaner_availability", "args": {"dealer_id": "D44"}, "ok": true}
 {"event_id": "E-09", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-02645"}, "ok": true}
-{"event_id": "E-09", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-02568"}, "ok": false}
+{"event_id": "E-09", "tool": "crm.loaner_availability", "args": {"dealer_id": "D25"}, "ok": true}
+{"event_id": "E-09", "tool": "crm.loaner_availability", "args": {"dealer_id": "D08"}, "ok": true}
 {"event_id": "E-09", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-02590"}, "ok": true}
+{"event_id": "E-09", "tool": "crm.loaner_availability", "args": {"dealer_id": "D31"}, "ok": true}
 {"event_id": "E-09", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-02587"}, "ok": true}
+{"event_id": "E-09", "tool": "crm.loaner_availability", "args": {"dealer_id": "D04"}, "ok": true}
 {"event_id": "E-09", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-02628"}, "ok": true}
-{"event_id": "E-09", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-02644"}, "ok": false}
+{"event_id": "E-09", "tool": "crm.loaner_availability", "args": {"dealer_id": "D25"}, "ok": true}
+{"event_id": "E-09", "tool": "crm.loaner_availability", "args": {"dealer_id": "D44"}, "ok": true}
 {"event_id": "E-09", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-02598"}, "ok": true}
+{"event_id": "E-09", "tool": "crm.loaner_availability", "args": {"dealer_id": "D27"}, "ok": true}
 {"event_id": "E-09", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-02615"}, "ok": true}
+{"event_id": "E-09", "tool": "crm.loaner_availability", "args": {"dealer_id": "D34"}, "ok": true}
 {"event_id": "E-09", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-02641"}, "ok": true}
 {"event_id": "E-10", "tool": "mes.reschedule", "args": {"production_order_id": "PO-0437", "new_date": "2027-04-01"}, "ok": true}
 {"event_id": "E-10", "tool": "mes.reschedule", "args": {"production_order_id": "PO-0440", "new_date": "2027-04-01"}, "ok": true}
@@ -475,12 +551,19 @@
 {"event_id": "E-10", "tool": "dealer.notify", "args": {"dealer_id": "D46", "customer_order_ids": ["CO-02612", "CO-02633"], "message": "Shipment SH-0248 part BATT-60 arrives 2027-04-01."}, "ok": true}
 {"event_id": "E-10", "tool": "dealer.notify", "args": {"dealer_id": "D47", "customer_order_ids": ["CO-02581"], "message": "Shipment SH-0248 part BATT-60 arrives 2027-04-01."}, "ok": true}
 {"event_id": "E-10", "tool": "dealer.notify", "args": {"dealer_id": "D48", "customer_order_ids": ["CO-02639"], "message": "Shipment SH-0248 part BATT-60 arrives 2027-04-01."}, "ok": true}
+{"event_id": "E-10", "tool": "crm.loaner_availability", "args": {"dealer_id": "D25"}, "ok": true}
 {"event_id": "E-10", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-02636"}, "ok": true}
+{"event_id": "E-10", "tool": "crm.loaner_availability", "args": {"dealer_id": "D04"}, "ok": true}
 {"event_id": "E-10", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-02575"}, "ok": true}
+{"event_id": "E-10", "tool": "crm.loaner_availability", "args": {"dealer_id": "D23"}, "ok": true}
 {"event_id": "E-10", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-02579"}, "ok": true}
+{"event_id": "E-10", "tool": "crm.loaner_availability", "args": {"dealer_id": "D20"}, "ok": true}
 {"event_id": "E-10", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-02578"}, "ok": true}
+{"event_id": "E-10", "tool": "crm.loaner_availability", "args": {"dealer_id": "D34"}, "ok": true}
 {"event_id": "E-10", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-02605"}, "ok": true}
+{"event_id": "E-10", "tool": "crm.loaner_availability", "args": {"dealer_id": "D27"}, "ok": true}
 {"event_id": "E-10", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-02604"}, "ok": true}
+{"event_id": "E-10", "tool": "crm.loaner_availability", "args": {"dealer_id": "D02"}, "ok": true}
 {"event_id": "E-10", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-02638"}, "ok": true}
 {"event_id": "E-11", "tool": "mes.reschedule", "args": {"production_order_id": "PO-0253", "new_date": "2027-03-31"}, "ok": true}
 {"event_id": "E-11", "tool": "mes.reschedule", "args": {"production_order_id": "PO-0254", "new_date": "2027-03-31"}, "ok": true}
@@ -527,23 +610,40 @@
 {"event_id": "E-11", "tool": "dealer.notify", "args": {"dealer_id": "D45", "customer_order_ids": ["CO-01464", "CO-01476", "CO-01481", "CO-01511", "CO-01537"], "message": "Plant P_MS is down 2027-03-26 through 2027-03-30."}, "ok": true}
 {"event_id": "E-11", "tool": "dealer.notify", "args": {"dealer_id": "D46", "customer_order_ids": ["CO-01524"], "message": "Plant P_MS is down 2027-03-26 through 2027-03-30."}, "ok": true}
 {"event_id": "E-11", "tool": "dealer.notify", "args": {"dealer_id": "D48", "customer_order_ids": ["CO-01498"], "message": "Plant P_MS is down 2027-03-26 through 2027-03-30."}, "ok": true}
+{"event_id": "E-11", "tool": "crm.loaner_availability", "args": {"dealer_id": "D03"}, "ok": true}
 {"event_id": "E-11", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-01468"}, "ok": true}
+{"event_id": "E-11", "tool": "crm.loaner_availability", "args": {"dealer_id": "D45"}, "ok": true}
 {"event_id": "E-11", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-01464"}, "ok": true}
+{"event_id": "E-11", "tool": "crm.loaner_availability", "args": {"dealer_id": "D06"}, "ok": true}
 {"event_id": "E-11", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-01490"}, "ok": true}
+{"event_id": "E-11", "tool": "crm.loaner_availability", "args": {"dealer_id": "D16"}, "ok": true}
 {"event_id": "E-11", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-01523"}, "ok": true}
+{"event_id": "E-11", "tool": "crm.loaner_availability", "args": {"dealer_id": "D41"}, "ok": true}
 {"event_id": "E-11", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-01533"}, "ok": true}
+{"event_id": "E-11", "tool": "crm.loaner_availability", "args": {"dealer_id": "D02"}, "ok": true}
 {"event_id": "E-11", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-01471"}, "ok": true}
+{"event_id": "E-11", "tool": "crm.loaner_availability", "args": {"dealer_id": "D25"}, "ok": true}
 {"event_id": "E-11", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-01488"}, "ok": true}
+{"event_id": "E-11", "tool": "crm.loaner_availability", "args": {"dealer_id": "D26"}, "ok": true}
 {"event_id": "E-11", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-01496"}, "ok": true}
+{"event_id": "E-11", "tool": "crm.loaner_availability", "args": {"dealer_id": "D24"}, "ok": true}
 {"event_id": "E-11", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-01491"}, "ok": true}
+{"event_id": "E-11", "tool": "crm.loaner_availability", "args": {"dealer_id": "D16"}, "ok": true}
 {"event_id": "E-11", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-01492"}, "ok": true}
+{"event_id": "E-11", "tool": "crm.loaner_availability", "args": {"dealer_id": "D06"}, "ok": true}
 {"event_id": "E-11", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-01493"}, "ok": true}
+{"event_id": "E-11", "tool": "crm.loaner_availability", "args": {"dealer_id": "D31"}, "ok": true}
 {"event_id": "E-11", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-01501"}, "ok": true}
+{"event_id": "E-11", "tool": "crm.loaner_availability", "args": {"dealer_id": "D06"}, "ok": true}
 {"event_id": "E-11", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-01502"}, "ok": true}
+{"event_id": "E-11", "tool": "crm.loaner_availability", "args": {"dealer_id": "D02"}, "ok": true}
 {"event_id": "E-11", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-01508"}, "ok": true}
+{"event_id": "E-11", "tool": "crm.loaner_availability", "args": {"dealer_id": "D08"}, "ok": true}
 {"event_id": "E-11", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-01518"}, "ok": true}
-{"event_id": "E-11", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-01529"}, "ok": false}
+{"event_id": "E-11", "tool": "crm.loaner_availability", "args": {"dealer_id": "D25"}, "ok": true}
+{"event_id": "E-11", "tool": "crm.loaner_availability", "args": {"dealer_id": "D30"}, "ok": true}
 {"event_id": "E-11", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-01489"}, "ok": true}
+{"event_id": "E-11", "tool": "crm.loaner_availability", "args": {"dealer_id": "D33"}, "ok": true}
 {"event_id": "E-11", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-01527"}, "ok": true}
 {"event_id": "E-12", "tool": "mes.reschedule", "args": {"production_order_id": "PO-0316", "new_date": "2027-03-18"}, "ok": true}
 {"event_id": "E-12", "tool": "mes.reschedule", "args": {"production_order_id": "PO-0319", "new_date": "2027-03-18"}, "ok": true}
@@ -562,15 +662,25 @@
 {"event_id": "E-12", "tool": "dealer.notify", "args": {"dealer_id": "D42", "customer_order_ids": ["CO-01813"], "message": "Shipment SH-0182 part CAM-360 arrives 2027-03-18."}, "ok": true}
 {"event_id": "E-12", "tool": "dealer.notify", "args": {"dealer_id": "D44", "customer_order_ids": ["CO-01785", "CO-01787", "CO-01809", "CO-01814"], "message": "Shipment SH-0182 part CAM-360 arrives 2027-03-18."}, "ok": true}
 {"event_id": "E-12", "tool": "dealer.notify", "args": {"dealer_id": "D45", "customer_order_ids": ["CO-01760", "CO-01788", "CO-01810"], "message": "Shipment SH-0182 part CAM-360 arrives 2027-03-18."}, "ok": true}
+{"event_id": "E-12", "tool": "crm.loaner_availability", "args": {"dealer_id": "D08"}, "ok": true}
 {"event_id": "E-12", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-01761"}, "ok": true}
+{"event_id": "E-12", "tool": "crm.loaner_availability", "args": {"dealer_id": "D21"}, "ok": true}
 {"event_id": "E-12", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-01783"}, "ok": true}
+{"event_id": "E-12", "tool": "crm.loaner_availability", "args": {"dealer_id": "D01"}, "ok": true}
 {"event_id": "E-12", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-01812"}, "ok": true}
+{"event_id": "E-12", "tool": "crm.loaner_availability", "args": {"dealer_id": "D44"}, "ok": true}
 {"event_id": "E-12", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-01785"}, "ok": true}
+{"event_id": "E-12", "tool": "crm.loaner_availability", "args": {"dealer_id": "D20"}, "ok": true}
 {"event_id": "E-12", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-01786"}, "ok": true}
+{"event_id": "E-12", "tool": "crm.loaner_availability", "args": {"dealer_id": "D45"}, "ok": true}
 {"event_id": "E-12", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-01810"}, "ok": true}
+{"event_id": "E-12", "tool": "crm.loaner_availability", "args": {"dealer_id": "D08"}, "ok": true}
 {"event_id": "E-12", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-01780"}, "ok": true}
+{"event_id": "E-12", "tool": "crm.loaner_availability", "args": {"dealer_id": "D06"}, "ok": true}
 {"event_id": "E-12", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-01781"}, "ok": true}
+{"event_id": "E-12", "tool": "crm.loaner_availability", "args": {"dealer_id": "D21"}, "ok": true}
 {"event_id": "E-12", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-01808"}, "ok": true}
+{"event_id": "E-12", "tool": "crm.loaner_availability", "args": {"dealer_id": "D44"}, "ok": true}
 {"event_id": "E-12", "tool": "crm.assign_loaner", "args": {"customer_order_id": "CO-01814"}, "ok": true}
 {"event_id": "E-13", "tool": "escalate", "args": {"reason": "The report is not specific or confirmed."}, "ok": true}
 {"event_id": "E-14", "tool": "quality.hold_lot", "args": {"lot_id": "LOT-0017"}, "ok": true}

@@ -71,6 +71,7 @@ class Forecaster:
         self.global_prior = [1.0 / len(PAYOUTS)] * len(PAYOUTS)
         self.context_prior: dict[str, list[float]] = {}
         self.transitions: dict[str, list[list[list[float]]]] = {}
+        self.peer_transitions: dict[str, list[list[list[float]]]] = {}
 
     def _key(self, query: dict) -> str:
         return f"{query['machine_type']}|{query['signal']}"
@@ -112,6 +113,34 @@ class Forecaster:
                         continue
                     tables[context][lag - 1][INDEX[int(previous)]][INDEX[int(payout)]] += 1
         self.transitions = {key: value for key, value in tables.items()}
+        peer: dict[str, list] = defaultdict(lambda: [[[0.0] * len(PAYOUTS) for _ in PAYOUTS] for _ in range(8)])
+        by_episode: dict[str, list[tuple[str, str]]] = defaultdict(list)
+        for key, query in by_machine.items():
+            by_episode[query["episode_id"]].append(key)
+        for keys in by_episode.values():
+            series = {}
+            for key in keys:
+                query = by_machine[key]
+                cutoff = int(query["cutoff"])
+                observed = {
+                    tick: payout
+                    for tick, payout in history.get(key, {}).items()
+                    if tick < cutoff
+                }
+                if query["query_id"] in labels:
+                    observed[cutoff] = labels[query["query_id"]]
+                series[key] = (self._key(query), observed)
+            for key, (context, observed) in series.items():
+                for tick, payout in observed.items():
+                    for other, (_, other_observed) in series.items():
+                        if other == key:
+                            continue
+                        for lag in range(1, 9):
+                            previous = other_observed.get(tick - lag)
+                            if previous is None:
+                                continue
+                            peer[context][lag - 1][INDEX[int(previous)]][INDEX[int(payout)]] += 1
+        self.peer_transitions = {key: value for key, value in peer.items()}
         return self
 
     def _decay(self, ticks: dict[int, int], cutoff: int, half_life: float) -> list[float]:
@@ -178,12 +207,38 @@ class Forecaster:
         weights = dict(self.settings["weights"])
         weights["lag"] = float(weights["lag"]) * lag_weight_scale
         weights["shared"] = shared_weight
-        return _mix([
+        parts = [
             (float(weights["decay"]), decay),
             (float(weights["short"]), memory),
             (float(weights["lag"]), lag),
             (float(weights["shared"]), shared),
-        ])
+        ]
+        peer_weight = float(weights.get("peer", 0.0))
+        peer_table = self.peer_transitions.get(self._key(query))
+        if peer_weight > 0 and peer_table:
+            peer_rows = []
+            present_peer = 0
+            for lag in range(1, 9):
+                votes = [0.0] * len(PAYOUTS)
+                found = False
+                for (episode, machine), other in history.items():
+                    if episode != query["episode_id"] or machine == query["machine_id"]:
+                        continue
+                    previous = other.get(cutoff - lag)
+                    if previous is None:
+                        continue
+                    row = peer_table[lag - 1][INDEX[int(previous)]]
+                    if math.fsum(row) <= 0:
+                        continue
+                    found = True
+                    for index, count in enumerate(row):
+                        votes[index] += count
+                if found:
+                    present_peer += 1
+                    peer_rows.append(_normalize(votes))
+            if peer_rows:
+                parts.append((peer_weight * present_peer / 8.0, _mix([(1.0, row) for row in peer_rows])))
+        return _mix(parts)
 
     def predict(self, queries: list[dict], history: dict) -> dict[str, list[float]]:
         return {query["query_id"]: self.predict_one(query, history) for query in queries}
@@ -194,6 +249,7 @@ class Forecaster:
             "global_prior": self.global_prior,
             "context_prior": self.context_prior,
             "transitions": self.transitions,
+            "peer_transitions": self.peer_transitions,
         }
 
     @classmethod
@@ -202,6 +258,7 @@ class Forecaster:
         model.global_prior = payload["global_prior"]
         model.context_prior = payload["context_prior"]
         model.transitions = payload["transitions"]
+        model.peer_transitions = payload.get("peer_transitions") or {}
         return model
 
 

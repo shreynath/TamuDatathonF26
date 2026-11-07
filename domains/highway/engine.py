@@ -276,6 +276,11 @@ def _notify_and_loaners(enterprise: Enterprise, event_id: str, calls: list[dict]
             "message": reason,
         }, reason)
     for _tier, _date, _co, row in sorted(entitled):
+        dealer = row["dealer_id"]
+        available = _act(enterprise, event_id, calls, "crm.loaner_availability",
+                         {"dealer_id": dealer}, "Check the loaner pool before assigning one.")
+        if not available.get("available"):
+            continue
         _act(enterprise, event_id, calls, "crm.assign_loaner",
              {"customer_order_id": row["customer_order_id"]}, reason)
 
@@ -383,13 +388,48 @@ def plan_event(event: dict, world: World, enterprise: Enterprise, parsed: list[d
     return {"event_id": event["event_id"], "incidents": incidents, "calls": calls, "traces": traces}
 
 
+class EventAnalyst:
+    """Classifies a message. It does not call tools."""
+
+    def assess(self, text: str, world: World) -> list[dict]:
+        return parse_incidents(text, world)
+
+
+class PolicyPlanner:
+    """Turns a classified incident into tool calls that obey the handbook."""
+
+    def plan(self, event: dict, world: World, enterprise: Enterprise, incidents: list[dict]) -> dict:
+        return plan_event(event, world, enterprise, incidents)
+
+
+class ExecutionVerifier:
+    """Rejects a trace that contains a failed write."""
+
+    def failures(self, result: dict) -> list[dict]:
+        return [call for call in result["calls"] if not call.get("ok", False)]
+
+
+class Coordinator:
+    def __init__(self) -> None:
+        self.world = World()
+        self.enterprise = Enterprise(str(DATA))
+        self.analyst = EventAnalyst()
+        self.planner = PolicyPlanner()
+        self.verifier = ExecutionVerifier()
+
+    def handle(self, event: dict, parsed: list[dict] | None = None) -> dict:
+        incidents = self.analyst.assess(event["text"], self.world) if parsed is None else parsed
+        result = self.planner.plan(event, self.world, self.enterprise, incidents)
+        result["verifier_failures"] = self.verifier.failures(result)
+        return result
+
+
 def run_events(events: list[dict], parsed_by_id: dict[str, list[dict]] | None = None) -> list[dict]:
-    world = World()
-    enterprise = Enterprise(str(DATA))
+    coordinator = Coordinator()
     results = []
     for event in events:
         parsed = None if parsed_by_id is None else parsed_by_id.get(event["event_id"])
-        results.append(plan_event(event, world, enterprise, parsed))
+        results.append(coordinator.handle(event, parsed))
     return results
 
 

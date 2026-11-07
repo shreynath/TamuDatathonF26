@@ -1,0 +1,25 @@
+{
+  "selection": [
+    {
+      "peer": 0.0,
+      "points": 30.88917323946597
+    },
+    {
+      "peer": 0.15,
+      "points": 30.8465461072798
+    },
+    {
+      "peer": 0.3,
+      "points": 30.792998580592123
+    },
+    {
+      "peer": 0.45,
+      "points": 30.73782731141939
+    }
+  ],
+  "chosen_peer_on_selection": 0.0,
+  "report_points": 31.124576175676495,
+  "banked_report_points": 31.124576175676495,
+  "promoted": false,
+  "reason": "Peer lag was not promoted. Report-half gain must be at least 0.15 points over the banked model."
+}
