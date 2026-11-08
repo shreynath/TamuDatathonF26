@@ -57,6 +57,9 @@
   <label>Question <input id="ask" type="text" size="48" placeholder="Why was M-1158 flagged?"></label>
   <button id="ask-btn" type="button">Answer</button>
   <p id="assistant-out"></p>
+  <h2>Gemini, checked against the case</h2>
+  <p class="muted">This is a saved reply from a live Gemini call. The browser only reads that file. It does not hold an API key, and it does not call Gemini itself.</p>
+  <div id="gemini-live"></div>
   <h2>Trace the spend</h2>
   <p id="trace"></p>
   <h2>How the forecast was checked</h2>
@@ -180,6 +183,29 @@ function showAnswer() {
 }
 document.querySelector("#ask-btn").addEventListener("click", showAnswer);
 ask.addEventListener("keydown", (event) => { if (event.key === "Enter") showAnswer(); });
+const geminiLive = document.querySelector("#gemini-live");
+fetch("gemini_live.json", {cache: "no-store"}).then(response => response.ok ? response.json() : null).then(receipt => {
+  geminiLive.replaceChildren();
+  if (!receipt || receipt.ok !== true) {
+    geminiLive.textContent = "No recorded Gemini reply is on this page.";
+    return;
+  }
+  const question = document.createElement("p");
+  question.textContent = receipt.question || "";
+  geminiLive.append(question);
+  const list = document.createElement("ul");
+  for (const fact of receipt.observed_facts || []) {
+    const item = document.createElement("li");
+    item.textContent = String(fact);
+    list.append(item);
+  }
+  geminiLive.append(list);
+  const note = document.createElement("p");
+  note.className = "muted";
+  const ids = (receipt.evidence_ids || []).join(", ");
+  note.textContent = `Evidence ${ids}. Model ${receipt.model || "gemini"}. ${receipt.guard || ""}`;
+  geminiLive.append(note);
+}).catch(() => { geminiLive.textContent = "The recorded Gemini reply could not be loaded."; });
 </script>
 </body>
 </html>

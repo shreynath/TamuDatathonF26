@@ -75,6 +75,26 @@ def handle_get_sponsor(handler,path:str)->bool:
         except IntegrationError as ex:
             _send(handler,400,{"ok":False,"error":str(ex)[:150]})
         return True
+    if path in {"/api/sponsors/vultr","/api/sponsors/tiger","/api/sponsors/mongodb"}:
+        if not _authenticated(handler):
+            _send(handler,401,{"ok":False,"error":"Not authorized"});return True
+        if not _throttle(handler.client_address[0]):
+            _send(handler,429,{"ok":False,"error":"Rate limit"});return True
+        try:
+            if path=="/api/sponsors/vultr":
+                from .prizes import vultr_instances
+                _send(handler,200,{"ok":True,"instances":vultr_instances(),"provisioned":False,"source":"vultr"})
+            elif path=="/api/sponsors/tiger":
+                from .storage import TigerData
+                _send(handler,200,{"ok":True,**TigerData().ping()})
+            else:
+                from .storage import AtlasEvidence
+                _send(handler,200,{"ok":True,**AtlasEvidence().ping()})
+        except IntegrationError as ex:
+            _send(handler,400,{"ok":False,"error":str(ex)[:120]})
+        except Exception:
+            _send(handler,503,{"ok":False,"error":"Provider is not available"})
+        return True
     if path not in {"/api/sponsors/timeseries","/api/sponsors/history"}:return False
     if not _authenticated(handler):
         _send(handler,401,{"ok":False,"error":"Not authorized"});return True
@@ -86,8 +106,17 @@ def handle_get_sponsor(handler,path:str)->bool:
             q=parse_qs(urlparse(handler.path).query)
             start=datetime.fromisoformat(q.get('start',[''])[0])
             end=datetime.fromisoformat(q.get('end',[''])[0])
-            values=TigerData().daily(start,end)
-            _send(handler,200,{"ok":True,"series":values,"source":"tigerdata"})
+            view=q.get("view",["hour"])[0]
+            store=TigerData()
+            if view=="day":
+                values=store.daily_aggregate(start,end)
+                source="tigerdata_day"
+            elif view=="hour":
+                values=store.daily(start,end)
+                source="tigerdata"
+            else:
+                raise IntegrationError("Invalid view")
+            _send(handler,200,{"ok":True,"series":values,"source":source})
         else:
             from .storage import AtlasEvidence
             rows=AtlasEvidence().latest(10)

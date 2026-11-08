@@ -1,0 +1,33 @@
+{
+  "select": 10.372721907295332,
+  "settings": {
+    "half_life": 16,
+    "prior_strength": 32,
+    "context_shrink": 12.0,
+    "short_window": 24,
+    "kl_switch": 0.12,
+    "lag_half_life": 8,
+    "lag_strength": 30,
+    "lag_gate": 30,
+    "use_type_lag": false,
+    "pattern": "c12",
+    "pattern_half_life": 32.0,
+    "pattern_strength": 2.0,
+    "pattern_gate": 1,
+    "peer_scale": 0.0,
+    "peer_window": 24,
+    "peer_shift": 0.25,
+    "size_weight": 0.0,
+    "zero_half_life": 16.0,
+    "size_half_life": 96.0,
+    "use_main": false,
+    "weights": {
+      "decay": 0.15,
+      "memory": 0.2,
+      "lag": 0.2,
+      "pattern": 0.2,
+      "peer": 0.0,
+      "size": 0.0
+    }
+  }
+}

@@ -56,6 +56,14 @@ def _kl(left: list[float], right: list[float]) -> float:
     return math.fsum(p * math.log((p + 1e-12) / (q + 1e-12)) for p, q in zip(left, right))
 
 
+def _category(payout: int) -> int:
+    if payout == 0:
+        return 0
+    if payout == 1:
+        return 1
+    return 2
+
+
 class Forecaster:
     def __init__(self, settings: dict | None = None):
         self.settings = {
@@ -65,6 +73,10 @@ class Forecaster:
             "kl_switch": 0.15,
             "weights": {"decay": 0.55, "short": 0.2, "lag": 0.15, "shared": 0.1},
             "shared_by_type": {"steady": 0.1, "balanced": 0.1, "jackpot": 0.1},
+            "pattern_lags": [1, 2, 3, 5],
+            "pattern_half_life": 32.0,
+            "pattern_strength": 2.0,
+            "pattern_weight": 0.75,
         }
         if settings:
             self.settings.update(settings)
@@ -159,6 +171,36 @@ class Forecaster:
                 counts[INDEX[int(payout)]] += 1
         return counts
 
+    def _pattern(self, usable: dict[int, int], cutoff: int, context: list[float]) -> list[float]:
+        """Own-history match on the recent payout categories.
+
+        Machines of one type can move in opposite directions, so a pooled
+        transition table cancels the signal. Matching this machine's own
+        ticks, at lags 1, 2, 3, and 5, keeps that direction.
+        """
+        lags = tuple(int(lag) for lag in self.settings.get("pattern_lags", (1, 2, 3, 5)))
+        half_life = float(self.settings.get("pattern_half_life", 32.0))
+        strength = float(self.settings.get("pattern_strength", 2.0))
+
+        def context_at(tick: int) -> tuple[int, ...] | None:
+            values = []
+            for lag in lags:
+                previous = usable.get(tick - lag)
+                if previous is None:
+                    return None
+                values.append(_category(int(previous)))
+            return tuple(values)
+
+        wanted = context_at(cutoff)
+        counts = [strength * prior for prior in context]
+        if wanted is not None and half_life > 0:
+            for tick, payout in usable.items():
+                if context_at(tick) != wanted:
+                    continue
+                age = cutoff - 1 - tick
+                counts[INDEX[int(payout)]] += 0.5 ** (age / half_life)
+        return _normalize(counts)
+
     def predict_one(self, query: dict, history: dict) -> list[float]:
         cutoff = int(query["cutoff"])
         ticks = history.get((query["episode_id"], query["machine_id"]), {})
@@ -238,7 +280,12 @@ class Forecaster:
                     peer_rows.append(_normalize(votes))
             if peer_rows:
                 parts.append((peer_weight * present_peer / 8.0, _mix([(1.0, row) for row in peer_rows])))
-        return _mix(parts)
+        pooled = _mix(parts)
+        pattern_weight = float(self.settings.get("pattern_weight", 0.75))
+        if pattern_weight <= 0:
+            return pooled
+        pattern = self._pattern(usable, cutoff, context)
+        return _mix([(pattern_weight, pattern), (1.0 - pattern_weight, pooled)])
 
     def predict(self, queries: list[dict], history: dict) -> dict[str, list[float]]:
         return {query["query_id"]: self.predict_one(query, history) for query in queries}

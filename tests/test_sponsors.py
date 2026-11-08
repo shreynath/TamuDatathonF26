@@ -225,6 +225,15 @@ def test_get_timeseries_denies_unauthorized():
     assert handle_get_sponsor(h,'/api/sponsors/timeseries')
     assert h.code==401
 
+def test_cloud_routes_deny_unauthorized():
+    class Fake:
+        headers={}
+        def _send(self,code,raw,mime):self.code=code
+    for path in ('/api/sponsors/vultr','/api/sponsors/tiger','/api/sponsors/mongodb'):
+        h=Fake()
+        assert handle_get_sponsor(h,path)
+        assert h.code==401
+
 def test_post_sponsor_denies_unauthorized():
     class Fake:
         path='/api/sponsors/ask'

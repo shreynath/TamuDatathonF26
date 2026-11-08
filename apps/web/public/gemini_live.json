@@ -1,0 +1,24 @@
+{
+  "ok": true,
+  "model": "gemini-2.5-flash",
+  "question": "Why is M-1158 a candidate for inspection?",
+  "evidence_ids": [
+    "ace-recommendation-1",
+    "ace-holm-1"
+  ],
+  "observed_facts": [
+    "M-1158 is a target for the A-INSPECT action.",
+    "M-1158 is identified as one of the \"bottom10_holm_leaks\".",
+    "The identification of \"bottom10_holm_leaks\" is based on a Holm-adjusted two-sided normal test of the mean daily luck residual.",
+    "The proposed action (A-INSPECT) is considered because a paytable check is cheaper than the residual gap on the targeted machine, implying M-1158 has a significant residual."
+  ],
+  "forecasts": [],
+  "assumptions": [
+    "The Holm method's approximation treats daily residuals as independent.",
+    "A significant residual, which the inspection targets, can still be due to volatility."
+  ],
+  "unanswered": [
+    "The claims do not explicitly define what \"leaks\" signifies in the context of \"bottom10_holm_leaks\" beyond being identified by the Holm test."
+  ],
+  "guard": "Numbers in this reply were checked against ace_case.json before this file was written."
+}

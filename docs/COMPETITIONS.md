@@ -6,13 +6,13 @@ Sunday, November 8, 2026, morning America/Chicago. A fit score is how complete t
 
 The checker in the participant kit is the scale that accepts a file. `slot_forecasting/rounds.py` scores **main out of 60** and **adaptation out of 40**. It rejects metadata that still says 80/20 and calls that the old kit. The pasted guide's "80 points" is that older scale. Copying the validation answer key scores 60.000 on a held-out half of the public validation file. That key is not the test file, and the test probabilities are not in the kit.
 
-The uploaded main forecast remains `submissions/house_edge/main/artifacts/submission.csv`, SHA-256 `4c8712cdb0c99a5ddc377fc7ab10b6dc51c44908a81d5d8c0b08239f38b60aa1`. The code ZIP is `artifacts/entry.zip`, SHA-256 `bbb18384cb9766fe27d5a3facea298e9f591510653a0a1246765200ab463d986`. Local validation is **31.010 / 60**. The frozen pooled reference is the 30-point line. A 36-setting refit of the same forecaster moved the selection half from 30.987 to 30.994. That is not a new model. A separate model trained on the public probability targets scored 27.9 on the half it did not train on.
+The current main forecast is `submissions/house_edge/main/artifacts/submission.csv`, SHA-256 `5abd81976c77409a2194a221205d30d22f50cca12aeeb686440c41c6eca2b1bd`. The code ZIP is `artifacts/entry.zip`, SHA-256 `684a131a38dd68d02e86c7a6f0cd6b1ba399c989a52b562fc772cddc90d843d6`. Local validation is **32.782 / 60**. The Saturday 8 PM upload scored 31.010 / 60 on the same split (CSV SHA-256 `4c8712cdb0c99a5ddc377fc7ab10b6dc51c44908a81d5d8c0b08239f38b60aa1`). The new file mixes that pooled model (weight 0.25) with each machine's own category pattern at lags 1, 2, 3, and 5 (weight 0.75). One half of the validation episodes scored 32.783 and the other half scored 32.781. A rebuild from the ZIP matches the CSV byte for byte.
 
 | | Score |
 |---|---|
 | Fit, file contract | 8. The CSV has the six required columns and 1,536 queries. The ZIP opens on `README.md` and `reproduce.json`. |
-| Forecast quality | 4. It is a small step past the starter, not exact odds. |
-| Chance of winning the track | 3. Exact odds are 60 on this kit. This entry is near 31. |
+| Forecast quality | 6. Every condition beat the Saturday file. Exact odds are still 60. |
+| Chance of winning the track | The public score moved from 31.010 to 32.782 out of 60. The test probabilities are still hidden. |
 
 Round two, from the guide pasted Sunday morning: data at 10:30 AM Central, uploads close at 12:00 PM Central. The same Drive link still served the main kit at 10:11 AM. `submissions/house_edge/adaptation/prepare.py` refuses to invent a round-two file until `data/incoming/adaptation_kit/public/metadata.json` says adaptation.
 

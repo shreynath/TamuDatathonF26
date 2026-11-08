@@ -196,6 +196,9 @@ def bind_address() -> tuple[str, int]:
 
 
 def main() -> None:
+    from packages.evidence.env import load_env
+
+    load_env()
     host, port = bind_address()
     ThreadingHTTPServer((host, port), Handler).serve_forever()
 

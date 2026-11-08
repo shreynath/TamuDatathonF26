@@ -1,4 +1,9 @@
 {
-  "task_status": "blocked",
-  "reason": "The adaptation kit is not on disk. It is released at 9 PM Central. This script will not copy over the main kit."
+  "task_status": "ready",
+  "round": "adaptation",
+  "validation_points": 10.75425,
+  "report_half_points": 10.671744,
+  "max_points": 20,
+  "submission_sha256": "27a06bf08cb0b2ea3859ecf30e698e91e83ccd4e4636889a00d66d2e21df8f30",
+  "note": "Frozen depth-3 trees fit on adaptation training spins only. The kit checker scores this 10.754/20. The untouched validation half scored 10.672/20."
 }

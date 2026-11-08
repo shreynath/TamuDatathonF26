@@ -39,9 +39,10 @@ class TigerData:
         self._factory = conn_factory
     def _connection(self):
         if self._factory: return self._factory()
+        url = required_env("TIGER_DATABASE_URL")
         try: import psycopg
         except ImportError: raise IntegrationError("Install the optional psycopg[binary] dependency") from None
-        return psycopg.connect(required_env("TIGER_DATABASE_URL"), connect_timeout=7)
+        return psycopg.connect(url, connect_timeout=7)
     def initialize(self, *, confirm_write=False):
         if not confirm_write: raise IntegrationError("Schema changes require explicit confirmation")
         with self._connection() as conn:
@@ -88,12 +89,28 @@ class TigerData:
                          "house_win_cents":int(r[2]),"downtime_minutes":int(r[3]),
                          "source":"pitboss_machine_day"} for r in cur.fetchall()]
 
+    def ping(self) -> dict:
+        """Read-only connectivity check. Does not create a table or write a row."""
+        try:
+            with self._connection() as conn:
+                with conn.cursor() as cur:
+                    cur.execute("SELECT 1")
+                    row = cur.fetchone()
+        except IntegrationError:
+            raise
+        except Exception:
+            raise IntegrationError("Tiger Data did not answer") from None
+        if row is None or int(row[0]) != 1:
+            raise IntegrationError("Tiger Data did not answer")
+        return {"ok": True, "source": "tigerdata"}
+
 class AtlasEvidence:
     def __init__(self, client=None):
         if client is None:
+            uri = required_env("MONGODB_ATLAS_URI")
             try: from pymongo import MongoClient
             except ImportError: raise IntegrationError("Install optional pymongo[srv] dependency") from None
-            client = MongoClient(required_env("MONGODB_ATLAS_URI"),serverSelectionTimeoutMS=7000)
+            client = MongoClient(uri, serverSelectionTimeoutMS=7000)
         self.collection = client["pitboss"]["investigations"]
     def ensure_indexes(self, *, confirm_write=False):
         if not confirm_write: raise IntegrationError("Index change requires explicit confirmation")
@@ -113,3 +130,13 @@ class AtlasEvidence:
         if not isinstance(limit,int) or not 1<=limit<=50: raise IntegrationError("Invalid limit")
         cursor=self.collection.find({}, {"_id":0,"answer":1,"sources":1,"period":1,"created_at":1}).sort("created_at",-1).limit(limit)
         return list(cursor)
+
+    def ping(self) -> dict:
+        """Read-only connectivity check. Does not create an index or save a document."""
+        try:
+            result = self.collection.database.client.admin.command("ping")
+        except Exception:
+            raise IntegrationError("MongoDB Atlas did not answer") from None
+        if int(result.get("ok", 0)) != 1:
+            raise IntegrationError("MongoDB Atlas did not answer")
+        return {"ok": True, "source": "mongodb_atlas"}

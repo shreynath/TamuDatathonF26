@@ -8,8 +8,10 @@
 <label for="provider">Model provider</label><select id="provider"><option value="gemini">Google Gemini</option><option value="snowflake">Snowflake Cortex</option></select>
 <label for="question">Your question</label><textarea id="question" maxlength="400">Why is M-1158 a candidate for inspection?</textarea>
 <p><button id="ask">Investigate</button></p><div role="status" class="out" id="result" aria-live="polite">No request sent.</div></section>
-<section class="panel"><h2>Time-series and saved investigations</h2><p>These features require real Tiger Data and MongoDB Atlas connections; no example results are fabricated.</p>
-<div class="grid"><button id="timeseries">Query Tiger Data (Jan 2025)</button><button id="save">Save verified investigation to Atlas</button><button id="history">Load saved investigations</button></div>
+<section class="panel"><h2>Recorded Gemini reply</h2><p>This file is the live call already checked against the case. The browser reads the file and does not hold the API key. A new Gemini or Snowflake call still uses the token above.</p>
+<div role="status" class="out" id="recorded" aria-live="polite">Loading the recorded reply…</div></section>
+<section class="panel"><h2>Tiger Data, MongoDB Atlas, and Vultr</h2><p>Each button calls the private API. Tiger Data can ping, read the hour table, or read the day aggregate. Atlas can ping, save a verified answer, or list saved answers. Vultr lists instances and does not provision one. Missing credentials return an error, and this page does not invent a connection.</p>
+<div class="grid"><button id="tiger-ping">Ping Tiger Data</button><button id="timeseries">Tiger hour table, Jan 2025</button><button id="timeseries-day">Tiger day aggregate, Jan 2025</button><button id="mongo-ping">Ping Atlas</button><button id="save">Save verified investigation to Atlas</button><button id="history">Load saved investigations</button><button id="vultr">List Vultr instances</button></div>
 <div role="status" class="out" id="storage" aria-live="polite" style="margin-top:14px">No database request sent.</div></section>
 <section class="panel"><h2>GoDaddy Registry</h2><p>The event campaign page is a <code>.study</code> name. This check does not register a domain, and it never reports the prize as ready.</p>
 <label for="domain">Domain</label><input id="domain" value="gildedace.study" autocomplete="off">
@@ -33,7 +35,8 @@ el('ask').addEventListener('click',async()=>{
   const r=await fetch('/api/sponsors/ask',{method:'POST',headers:{'Content-Type':'application/json','X-Sponsor-Token':token},body:JSON.stringify({question,provider:el('provider').value})});
   const data=await r.json();
   if(!r.ok||!data.ok){el('result').textContent=`Request failed: ${data.error||r.status}`;return;}
-  el('result').textContent=`Verified answer:\n${data.answer}\n\n${data.provider} explanation:\n${data.narrative}\n\nEvidence: ${(data.sources||[]).join(', ')}`;
+  const narrative=data.narrative==null?(data.narrative_error||'No narrative was returned.'):data.narrative;
+  el('result').textContent=`Verified answer:\n${data.answer}\n\n${data.provider||'provider'} explanation:\n${narrative}\n\nEvidence: ${(data.sources||[]).join(', ')}`;
  }catch{el('result').textContent='The private analytical API is not reachable.'}finally{el('ask').disabled=false;}
 });
 </script><script>
@@ -47,9 +50,19 @@ async function storageRequest(path,method='GET',body){
  const data=await r.json();result.textContent=JSON.stringify(data,null,2)}
  catch{result.textContent='No live database connection was established.'}
 }
+fetch('/gemini_live.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(receipt=>{
+ const box=document.getElementById('recorded');
+ if(!receipt||receipt.ok!==true){box.textContent='No recorded Gemini reply is available.';return;}
+ const facts=(receipt.observed_facts||[]).map(line=>String(line)).join('\n');
+ box.textContent=`${receipt.question}\n\n${facts}\n\nEvidence: ${(receipt.evidence_ids||[]).join(', ')}. Model: ${receipt.model}.`;
+}).catch(()=>{document.getElementById('recorded').textContent='The recorded Gemini reply could not be loaded.';});
+document.getElementById('tiger-ping').onclick=()=>storageRequest('/api/sponsors/tiger');
 document.getElementById('timeseries').onclick=()=>storageRequest('/api/sponsors/timeseries?start=2025-01-01T00:00:00%2B00:00&end=2025-02-01T00:00:00%2B00:00');
+document.getElementById('timeseries-day').onclick=()=>storageRequest('/api/sponsors/timeseries?view=day&start=2025-01-01T00:00:00%2B00:00&end=2025-02-01T00:00:00%2B00:00');
+document.getElementById('mongo-ping').onclick=()=>storageRequest('/api/sponsors/mongodb');
 document.getElementById('save').onclick=()=>storageRequest('/api/sponsors/save','POST',{question:document.getElementById('question').value});
 document.getElementById('history').onclick=()=>storageRequest('/api/sponsors/history');
+document.getElementById('vultr').onclick=()=>storageRequest('/api/sponsors/vultr');
 document.getElementById('domain-check').onclick=async()=>{
  const token=document.getElementById('token').value;
  const out=document.getElementById('domain-out');

@@ -1,6 +1,7 @@
 """Local integration diagnostics. No network unless explicitly using --live."""
 from __future__ import annotations
 import argparse,json,sys,os
+from packages.evidence.env import load_env
 from .core import IntegrationError, public_status
 from .llm import gemini_complete,snowflake_complete
 from .prizes import vultr_instances,report_sha256
@@ -8,8 +9,9 @@ from .godaddy import qualify_domain, suggest_names
 from .devwriting import load_scored_article
 
 def main():
+    load_env()
     p=argparse.ArgumentParser(description="Pit Boss sponsor adapter diagnostics")
-    p.add_argument('action',choices=['status','gemini','snowflake','vultr','domain','sha256','dev'])
+    p.add_argument('action',choices=['status','gemini','snowflake','tiger','mongodb','vultr','domain','sha256','dev'])
     p.add_argument('--live',action='store_true',help='Explicitly authorize a real external provider request')
     p.add_argument('--value',default='',help='Domain or local report file path (never a token)')
     a=p.parse_args()
@@ -31,7 +33,13 @@ def main():
             if not a.live: raise IntegrationError('Use --live to permit the external call')
             if a.action=='gemini': out={'provider':'gemini','reply':gemini_complete('Reply with exactly PONG.'),'live':True}
             elif a.action=='snowflake': out={'provider':'snowflake','reply':snowflake_complete('Reply with exactly PONG.'),'live':True}
-            elif a.action=='vultr': out={'provider':'vultr','instances':vultr_instances(),'live':True}
+            elif a.action=='tiger':
+                from .storage import TigerData
+                out={'provider':'tigerdata',**TigerData().ping(),'live':True}
+            elif a.action=='mongodb':
+                from .storage import AtlasEvidence
+                out={'provider':'mongodb_atlas',**AtlasEvidence().ping(),'live':True}
+            elif a.action=='vultr': out={'provider':'vultr','instances':vultr_instances(),'provisioned':False,'live':True}
             elif a.action=='domain': out=qualify_domain(a.value, live_dns=True, live_rdap=True)
         print(json.dumps(out,indent=2,default=str))
     except IntegrationError as e:
