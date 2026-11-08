@@ -2,8 +2,8 @@
 
 | Track | Status | What is left |
 | --- | --- | --- |
-| House Edge main | tested, not submitted | Portal, team token, and an explicit approval to upload |
-| House Edge adaptation | blocked | Kit released at 9 PM Central |
+| House Edge main | uploaded at 8 PM Saturday | Keep the receipt. Local score 31.010/60. Do not replace the CSV with a model that did not beat it. |
+| House Edge adaptation | waiting on the kit | Guide window Sunday 10:30 AM to 12:00 PM Central. Drive file was still the main round at 10:11 AM. |
 | Dashboard Royale | tested locally | Devpost deadline is unconfirmed. Public link is not deployed |
 | Build-a-Dataset | implementing | Needs real consented rows in observations.csv before any submission |
 | Highway | tested | Portal URL is unconfirmed. Log is data/highway/runs/action_log.jsonl |
