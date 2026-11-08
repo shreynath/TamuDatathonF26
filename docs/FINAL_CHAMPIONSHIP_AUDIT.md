@@ -41,6 +41,6 @@ Browser on http://127.0.0.1:8765/ : June selects M-1296 at bank B-14 and leaves 
 ## Still blocked
 
 - Sign in at the House Edge form and upload both files before 9:00 PM Central. CSV: `/tmp/he-fresh-submission.csv`. ZIP: `/tmp/he-entry.zip`.
-- Sign in at https://forms.gle/Jx9RWE5VgR8dbbcj9 and submit https://github.com/shreynath/PitBossEquity with SHA `316bcf1acb5e6cf254ba1acb6e15906ca913f80d`.
+- Sign in at https://forms.gle/Jx9RWE5VgR8dbbcj9 and submit https://github.com/shreynath/PitBossEquity with SHA `6b2921de93674e8600659540e307df5894b9e259`. `316bcf1acb5e6cf254ba1acb6e15906ca913f80d` is the rollback, not the champion.
 - Start Docker Desktop, then from `poker/` run `./tools/check_build.sh`.
 - Record the Royale walkthrough and submit Devpost. No sponsor account was configured for Vultr, Tiger Data, Snowflake, MongoDB Atlas, Solana, or GoDaddy, so those prizes were not claimed.

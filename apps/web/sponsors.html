@@ -1,0 +1,74 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Gilded Ace — Evidence AI</title>
+<style>
+:root{color-scheme:dark;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#0c1220;color:#edf1f9}*{box-sizing:border-box}body{margin:0;padding:36px 18px;background:radial-gradient(circle at top left,#1a2540,#0c1220 70%);min-height:100vh}.wrap{max-width:940px;margin:auto}h1{font-size:clamp(2rem,5vw,3rem);line-height:1.08;letter-spacing:-.045em;margin:12px 0}p{color:#a6b5cc;line-height:1.6}.kicker{color:#b0caff;text-transform:uppercase;letter-spacing:.19em;font-size:.72rem;font-weight:800}.panel{background:#151f30;border:1px solid #304158;border-radius:18px;padding:24px;margin:18px 0;box-shadow:0 12px 40px #0003}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}.tag{border:1px solid #3b4a60;padding:9px 12px;border-radius:12px;background:#1a2940;font-size:.87rem}label{display:block;font-weight:600;font-size:.84rem;margin:18px 0 8px}input,select,textarea{width:100%;background:#0d1627;color:white;border:1px solid #496080;border-radius:10px;padding:12px;font:inherit;line-height:1.4}textarea{height:100px;resize:vertical}button{background:#b7d7ff;border:none;border-radius:10px;padding:12px 20px;font-weight:750;color:#142038;cursor:pointer}button:disabled{opacity:.5;cursor:wait}.out{white-space:pre-wrap;line-height:1.6;color:#e0e9f8;word-break:break-word}.foot{font-size:.82rem;color:#8fa3c3}strong{color:white}code{color:#b6d5ff}
+</style></head><body><main class="wrap"><div class="kicker">Pit Boss / Sponsor Demo</div><h1>Evidence-first AI investigations</h1><p>Gemini and Snowflake explain results computed by deterministic Gilded Ace analytics. Model responses cannot replace the verified numbers or invent source IDs.</p>
+<section class="panel"><strong>Provider readiness</strong><div class="grid" id="providers"><div class="tag">Checking configuration…</div></div><p class="foot">Configured does not mean connected, tested, eligible, or submitted.</p></section>
+<section class="panel"><h2>Ask the evidence</h2><p>Only authorized investigators can trigger paid inference. A token is never stored, sent to third parties by this page, or placed in source control.</p>
+<label for="token">Temporary demo authorization token</label><input type="password" id="token" autocomplete="off" placeholder="Enter server-side SPONSOR_API_TOKEN (for private demo only)">
+<label for="provider">Model provider</label><select id="provider"><option value="gemini">Google Gemini</option><option value="snowflake">Snowflake Cortex</option></select>
+<label for="question">Your question</label><textarea id="question" maxlength="400">Why is M-1158 a candidate for inspection?</textarea>
+<p><button id="ask">Investigate</button></p><div role="status" class="out" id="result" aria-live="polite">No request sent.</div></section>
+<section class="panel"><h2>Time-series and saved investigations</h2><p>These features require real Tiger Data and MongoDB Atlas connections; no example results are fabricated.</p>
+<div class="grid"><button id="timeseries">Query Tiger Data (Jan 2025)</button><button id="save">Save verified investigation to Atlas</button><button id="history">Load saved investigations</button></div>
+<div role="status" class="out" id="storage" aria-live="polite" style="margin-top:14px">No database request sent.</div></section>
+<section class="panel"><h2>GoDaddy Registry</h2><p>The event campaign page is a <code>.study</code> name. This check does not register a domain, and it never reports the prize as ready.</p>
+<label for="domain">Domain</label><input id="domain" value="gildedace.study" autocomplete="off">
+<p><button id="domain-check" type="button">Check syntax and TLD</button></p>
+<div role="status" class="out" id="domain-out" aria-live="polite">No domain check sent.</div></section>
+<section class="panel"><h2>DEV Writing Challenge</h2><p>The local rubric scores <code>docs/DEV_ARTICLE.md</code>. A score of 10 means the draft is ready to paste. It does not mean the post is on DEV.</p>
+<p><button id="dev-score" type="button">Score the draft</button></p>
+<div role="status" class="out" id="dev-out" aria-live="polite">No rubric request sent.</div></section>
+<p class="foot">Live database, cloud instance, domain registration, on-chain attestation, DEV publication, and SpaceXSI eligibility require their own verified demonstrations. This page alone does not constitute those submissions.</p></main>
+<script>
+const el=x=>document.getElementById(x);
+fetch('/api/sponsors/status',{cache:'no-store'}).then(r=>r.json()).then(d=>{
+ el('providers').replaceChildren();for(const [name,p] of Object.entries(d.providers||{})){
+  const v=document.createElement('div');v.className='tag';v.textContent=`${name}: ${p.configured?'configured (not live-checked)':'not configured'}`;el('providers').append(v);
+ }}).catch(()=>el('providers').textContent='Backend not reachable. Use this page on the same origin as the private API.');
+el('ask').addEventListener('click',async()=>{
+ const question=el('question').value.trim(),token=el('token').value;
+ if(!question||!token){el('result').textContent='Please enter both a question and your private demo authorization token.';return;}
+ el('ask').disabled=true;el('result').textContent='Running verified analysis and permitted inference…';
+ try{
+  const r=await fetch('/api/sponsors/ask',{method:'POST',headers:{'Content-Type':'application/json','X-Sponsor-Token':token},body:JSON.stringify({question,provider:el('provider').value})});
+  const data=await r.json();
+  if(!r.ok||!data.ok){el('result').textContent=`Request failed: ${data.error||r.status}`;return;}
+  el('result').textContent=`Verified answer:\n${data.answer}\n\n${data.provider} explanation:\n${data.narrative}\n\nEvidence: ${(data.sources||[]).join(', ')}`;
+ }catch{el('result').textContent='The private analytical API is not reachable.'}finally{el('ask').disabled=false;}
+});
+</script><script>
+async function storageRequest(path,method='GET',body){
+ const token=document.getElementById('token').value;
+ if(!token){document.getElementById('storage').textContent='Provide the private authorization token first.';return}
+ const headers={'X-Sponsor-Token':token};
+ if(body)headers['Content-Type']='application/json';
+ const result=document.getElementById('storage');result.textContent='Contacting the configured database…';
+ try{const r=await fetch(path,{method,headers,body:body?JSON.stringify(body):undefined});
+ const data=await r.json();result.textContent=JSON.stringify(data,null,2)}
+ catch{result.textContent='No live database connection was established.'}
+}
+document.getElementById('timeseries').onclick=()=>storageRequest('/api/sponsors/timeseries?start=2025-01-01T00:00:00%2B00:00&end=2025-02-01T00:00:00%2B00:00');
+document.getElementById('save').onclick=()=>storageRequest('/api/sponsors/save','POST',{question:document.getElementById('question').value});
+document.getElementById('history').onclick=()=>storageRequest('/api/sponsors/history');
+document.getElementById('domain-check').onclick=async()=>{
+ const token=document.getElementById('token').value;
+ const out=document.getElementById('domain-out');
+ if(!token){out.textContent='Enter the private authorization token first. This check still cannot register a domain.';return;}
+ const host=encodeURIComponent(document.getElementById('domain').value.trim());
+ out.textContent='Checking syntax and the Registry TLD list…';
+ try{
+  const r=await fetch('/api/sponsors/domain?host='+host,{headers:{'X-Sponsor-Token':token},cache:'no-store'});
+  const data=await r.json();
+  out.textContent=JSON.stringify(data,null,2);
+ }catch{out.textContent='The private API is not reachable.'}
+};
+document.getElementById('dev-score').onclick=async()=>{
+ const out=document.getElementById('dev-out');
+ out.textContent='Scoring the local draft…';
+ try{
+  const r=await fetch('/api/sponsors/dev-rubric',{cache:'no-store'});
+  const data=await r.json();
+  out.textContent=`Score ${data.score}/${data.max_score}. Ready to paste: ${data.ready_to_paste}. Published: ${data.published}.\n`+(data.missing||[]).join('\n');
+ }catch{out.textContent='The private API is not reachable. The draft is docs/DEV_ARTICLE.md.'}
+};
+</script></body></html>

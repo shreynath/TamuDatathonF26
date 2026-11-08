@@ -10,4 +10,6 @@ The Gilded Ace case is `apps/web/public/ace_case.json`, computed by `python3 dom
 
 Highway actions come from `domains/highway/engine.py` and the local handbook in `data/highway`. An explicit shipment or lot id that is not in the file is not matched to a different record.
 
-API keys belong in `.env`, which is gitignored. `.env.example` has empty placeholders.
+API keys belong in `.env`, which is gitignored. `.env.example` has empty placeholders. Sponsor placeholders are in `.env.sponsors.example`.
+
+The sponsor adapters live in `sponsor_hub/`. They do not change the poker champion or Databricks. Check the DEV draft with `python -m sponsor_hub.cli dev`. Check a `.study` name with `python -m sponsor_hub.cli domain --value gildedace.study`. Neither command publishes a post or registers a domain. The evidence page is `http://127.0.0.1:8765/sponsors.html` after `python apps/api/server.py`.

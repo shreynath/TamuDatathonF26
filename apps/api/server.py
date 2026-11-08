@@ -6,12 +6,14 @@ import json
 import sys
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+import os
 from urllib.parse import parse_qs, unquote, urlparse
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
 from domains.routes.router import route
+from sponsor_hub.gateway import handle_get_sponsor, handle_post_sponsor, _authenticated
 
 WEB = ROOT / "apps" / "web"
 PUBLIC = WEB / "public"
@@ -87,6 +89,8 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self) -> None:
         parsed = urlparse(self.path)
+        if handle_get_sponsor(self, parsed.path):
+            return
         if parsed.path == "/api/route":
             query = parse_qs(parsed.query)
             result = route(
@@ -148,7 +152,7 @@ class Handler(BaseHTTPRequestHandler):
             "limitations": result["limitations"],
             "computed_by": "code",
         }
-        if result["ok"] and isinstance(question, str):
+        if result["ok"] and isinstance(question, str) and _authenticated(self):
             try:
                 from integrations.gemini.grounded import explain_case
 
@@ -161,6 +165,8 @@ class Handler(BaseHTTPRequestHandler):
         self._send(200, json.dumps(safe).encode(), "application/json")
 
     def do_POST(self) -> None:
+        if handle_post_sponsor(self):
+            return
         if _blocked_public_path(self.path):
             self._send(404, b"missing", "text/plain")
             return
@@ -175,8 +181,23 @@ class Handler(BaseHTTPRequestHandler):
         return
 
 
+def bind_address() -> tuple[str, int]:
+    host = os.getenv("PITBOSS_HOST", "127.0.0.1").strip() or "127.0.0.1"
+    raw = os.getenv("PITBOSS_PORT", "8765")
+    try:
+        port = int(raw)
+    except ValueError as ex:
+        raise SystemExit("PITBOSS_PORT must be an integer") from ex
+    if not 1 <= port <= 65535:
+        raise SystemExit("PITBOSS_PORT is out of range")
+    if host not in {"127.0.0.1", "localhost", "::1"} and os.getenv("PITBOSS_ALLOW_PUBLIC_BIND") != "1":
+        raise SystemExit("Refusing a non-loopback bind. Set PITBOSS_ALLOW_PUBLIC_BIND=1 to override.")
+    return host, port
+
+
 def main() -> None:
-    ThreadingHTTPServer(("127.0.0.1", 8765), Handler).serve_forever()
+    host, port = bind_address()
+    ThreadingHTTPServer((host, port), Handler).serve_forever()
 
 
 if __name__ == "__main__":
